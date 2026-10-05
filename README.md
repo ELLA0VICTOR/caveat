@@ -17,13 +17,14 @@ Open the Vite URL. The app starts in **Local demo**, with explicitly illustrativ
 
 ## Project
 
-- `src/App.tsx` — responsive product workspace.
+- `src/App.tsx` — responsive transaction-first product interface.
 - `src/lib/policy.ts` — exact decimal conversion and explanatory policy model.
 - `src/lib/stellar.ts` — genuine wallet/RPC integration; fixed testnet network.
 - `contracts/account` — guarded, immutable-allowlist, owner-authorized account.
 - `contracts/demo-router` — isolated test fixture for honest swaps, lying receipts, approval requests, and excess transfers.
 - `tests` — precision/policy and Edge browser tests.
-- `.github/workflows/verify.yml` — Linux frontend, Soroban host-test, and WASM build workflow.
+- `scripts/verify-contracts.sh` — Linux contract formatting, host tests, release WASM builds, and checksums.
+- `.github/workflows/verify.yml` — frontend checks and the same Linux contract verification script.
 
 Read [architecture and threat model](docs/ARCHITECTURE.md), [testnet deployment and demo instructions](docs/TESTNET.md), and [verification evidence and remaining limitations](docs/VERIFICATION.md).
 
@@ -38,7 +39,15 @@ cargo test --locked --manifest-path contracts/Cargo.toml
 cargo build --locked --manifest-path contracts/Cargo.toml --target wasm32v1-none --release
 ```
 
-Browser tests use an installed Microsoft Edge. Rust tests assert all relevant balances and nonce survive a failed underpayment and reject forbidden authorizations. Contract testing/building was blocked locally by Windows Application Control; the Linux workflow is provided and must pass before deployment. The application and browser tests passed locally. No contract is claimed deployed or audited, and no on-chain swap is claimed executed.
+Browser tests use an installed Microsoft Edge. Twelve Rust tests passed in Ubuntu 24.04 WSL with Rust 1.99.0 and the locked Soroban SDK 23.5.3. They assert all relevant balances and nonce survive a failed underpayment, verify fresh authorization-failure diagnostics for forbidden calls, bind every signed policy field, and exercise owner-only recovery. See the verification record for release artifacts and outstanding ledger checks. No contract is claimed deployed or audited, and no on-chain swap is claimed executed.
+
+On Linux with Rust and the `wasm32v1-none` target installed, repeat contract verification with:
+
+```sh
+bash scripts/verify-contracts.sh
+```
+
+The script uses a persistent native Linux build cache, limits compilation to two jobs, and copies release WASM files plus `SHA256SUMS` into `contracts/target/wasm32v1-none/release/`. Build outputs and generated test snapshots stay ignored by Git. Keep `contracts/Cargo.lock`: Soroban host 23.0.1 permits Ed25519 Dalek versions above 2, but version 3's RNG API is incompatible with its test utilities. The tested lockfile resolves version 2.2.0.
 
 ## Security boundary
 

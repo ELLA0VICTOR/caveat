@@ -17,8 +17,8 @@ npm.cmd run build
 npm.cmd test
 npm.cmd run test:ui
 rustup target add wasm32v1-none
-cargo test --manifest-path contracts/Cargo.toml
-cargo build --manifest-path contracts/Cargo.toml --target wasm32v1-none --release
+cargo test --locked --manifest-path contracts/Cargo.toml
+cargo build --locked --manifest-path contracts/Cargo.toml --target wasm32v1-none --release
 ```
 
 If using the project-local toolchain installed by Codex, set these in your terminal first:
@@ -28,6 +28,24 @@ $env:CARGO_HOME = Join-Path (Get-Location) '.tools/cargo'
 $env:RUSTUP_HOME = Join-Path (Get-Location) '.tools/rustup'
 $env:PATH = "$env:CARGO_HOME\bin;$env:PATH"
 ```
+
+Windows Application Control blocked native Cargo build scripts on this machine. Contract verification now runs successfully in Ubuntu 24.04 WSL. To reuse the Linux toolchain installed for this project:
+
+```powershell
+wsl.exe -d Ubuntu-24.04 -u root
+```
+
+Then, inside Ubuntu:
+
+```sh
+export CARGO_HOME=/var/tmp/caveat-linux-verify/cargo
+export RUSTUP_HOME=/var/tmp/caveat-linux-verify/rustup
+export PATH="$CARGO_HOME/bin:$PATH"
+cd /mnt/c/Users/kolev/Desktop/caveat
+bash scripts/verify-contracts.sh
+```
+
+The same script runs in GitHub Actions. It checks formatting, runs the host tests, builds both release WASM files, and records SHA-256 checksums. Keep the committed lockfile; it fixes an incompatible transitive Ed25519 Dalek 3 resolution. A fresh Linux environment needs its own Rust toolchain and WASM target before running this script.
 
 ## Deploy the actual Soroswap account
 

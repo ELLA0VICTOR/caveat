@@ -20,12 +20,16 @@ jobs:
       - run: npm test
   contracts:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+      - run: rustup update stable --no-self-update
       - run: rustup target add wasm32v1-none
-      - run: cargo test --locked --manifest-path contracts/Cargo.toml
-      - run: cargo build --locked --manifest-path contracts/Cargo.toml --target wasm32v1-none --release
+      - run: bash scripts/verify-contracts.sh
       - uses: actions/upload-artifact@v4
         with:
           name: caveat-soroban-contracts
-          path: contracts/target/wasm32v1-none/release/*.wasm
+          path: |
+            contracts/target/wasm32v1-none/release/*.wasm
+            contracts/target/wasm32v1-none/release/SHA256SUMS
+          if-no-files-found: error

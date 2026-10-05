@@ -26,7 +26,7 @@ Test-only malicious routers belong in separate isolated deployments. Never allow
 
 Frontend: React/TypeScript; Stellar SDK RPC simulation, transaction assembly, Freighter testnet signing, submission and confirmed receipt; no server secrets. Network is fixed to Stellar testnet. Live execution requires a deployed account, verified deployment settings, funded source account, and funded contract token balances. Configuration is explicit. Missing contracts/liquidity or RPC failures remain errors, never fallback execution.
 
-The local demonstration is a deterministic explanatory model with a separate activity log. It is always labeled local and produces no transaction hash. Testnet history records RPC outcomes and only links hashes returned by RPC. Contracts are source-only until built, tested, and deployed using the documented CLI commands. No audit or deployment claim is made by the UI.
+The local demonstration is a deterministic explanatory model with a separate activity log. It is always labeled local and produces no transaction hash. Testnet history records RPC outcomes and only links hashes returned by RPC. Both release WASM contracts have been compiled and structurally validated, and twelve native Soroban host tests have passed in Ubuntu WSL. Deployment and real Soroswap ledger execution remain unverified; see [VERIFICATION.md](VERIFICATION.md) for exact evidence. No audit or deployment claim is made by the UI.
 
 ## Primary references
 
@@ -37,4 +37,4 @@ The local demonstration is a deterministic explanatory model with a separate act
 
 ## Solo hackathon scope
 
-One two-token Soroswap integration, one owner, zero approvals, bounded transfers, receipt/spend checks, expiry/replay checks, and honest/underpay/approval attack demonstrations. Follow-up work: compiled and deployed end-to-end evidence, independent review, wallet-native policy rendering, persistent ledger indexer, additional adapters, and general smart-account authentication.
+One two-token Soroswap integration, one owner, zero approvals, bounded transfers, receipt/spend checks, expiry/replay checks, and honest/underpay/approval attack demonstrations. Follow-up work: deployed end-to-end evidence, independent review, wallet-native policy rendering, persistent ledger indexer, additional adapters, and general smart-account authentication.
