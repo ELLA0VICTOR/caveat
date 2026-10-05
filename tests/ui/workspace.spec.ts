@@ -1,0 +1,46 @@
+import { test, expect } from '@playwright/test'
+
+test('honest and malicious local runs are distinguishable and never claim ledger execution', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByRole('heading', { name: 'Good DeFi. Clear boundaries.' })).toBeVisible()
+  await page.getByRole('button', { name: 'Run guarded demo' }).click()
+  await expect(page.getByText('Local model · Conditions satisfied')).toBeVisible()
+  await page.getByLabel('Demo scenario').selectOption('underpay')
+  await page.getByRole('button', { name: 'Run guarded demo' }).click()
+  await expect(page.getByText('Local model · Intent blocked')).toBeVisible()
+  await expect(page.getByText('Minimum receipt not met. The model discards all changes.')).toBeVisible()
+  await page.getByLabel('Demo scenario').selectOption('approval')
+  await page.getByRole('button', { name: 'Run guarded demo' }).click()
+  await expect(page.getByText('Token approval forbidden. The model discards all changes.')).toBeVisible()
+  await expect(page.locator('.activity-row')).toHaveCount(3)
+  await expect(page.locator('a[href*="/tx/"]')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Activity', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Every intent leaves a trail.' })).toBeVisible()
+})
+
+test('exact amount validation and configuration errors stay visible', async ({ page }) => {
+  await page.goto('/')
+  await page.getByLabel('Maximum spending amount').fill('-1')
+  await page.getByRole('button', { name: 'Run guarded demo' }).click()
+  await expect(page.getByText('Enter a positive decimal amount.')).toBeVisible()
+  await page.getByRole('button', { name: 'Deployment settings' }).click()
+  await page.getByRole('button', { name: 'Save testnet configuration' }).click()
+  await expect(page.getByRole('dialog').getByText('Enter a valid contract address for account.')).toBeVisible()
+  await page.getByRole('button', { name: 'Close dialog' }).click()
+  await page.getByRole('button', { name: 'Integrations', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Soroswap', exact: true })).toBeVisible()
+})
+
+test('desktop and mobile layouts fit the viewport', async ({ page }) => {
+  const errors: string[] = []
+  page.on('pageerror', error => errors.push(error.message))
+  await page.setViewportSize({ width: 1440, height: 1100 })
+  await page.goto('/')
+  await page.screenshot({ path: 'test-results/desktop.png', fullPage: true })
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.screenshot({ path: 'test-results/mobile.png', fullPage: true })
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+  await page.getByRole('button', { name: 'Run guarded demo' }).click()
+  await expect(page.getByText('Local model · Conditions satisfied')).toBeVisible()
+  expect(errors).toEqual([])
+})
