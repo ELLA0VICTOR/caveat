@@ -1,2 +1,59 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Manrope:wght@400;500;600;650;700;750;800&display=swap');
-:root{font-family:'DM Sans',sans-serif;color:#262a25;background:#f8f9f6;font-synthesis:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-weight:400;font-size:14px}*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button,a,input,select{-webkit-tap-highlight-color:transparent}button{cursor:pointer}button:disabled{cursor:wait;opacity:.65}button,a{transition:background .18s,color .18s,box-shadow .18s,transform .18s}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #97b568;outline-offset:4px}input:focus,select:focus,textarea:focus{outline:2px solid #8daf60;outline-offset:3px}a{color:inherit;text-decoration:none}button{color:inherit;border:0;background:none}h1,h2,h3,p{margin:0}button svg,a svg{flex-shrink:0}::selection{background:#d3e9ad}svg{vertical-align:middle}code{font-family:Consolas,monospace}
+@font-face { font-family: 'DM Sans'; src: url('/fonts/dm-sans.ttf') format('truetype'); font-weight: 100 1000; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url('/fonts/archivo.ttf') format('truetype'); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: 'DM Mono'; src: url('/fonts/dm-mono.ttf') format('truetype'); font-weight: 400 500; font-style: normal; font-display: swap; }
+
+:root {
+  font-family: 'DM Sans', Arial, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Mineral surfaces, petrol ink. Shared by the page, SVG and dialogs. */
+  --paper: #edf3f5;
+  --sheet: #fcfefe;
+  --surface: #e3edf1;
+  --ink: #183540;
+  --text: #476471;
+  --muted: #647e8b;
+  --quiet: #829aa6;
+  --faint: #a4bac5;
+  --accent: #006d80;
+  --accent-hover: #005363;
+  --accent-soft: #b9e1e8;
+  --line: #cddce3;
+  --line-strong: #b3c8d2;
+  --night: #112f3c;
+  --night-text: #edf6fa;
+  --night-muted: #b2c9d4;
+  --night-quiet: #8eafbf;
+  --night-line: #365969;
+  --night-accent: #82d6e3;
+  --night-accent-surface: #1c4858;
+  --night-accent-line: #3a7080;
+  --danger: #9b3e5a;
+  --night-danger: #edaabd;
+  --night-danger-surface: #493447;
+  --night-danger-line: #7e5168;
+  --warning: #806017;
+  --mono: 'DM Mono', Consolas, monospace;
+  --display: 'Archivo', 'DM Sans', Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 30px; }
+body { margin: 0; }
+button, input, select, textarea { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { border: 0; background: none; color: inherit; cursor: pointer; }
+button:disabled { cursor: wait; opacity: .55; }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3, p { margin: 0; }
+button, a, input { transition: background .2s, color .2s, border-color .2s, box-shadow .2s; }
+button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+svg { vertical-align: middle; }
+button svg, a svg { flex-shrink: 0; }
+code { font-family: var(--mono); }
+::selection { background: var(--accent-soft); color: var(--ink); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
