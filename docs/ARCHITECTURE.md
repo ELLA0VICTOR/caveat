@@ -2,41 +2,90 @@
 
 ## Product boundary
 
-Caveat is a testnet-first, owner-authorized contract account with a guarded Soroswap executor. Assets must be held at its contract address. This MVP is not a general-purpose SEP smart wallet: it has no arbitrary invocation API or custom `__check_auth`. The owner signs the complete `execute(policy)` invocation using Soroban source-account authorization in a Stellar transaction. There are no off-chain policy signatures or relayers in v1.
+The current product is a **shared wallet-funded executor**, not a general SEP smart wallet or a browser-wide transaction interceptor. Two immutable Soroswap endpoints are supported: `swap` and `add_liquidity`. A G-address wallet authorizes its entire policy and exact funding sub-invocations through source-account authorization. There is no off-chain signature scheme or relayer.
 
-The signed policy binds router, pair, exact input/output contract addresses, input amount, maximum spend, minimum receipt, Unix expiry, zero-approval restriction, and sequential nonce. Token symbols are display labels, never identity. The account has immutable owner, token allowlist, and router allowlist supplied at atomic construction. No upgrade or administrator bypass is provided.
+Another app can import `@caveat/sdk` and call the same executor. Our separate pool-deposit app demonstrates that integration without importing the Caveat UI. Apps that bypass the executor receive no Caveat protection. A DEX's existing minimum-output parameter is useful; Caveat's claim is a reusable constrained execution boundary, actual settlement checks and liquidity share receipts, not the invention of swap slippage protection.
 
-## Execution
+The published instance fixes router, pair and both underlying token addresses at construction. No administrator, upgrade, withdrawal, arbitrary-call or allowance endpoint exists. Client provenance checks pin its bytecode and configuration, Soroswap router/factory/pair bytecode, factory linkage and exact SAC identities. The contract checks its immutable route for every caller; clients cannot weaken that configuration.
 
-1. Require owner authorization for the complete policy; validate nonce, amounts, expiry, distinct trusted tokens, trusted router, and the prohibition on approvals.
-2. Read account balances from the exact token contracts. Resolve Soroswap's `router_pair_for` and compare it with the signed pair.
-3. Authorize only one nested SEP-41 transfer: exact input token, account to signed pair, exact input amount. The router's direct `require_auth(account)` is satisfied by its contract invoker. No `approve`, `transfer_from`, other-token transfer, or arbitrary call is authorized.
-4. Call the real Soroswap `swap_exact_tokens_for_tokens` ABI with a two-token path and account as sender/recipient. Pass zero router minimum deliberately; independently enforce the signed receipt after execution.
-5. Read balances again. Require actual spend <= maximum and actual receipt >= minimum. Panic on violation so the entire Soroban invocation, nested transfers, and nonce update are rolled back. Success advances nonce and emits measured outcomes.
+## Architecture
 
-Net balance deltas are the policy semantics, not gross trading volume. Exact nested transfer authorization independently bounds outgoing funds. Existing external token approvals are outside the model; a freshly deployed account cannot create any through this API. The zero-approval policy is mandatory, not a toggle that enables unlimited approvals.
+```mermaid
+sequenceDiagram
+    participant W as Owner wallet
+    participant A as Caveat or integrating app
+    participant G as Shared guard
+    participant S as Soroswap
+    A->>A: Read real pool quote and prepare policy
+    A->>W: Review exact terms, XDR and maximum fee
+    W->>G: Authorize policy and exact wallet funding
+    G->>G: Validate route, expiry and per-owner nonce
+    G->>S: Authorize exact transfers into the pool
+    S->>G: Deliver tokens or pool shares
+    G->>G: Measure actual receipt and spending
+    alt Terms satisfied
+        G->>W: Return outputs and unused action funding
+        G->>G: Check final wallet deltas and advance nonce
+    else Terms violated
+        G->>G: Abort all invocation token changes
+    end
+```
 
-## Trust and adversaries
+## Signed conditions
 
-Assume honest Stellar consensus, Soroban atomicity/authentication, owner wallet, and SEP-41 implementations in the immutable token allowlist. A malicious token that lies about balance is not protected against. Routers, quotes, return values, UI-provided token labels, and submitted policy inputs are untrusted. A malicious frontend can trick an owner into signing weaker conditions; wallet review and exact addresses remain essential. Fees for failed transactions are not rolled back. Price manipulation that still satisfies the signed bounds is permitted. This does not prevent issuer freeze/clawback, compromised owner keys, denial of service, or spending outside the Caveat account.
+Both policies bind owner/recipient, router, pair, exact token identities, expiry, persistent per-owner nonce and mandatory `deny_approvals=true`.
 
-Test-only malicious routers belong in separate isolated deployments. Never allow them in an account intended to hold meaningful funds. Recursive attempts cannot pass a second owner authorization/nonce and the Soroban host prevents contract reentry.
+Swap additionally binds exact input amount, maximum spend and minimum output. Liquidity binds maximum XLM, maximum test USDC and minimum pair-token shares. Validity is at most one hour. Owner authorization occurs before policy validation, binding every field and the entrypoint. Each funding transfer also needs the wallet's exact child authorization.
 
-## Integration and honest evidence
+Structs are encoded as canonically sorted symbol-keyed maps with typed addresses, i128 amounts and u64 nonce/expiry. String keys do not match the Soroban ABI. Review displays captured preparation terms, independent of later quote changes.
 
-Frontend: React/TypeScript; Stellar SDK RPC simulation, transaction assembly, Freighter testnet signing, submission and confirmed receipt; no server secrets. Network is fixed to Stellar testnet. Wallet setup publishes checksum-verified release WASM if needed, creates the account with an atomic owner/allowlist constructor, and deposits a small amount of native XLM. Each write has a review of identities, XDR, expiry, and maximum fee. Confirmed creation is read back before saving its address; predicted simulation IDs are never presented as deployed. Pending setup hashes and public action metadata persist in browser storage for confirmation checks. Keys remain in Freighter.
+## Execution and settlement
 
-The browser supports native test XLM → Stellar's documented test USDC on the published Soroswap route. It checks account release bytecode, owner and exact two-token/single-router allowlists before deposits and swaps. Router/factory/pair bytecode, asset contract identities, factory linkage and active reserves are checked through RPC. Quote lookup explicitly populates a 1% tolerance which the user can change; the quote does not decide contract success. Missing contracts/liquidity, provenance mismatches, or RPC failures remain errors, never fallback execution. Manual address configuration must pass the same swap checks; isolated fixture experiments use CLI.
+1. Require the owner signature; validate expiry, nonce, positive bounds, exact tokens and immutable router/pair. Confirm `router_pair_for`.
+2. Snapshot wallet and executor balances. For swaps, pull only the exact input. For liquidity, calculate the pool ratio within both signed caps and pull those exact amounts.
+3. Authorize only the exact underlying-token transfers from executor to pinned pair. A direct router authorization request is satisfied by its contract invoker. No approvals, transfer-from calls or excess transfers are authorized.
+4. Call the real Soroswap ABI with the executor as recipient. Ignore the router's claimed return values. The swap router minimum is deliberately zero; the guard checks the signed output itself.
+5. Require the actual output or LP-share increase to meet the signed minimum. Refund unused action inputs and transfer the result to the same wallet.
+6. Check final wallet spend and receipt deltas. Preserve all executor balances that existed before this invocation. Advance that owner's nonce and publish measured outcome only on success.
 
-The browser contains only the real testnet flow. There is no offline preview, predetermined swap output, or illustrative attack simulation. Receipts record submitted transactions and their RPC-confirmed ledger status, with actual hashes. Both release WASM contracts have been compiled and structurally validated, and twelve native Soroban host tests have passed in Ubuntu WSL. Deployment and real Soroswap ledger execution require ledger evidence; see [VERIFICATION.md](VERIFICATION.md) for the verification record. Contract adversarial tests and isolated fixture deployments remain separate from the product's verified Soroswap path.
+Violation aborts the full Soroban invocation, including the wallet funding step. Network fees are charged outside that invocation and outside spending limits. Input and output deltas mean net settlement, not gross trading volume. Preexisting donations are never a later user's funding; direct deposits are unsupported and have no recovery API.
+
+Persistent nonces and instance TTLs are extended on use. Archived state must be restored; the SDK reports restoration requirements rather than fabricating a fresh nonce or successful execution.
+
+Liquidity requires an existing pool with positive reserves. Estimated shares use reserves and supply; pool changes and fee-on dilution may reduce the result and cause rejection. Shares represent a pool position. The guard does not promise later position value or protect impermanent loss. Liquidity removal is outside this release.
+
+## Threat model
+
+| Threat | Boundary |
+| --- | --- |
+| Venue lies about its returned amount | Actual token/share balances decide success |
+| Venue delivers too little | Invocation aborts; funding, settlement and nonce roll back |
+| Venue requests an approval or extra transfer | Exact nested authorization rejects it |
+| Changed signed field, owner, token, venue or entrypoint | Owner authorization and immutable route validation reject it |
+| Replay or expired action | Per-owner nonce and capped expiry reject it |
+| Another caller tries to spend executor donations | Exact transfers and baseline-preserving settlement reject it |
+| Weak minimum voluntarily signed | Allowed; no fair-price oracle |
+| Dishonest underlying or LP token balances | Outside assumptions; only pinned implementations are supported |
+| Compromised key/frontend tricking the owner into weak terms | Outside protection; full transaction review remains necessary |
+| Issuer freeze/clawback or later pool losses | Outside this action's checks |
+| Other Freighter transactions | Unprotected unless explicitly routed through the guard |
+| Failed transaction fee or denial of service | Not rolled back; no availability guarantee |
+
+## Client behavior and evidence
+
+Quotes are genuine public RPC reads with an unfunded placeholder source, never submitted. Automatic minimums use 1% tolerance. Late quotes are discarded by action/amount key; failure clears automatic bounds and blocks preparation. Quotes pause during transaction work and review.
+
+Preparation verifies provenance and source authorization, then performs genuine simulation. Only confirmed ledger success creates a successful execution receipt. Unknown submissions remain pending, survive reload and block another preparation until checked. Keys stay in Freighter; the SDK accepts signed XDR, not secret keys. The separate app uses the same public SDK and actual executor.
+
+The USDC trustline is a one-time classic asset permission to receive that exact issuer. It grants no Caveat spending allowance. Funds stay in the wallet between actions. The earlier account remains immutable and owner-recoverable; its saved address is retained for withdrawal only.
+
+See [verification](VERIFICATION.md) for real Soroswap swap/liquidity receipts and an isolated malicious venue's submitted rollback. Adversarial fixtures are not DEXs and are never accepted by the browser's published route.
 
 ## Primary references
 
-- [Soroswap router implementation and ABI](https://github.com/soroswap/core/blob/main/contracts/router/src/lib.rs)
-- [Official testnet deployment manifest](https://github.com/soroswap/core/blob/main/public/testnet.contracts.json) (testnet resets can invalidate it; configure and verify live IDs)
+- [Soroswap router ABI and implementation](https://github.com/soroswap/core/blob/main/contracts/router/src/lib.rs)
+- [Soroswap pair and share accounting](https://github.com/soroswap/core/blob/main/contracts/pair/src/lib.rs)
 - [Stellar contract transactions and authorization](https://developers.stellar.org/docs/learn/fundamentals/contract-development/contract-interactions/stellar-transaction)
 - [Stellar token interface](https://developers.stellar.org/docs/tokens/token-interface)
 
-## Solo hackathon scope
-
-One two-token Soroswap integration, one owner, zero approvals, bounded transfers, receipt/spend checks, expiry/replay checks, and honest/underpay/approval attack demonstrations. Follow-up work: deployed end-to-end evidence, independent review, wallet-native policy rendering, persistent ledger indexer, additional adapters, and general smart-account authentication.
+This solo hackathon release intentionally contains two supported actions, an SDK and an integration example. It requires independent review before mainnet use. More protocols, liquidity removal, wallet-native human-readable policy review and general account authentication remain future work.

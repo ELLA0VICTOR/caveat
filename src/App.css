@@ -198,8 +198,13 @@ em { font-family: var(--display); font-style: normal; font-weight: 500; }
 .manual-deployment { margin-top: 23px; padding-top: 20px; border-top: 1px solid var(--line); }
 .manual-deployment > summary { display: flex; align-items: center; justify-content: space-between; }
 .live-quote { display: grid; gap: 6px; border-top: 1px solid var(--line); padding: 12px 0 0; }
-.live-quote button { display: inline-flex; align-items: center; gap: 5px; font-size: 9px; color: var(--accent); text-align: left; padding: 0; }
-.live-quote span { font: 7px var(--mono); color: var(--muted); }
+.quote-line { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.quote-line > span { display: inline-flex; align-items: center; gap: 6px; font: 8px var(--mono); color: var(--muted); }
+.quote-line > button { display: grid; place-items: center; color: var(--accent); padding: 4px; }
+.quote-line > button:disabled { opacity: .4; }
+.quote-error .quote-line > span, .quote-error-detail { color: var(--danger); }
+.quote-error-detail { font-size: 8px; line-height: 1.6; overflow-wrap: anywhere; }
+.auto-minimum { font-size: 8px; color: var(--accent); text-align: left; padding: 0; }
 .inline-feedback { margin-top: 17px; background: var(--surface); border-left: 2px solid var(--accent); padding: 12px 13px; font-size: 10px; line-height: 1.8; color: var(--text); overflow-wrap: anywhere; }
 .inline-feedback strong { font-weight: 500; }
 .inline-feedback p { margin-top: 4px; }
@@ -483,3 +488,17 @@ em { font-family: var(--display); font-style: normal; font-weight: 500; }
   .wordmark-large { font-size: 52px; }
   .footer-upper > p { font-size: 8px; }
 }
+
+.action-selector { display: flex; gap: 22px; border-bottom: 1px solid var(--line); margin-top: 20px; }
+.action-selector button { padding: 10px 0; font-size: 12px; font-weight: 500; color: var(--muted); border-bottom: 2px solid transparent; }
+.action-selector button[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.liquidity-matching { padding: 16px 0; border-top: 1px solid var(--line); }
+.liquidity-matching > div { display: flex; align-items: center; gap: 9px; font-size: 12px; }
+.liquidity-matching strong { margin-left: auto; font: 500 18px var(--mono); }
+.liquidity-matching p { margin: 10px 0 6px; color: var(--muted); font-size: 11px; line-height: 1.7; }
+.liquidity-matching small { color: var(--muted); font: 10px var(--mono); }
+.setup-ready { color: var(--accent); }
+.share-logos { position: relative; width: 29px; }
+.share-logos img { position: absolute; width: 20px; height: 20px; border: 2px solid var(--sheet); border-radius: 50%; }
+.share-logos img:first-child { left: 0; top: 0; }
+.share-logos img:last-child { right: 0; bottom: 0; }

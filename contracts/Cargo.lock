@@ -244,6 +244,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "caveat-executor"
+version = "0.2.0"
+dependencies = [
+ "soroban-sdk",
+]
+
+[[package]]
 name = "cc"
 version = "1.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"

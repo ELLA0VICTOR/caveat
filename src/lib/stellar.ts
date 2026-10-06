@@ -1,4 +1,4 @@
-import { Address, BASE_FEE, Contract, Networks, StrKey, TransactionBuilder, nativeToScVal, rpc, scValToNative, xdr } from '@stellar/stellar-sdk'
+import { Account, Address, BASE_FEE, Contract, Networks, StrKey, TransactionBuilder, nativeToScVal, rpc, scValToNative, scvSortedMap, xdr } from '@stellar/stellar-sdk'
 import { toUnits } from './policy.ts'
 
 export const RPC_URL = 'https://soroban-testnet.stellar.org'
@@ -7,7 +7,7 @@ export const server = new rpc.Server(RPC_URL)
 export type Deployment = { account: string; router: string; input: string; output: string }
 export type Intent = { amount: string; minimum: string; minutes: number }
 export type PreparedTransaction = { xdr: string; expiresAt: number; source: string; fee: string }
-export type Prepared = PreparedTransaction & { spentBefore: bigint; receivedBefore: bigint; nonce: bigint; inputDecimals: number; outputDecimals: number; pair: string }
+export type Prepared = PreparedTransaction & { intent: Intent; spentBefore: bigint; receivedBefore: bigint; nonce: bigint; inputDecimals: number; outputDecimals: number; pair: string }
 export type LedgerReceipt = { hash: string; status: 'confirmed' | 'failed' | 'pending'; value?: unknown }
 export const hex = (bytes: Uint8Array) => Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('')
 
@@ -20,7 +20,7 @@ export function validateDeployment(config: Deployment) {
 
 export function encodePolicy(config: Deployment, amount: bigint, minimum: bigint, nonce: bigint, pair: string, expiresAt: number): xdr.ScVal {
   const address = (value: string) => new Address(value).toScVal()
-  return nativeToScVal({
+  const fields = {
     amount_in: nativeToScVal(amount, { type: 'i128' }),
     deny_approvals: nativeToScVal(true),
     expires_at: nativeToScVal(expiresAt, { type: 'u64' }),
@@ -28,7 +28,11 @@ export function encodePolicy(config: Deployment, amount: bigint, minimum: bigint
     min_receive: nativeToScVal(minimum, { type: 'i128' }),
     nonce: nativeToScVal(nonce, { type: 'u64' }),
     pair: address(pair), router: address(config.router), token_in: address(config.input), token_out: address(config.output),
-  })
+  }
+  // Soroban named structs require symbol keys, in canonical map order.
+  return scvSortedMap(Object.entries(fields).map(([name, val]) => new xdr.ScMapEntry({
+    key: xdr.ScVal.scvSymbol(name), val,
+  })))
 }
 
 export async function connectWallet(): Promise<string> {
@@ -40,8 +44,18 @@ export async function connectWallet(): Promise<string> {
   return result.address
 }
 
-export async function readContract(source: string, contract: string, method: string, args: xdr.ScVal[] = []) {
-  const account = await server.getAccount(source)
+export async function restoreWallet(): Promise<string> {
+  const { isConnected, isAllowed, getAddress, getNetworkDetails } = await import('@stellar/freighter-api')
+  const [extension, permission] = await Promise.all([isConnected(), isAllowed()])
+  if (extension.error || !extension.isConnected || permission.error || !permission.isAllowed) return ''
+  const [account, network] = await Promise.all([getAddress(), getNetworkDetails()])
+  if (account.error || !StrKey.isValidEd25519PublicKey(account.address) || network.error || network.networkPassphrase !== Networks.TESTNET) return ''
+  return account.address
+}
+
+export async function readContract(source: string | undefined, contract: string, method: string, args: xdr.ScVal[] = []) {
+  // Public reads need no wallet or funded source. This envelope is simulated only.
+  const account = source ? await server.getAccount(source) : new Account(StrKey.encodeEd25519PublicKey(new Uint8Array(32)), '0')
   const tx = new TransactionBuilder(account, { fee: BASE_FEE, networkPassphrase: Networks.TESTNET })
     .addOperation(new Contract(contract).call(method, ...args)).setTimeout(60).build()
   const simulation = await server.simulateTransaction(tx)
@@ -50,9 +64,12 @@ export async function readContract(source: string, contract: string, method: str
 }
 
 export async function prepareOperation(source: string, operation: xdr.Operation, seconds = 300): Promise<PreparedTransaction & { value: unknown }> {
-  const account = await server.getAccount(source)
+  const [account, fees] = await Promise.all([server.getAccount(source), server.getFeeStats()])
+  const inclusion = BigInt(fees.sorobanInclusionFee.p95) * 2n
+  if (inclusion > 1_000_000n) throw new Error('Testnet inclusion fees are unusually high. Retry later.')
+  const fee = inclusion > BigInt(BASE_FEE) ? String(inclusion) : BASE_FEE
   const expiresAt = Math.floor(Date.now() / 1000) + seconds
-  const tx = new TransactionBuilder(account, { fee: BASE_FEE, networkPassphrase: Networks.TESTNET })
+  const tx = new TransactionBuilder(account, { fee, networkPassphrase: Networks.TESTNET })
     .addOperation(operation).setTimeout(seconds).build()
   const simulation = await server.simulateTransaction(tx)
   if (!rpc.Api.isSimulationSuccess(simulation) || !simulation.result) throw new Error(`Testnet simulation rejected: ${'error' in simulation ? simulation.error : 'Missing simulation result.'}`)
@@ -80,7 +97,7 @@ export async function prepareIntent(source: string, config: Deployment, intent: 
   const expiresAt = Math.floor(Date.now() / 1000) + intent.minutes * 60
   const policy = encodePolicy(config, amount, minimum, BigInt(nonce), String(pair), expiresAt)
   const prepared = await prepareOperation(source, new Contract(config.account).call('execute', policy), intent.minutes * 60)
-  return { ...prepared, expiresAt, spentBefore: BigInt(spentBefore), receivedBefore: BigInt(receivedBefore), nonce: BigInt(nonce), inputDecimals: Number(inputDecimals), outputDecimals: Number(outputDecimals), pair: String(pair) }
+  return { ...prepared, intent: { ...intent }, expiresAt, spentBefore: BigInt(spentBefore), receivedBefore: BigInt(receivedBefore), nonce: BigInt(nonce), inputDecimals: Number(inputDecimals), outputDecimals: Number(outputDecimals), pair: String(pair) }
 }
 
 export async function transactionStatus(hash: string): Promise<LedgerReceipt> {

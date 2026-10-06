@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["account", "demo-router"]
+members = ["account", "demo-router", "executor"]
 
 [workspace.dependencies]
 soroban-sdk = "=23.5.3"

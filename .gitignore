@@ -11,6 +11,7 @@ node_modules
 .tools/
 contracts/target/
 public/contracts/
+public/integrations/
 contracts/**/test_snapshots/
 test-results/
 playwright-report/

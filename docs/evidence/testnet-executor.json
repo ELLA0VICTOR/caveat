@@ -1,0 +1,80 @@
+{
+  "network": "Stellar Testnet",
+  "startedAt": "2026-10-06T14:41:52.734Z",
+  "status": "passed",
+  "owner": "GBLJILV2DVHEBDMMCYT6T3PA5IHQGKSLMH23RLLV7C4FFONLME3RG2WC",
+  "wasmHash": "6586b06fee1a0709dbc7638ea180bf89fc8973aaeaa0b1c7b2811126cb549c5d",
+  "wasmBytes": 29229,
+  "route": {
+    "router": "CCJUD55AG6W5HAI5LRVNKAE5WDP5XGZBUDS5WNTIVDU7O264UZZE7BRD",
+    "factory": "CDP3HMUH6SMS3S7NPGNDJLULCOXXEPSHY4JKUKMBNQMATHDHWXRRJTBY",
+    "pair": "CCBX3NZTCQLQFSPG7HBOKL4P2RVPOPVFHDNRTOSCCJWBTPL2GHEH7RQS",
+    "token_a": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+    "token_b": "CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA"
+  },
+  "transactions": [
+    {
+      "label": "Enable exact test USDC trustline",
+      "hash": "28c122ed8ae4feccd9eb2feb6325a39654dc59dcd19debfd257efbd930fd61dd",
+      "status": "confirmed",
+      "ledger": 5054829
+    },
+    {
+      "label": "Wallet → Soroswap → wallet swap",
+      "hash": "766cd2f8f6cfcde8e43d1b62c7db740d443cfd4a3090cb18827616541703fa4a",
+      "status": "confirmed",
+      "outcome": {
+        "received": "2114439",
+        "spent_a": "20000000",
+        "spent_b": "0"
+      },
+      "ledger": 5054833
+    },
+    {
+      "label": "Wallet-funded Soroswap liquidity",
+      "hash": "a7bc0267c2b394544db81e416fb6627290dd2f1631c8086a22f5768bc0df29a6",
+      "status": "confirmed",
+      "outcome": {
+        "received": "3088669",
+        "spent_a": "10000000",
+        "spent_b": "1060400"
+      },
+      "ledger": 5054836
+    }
+  ],
+  "deployment": {
+    "label": "Deploy shared executor",
+    "hash": "78a83fc9d5613d5838c2a4e58df47f3d1a889376c9a5be5f4f39b10379efcc0c",
+    "status": "confirmed",
+    "outcome": "CCQMSZDYKY7TO6O65FEH663CISHHNWWUFY7N56GD2CWYGKETELXX554O",
+    "ledger": 5054803
+  },
+  "executor": "CCQMSZDYKY7TO6O65FEH663CISHHNWWUFY7N56GD2CWYGKETELXX554O",
+  "before": {
+    "xlm": "9999.99999",
+    "usdc": "0",
+    "shares": "0",
+    "nonce": "0",
+    "trustline": true
+  },
+  "afterSwap": {
+    "xlm": "9997.8919188",
+    "usdc": "0.2114439",
+    "shares": "0",
+    "nonce": "1",
+    "trustline": true
+  },
+  "afterLiquidity": {
+    "xlm": "9996.6301527",
+    "usdc": "0.1054039",
+    "shares": "0.3088669",
+    "nonce": "2",
+    "trustline": true
+  },
+  "impossibleMinimum": {
+    "status": "rejected-by-real-rpc",
+    "contractError": 8,
+    "submitted": false
+  },
+  "finishedAt": "2026-10-06T14:42:55.273Z"
+}

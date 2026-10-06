@@ -34,7 +34,7 @@ export function requireWasm(instance: xdr.ScContractInstance, expected: string, 
   if (instance.executable.type !== 'contractExecutableWasm' || hex(instance.executable.value.toBytes()) !== expected) throw new Error(`${name} bytecode does not match the verified release. Stop and check deployment provenance.`)
 }
 
-export async function verifySupportedRoute(source: string) {
+export async function verifySupportedRoute(source?: string) {
   const [router, factory, input, output, pair, registeredPair, name] = await Promise.all([
     contractInstance(DEFAULT_ROUTER), contractInstance(SOROSWAP_FACTORY),
     contractInstance(TESTNET_INPUT), contractInstance(TESTNET_OUTPUT),
@@ -121,10 +121,13 @@ export async function prepareWithdrawal(source: string, config: Deployment, toke
   return { kind: 'withdraw', transaction, config, amount, token }
 }
 
-export async function quoteIntent(source: string, config: Deployment, amount: string) {
-  await verifySupportedRoute(source)
+export async function quoteIntent(config: Deployment, amount: string) {
   if (config.router !== DEFAULT_ROUTER || config.input !== TESTNET_INPUT || config.output !== TESTNET_OUTPUT) throw new Error('Quote lookup supports the XLM / test USDC route configured by wallet setup.')
-  const amounts = await readContract(source, config.router, 'router_get_amounts_out', [nativeToScVal(toUnits(amount), { type: 'i128' }), nativeToScVal([address(config.input), address(config.output)])]) as bigint[]
-  if (amounts.length !== 2 || BigInt(amounts[1]) <= 0n) throw new Error('Soroswap returned no output quote.')
-  return { expected: fromUnits(BigInt(amounts[1])), minimum: fromUnits(BigInt(amounts[1]) * 99n / 100n) }
+  const units = toUnits(amount)
+  await verifySupportedRoute()
+  const amounts = await readContract(undefined, config.router, 'router_get_amounts_out', [nativeToScVal(units, { type: 'i128' }), nativeToScVal([address(config.input), address(config.output)])]) as bigint[]
+  if (amounts.length !== 2 || BigInt(amounts[0]) !== units || BigInt(amounts[1]) <= 0n) throw new Error('Soroswap returned an invalid output quote.')
+  const minimum = BigInt(amounts[1]) * 99n / 100n
+  if (minimum <= 0n) throw new Error('This amount is too small to set a positive minimum receipt.')
+  return { expected: fromUnits(BigInt(amounts[1])), minimum: fromUnits(minimum) }
 }

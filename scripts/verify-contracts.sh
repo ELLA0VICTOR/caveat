@@ -19,11 +19,11 @@ cargo build --locked --manifest-path contracts/Cargo.toml --target wasm32v1-none
 
 wasm_dir="$project_dir/contracts/target/wasm32v1-none/release"
 mkdir -p "$wasm_dir"
-for contract in caveat_account caveat_demo_router; do
+for contract in caveat_account caveat_demo_router caveat_executor; do
   built_wasm="$CARGO_TARGET_DIR/wasm32v1-none/release/$contract.wasm"
   if ! [[ "$built_wasm" -ef "$wasm_dir/$contract.wasm" ]]; then
     cp "$built_wasm" "$wasm_dir/$contract.wasm"
   fi
 done
 cd "$wasm_dir"
-sha256sum caveat_account.wasm caveat_demo_router.wasm | tee SHA256SUMS
+sha256sum caveat_account.wasm caveat_demo_router.wasm caveat_executor.wasm | tee SHA256SUMS

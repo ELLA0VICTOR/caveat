@@ -15,7 +15,6 @@ export function TestnetSetup({ caveat: c }: { caveat: CaveatState }) {
     try { return JSON.parse(localStorage.getItem('caveat-setup-pending') || 'null') } catch { return null }
   })
   const [info, setInfo] = useState<AccountInfo | null>(null)
-  const [deposit, setDeposit] = useState('5')
   const [withdrawal, setWithdrawal] = useState('')
   const [recoverOutput, setRecoverOutput] = useState(false)
 
@@ -24,7 +23,7 @@ export function TestnetSetup({ caveat: c }: { caveat: CaveatState }) {
     if (value) localStorage.setItem('caveat-setup-pending', JSON.stringify(value))
     else localStorage.removeItem('caveat-setup-pending')
   }
-  async function prepare(kind: 'create' | 'deposit' | 'withdraw' | 'inspect') {
+  async function prepare(kind: 'withdraw' | 'inspect') {
     if (!c.wallet) { await c.connect(); return }
     c.setBusy(true); c.setMessage('Checking testnet contracts…')
     try {
@@ -32,9 +31,7 @@ export function TestnetSetup({ caveat: c }: { caveat: CaveatState }) {
       if (kind === 'inspect') {
         setInfo(await stellar.inspectAccount(c.wallet, c.config)); c.setMessage('Owner, bytecode, allowlists, and balances checked against testnet.')
       } else {
-        setAction(kind === 'create' ? await stellar.prepareAccount(c.wallet)
-          : kind === 'deposit' ? await stellar.prepareDeposit(c.wallet, c.config, deposit)
-            : await stellar.prepareWithdrawal(c.wallet, c.config, recoverOutput ? c.config.output : c.config.input, withdrawal))
+        setAction(await stellar.prepareWithdrawal(c.wallet, c.config, recoverOutput ? c.config.output : c.config.input, withdrawal))
         c.setMessage('')
       }
     } catch (error) { c.setMessage(error instanceof Error ? error.message : 'Testnet setup failed.') }
@@ -55,9 +52,9 @@ export function TestnetSetup({ caveat: c }: { caveat: CaveatState }) {
     } else if (completed.kind !== 'upload') setInfo(await stellar.inspectAccount(completed.transaction.source, completed.config))
     remember(null); setAction(null)
     c.record({ title: titles[completed.kind], detail: 'Confirmed by the Stellar testnet ledger.', hash: value.hash, mode: 'Testnet', status })
-    c.setMessage(completed.kind === 'upload' ? 'Contract code confirmed. Select Create account to review the owner and immutable allowlists.'
-      : completed.kind === 'create' ? 'Your Caveat account is confirmed. Review a small deposit next.'
-        : completed.kind === 'deposit' ? 'Deposit confirmed. Close settings, load a live quote, and review your swap.' : 'Recovery confirmed.')
+    c.setMessage(completed.kind === 'upload' ? 'Earlier contract upload confirmed. New actions already use the shared guard.'
+      : completed.kind === 'create' ? 'Earlier account confirmed. New actions require no account deposit.'
+        : completed.kind === 'deposit' ? 'Earlier deposit confirmed. Use owner recovery below to return it to your wallet.' : 'Recovery confirmed.')
   }
   async function sign() {
     if (!action) return
@@ -93,14 +90,12 @@ export function TestnetSetup({ caveat: c }: { caveat: CaveatState }) {
       <div><span>Expires</span><code>{new Date(action.transaction.expiresAt * 1000).toLocaleTimeString()}</code></div>
     </div><details className="xdr-details"><summary>Inspect unsigned transaction XDR</summary><textarea readOnly aria-label="Setup transaction XDR" value={action.transaction.xdr}/></details><button className="setup-button" onClick={sign} disabled={c.busy}>{c.busy ? <LoaderCircle size={14} className="loading-icon"/> : <Wallet size={14}/>} Sign in Freighter</button><button className="plain-link setup-cancel" onClick={() => { setAction(null); c.setMessage('') }} disabled={c.busy}>Cancel review</button></div>
   }
-  return <div className="wallet-setup"><span className="setup-label">WALLET SETUP / XLM → TEST USDC</span><h3>{c.config.account ? 'Your contract account.' : 'Create your contract account.'}</h3><p>Uses the tested Caveat release and the verified Soroswap route. Every write is reviewed and signed in Freighter.</p>
+  return <div className="wallet-setup"><span className="setup-label">EARLIER PROTOTYPE / OWNER RECOVERY</span><h3>Recover your earlier deposit.</h3><p>Your earlier contract account still holds any funds you deposited. Withdraw them to your wallet to use the new flow.</p>
     {!c.wallet ? <button className="setup-button" onClick={c.connect} disabled={c.busy}><Wallet size={14}/> Connect testnet wallet</button> : <>
       <div className="setup-owner"><span>Owner</span><code>{short(c.wallet)}</code><Check size={12}/></div>
-      {!c.config.account ? <button className="setup-button" onClick={() => prepare('create')} disabled={c.busy}>{c.busy ? <LoaderCircle size={14} className="loading-icon"/> : <ArrowRight size={14}/>} Prepare account creation</button> : <>
+      {!c.config.account ? <p>Enter your earlier account address in the recovery settings below.</p> : <>
         <button className="plain-link" onClick={() => prepare('inspect')} disabled={c.busy}>Verify account & refresh balances <ArrowUpRight size={12}/></button>
         {info ? <div className="setup-balances"><div><span>Contract-held XLM</span><strong>{info.input}</strong></div><div><span>Contract-held test USDC</span><strong>{info.output}</strong></div><small>RPC ledger {info.ledger} · nonce {info.nonce}</small></div> : null}
-        <label className="deployment-field">Deposit test XLM<input inputMode="decimal" value={deposit} onChange={event => setDeposit(event.target.value)} disabled={c.busy}/><small>Suggested first deposit: 5 XLM. Maximum: 100.</small></label>
-        <button className="setup-button" onClick={() => prepare('deposit')} disabled={c.busy}>Review deposit <ArrowRight size={14}/></button>
         <details className="setup-recovery"><summary>Owner recovery</summary><label className="deployment-field">Token<select value={recoverOutput ? 'output' : 'input'} disabled={c.busy} onChange={event => setRecoverOutput(event.target.value === 'output')}><option value="input">Native XLM</option><option value="output">Test USDC</option></select></label><label className="deployment-field">Amount to withdraw<input inputMode="decimal" value={withdrawal} disabled={c.busy} onChange={event => setWithdrawal(event.target.value)}/></label><button className="setup-button" onClick={() => prepare('withdraw')} disabled={c.busy}>Review withdrawal <ArrowRight size={14}/></button><p>USDC needs a wallet trustline for issuer GBBD47…FLA5. Add that exact asset in Freighter before recovery.</p></details>
       </>}
     </>}

@@ -1,0 +1,5 @@
+{
+  "name": "@caveat/pool-example", "private": true, "type": "module", "version": "0.2.0",
+  "scripts": { "dev": "vite --host 127.0.0.1 --port 5175", "build": "tsc --noEmit && vite build" },
+  "dependencies": { "@caveat/sdk": "file:../../packages/caveat-sdk", "@stellar/freighter-api": "^6.0.1" }
+}

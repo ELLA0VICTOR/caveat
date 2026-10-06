@@ -73,6 +73,22 @@ test('the signing payload binds all exact identities and integer conditions in t
   const invoke = operation.func.value
   assert.equal(Address.fromScAddress(invoke.contractAddress).toString(), config.account)
   assert.equal(invoke.functionName.toString(), 'execute')
+  // Native decoding treats strings and symbols alike; inspect the actual wire types.
+  const encoded = invoke.args[0]
+  assert.equal(encoded.type, 'scvMap')
+  if (encoded.type !== 'scvMap') throw new Error('Policy must be a struct map')
+  assert.deepEqual(encoded.value?.map(entry => [entry.key.type, scValToNative(entry.key), entry.val.type]), [
+    ['scvSymbol', 'amount_in', 'scvI128'],
+    ['scvSymbol', 'deny_approvals', 'scvBool'],
+    ['scvSymbol', 'expires_at', 'scvU64'],
+    ['scvSymbol', 'max_spend', 'scvI128'],
+    ['scvSymbol', 'min_receive', 'scvI128'],
+    ['scvSymbol', 'nonce', 'scvU64'],
+    ['scvSymbol', 'pair', 'scvAddress'],
+    ['scvSymbol', 'router', 'scvAddress'],
+    ['scvSymbol', 'token_in', 'scvAddress'],
+    ['scvSymbol', 'token_out', 'scvAddress'],
+  ])
   assert.deepEqual(scValToNative(invoke.args[0]), {
     amount_in: 90071992547409931234567n, deny_approvals: true, expires_at: 2000000000n,
     max_spend: 90071992547409931234567n, min_receive: 123000000n, nonce: 7n,

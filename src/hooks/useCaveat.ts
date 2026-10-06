@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { fromUnits, toUnits } from '../lib/policy'
 import { TESTNET_USDC_ADDRESS, TESTNET_XLM_ADDRESS } from '../lib/tokens'
-import type { Deployment, Prepared } from '../lib/stellar'
+import type { Deployment, LedgerReceipt } from '../lib/stellar'
+import type { Action, Outcome, PreparedAction } from '@caveat/sdk'
+import { useLiveQuote } from './useLiveQuote'
 
 export type Receipt = {
   id: string
@@ -19,6 +21,11 @@ const defaultConfig: Deployment = {
   input: TESTNET_XLM_ADDRESS,
   output: TESTNET_USDC_ADDRESS,
 }
+const walletPreference = 'caveat-wallet-preference'
+function rememberWallet(connected: boolean) {
+  try { localStorage.setItem(walletPreference, connected ? 'connected' : 'disconnected') }
+  catch { /* The current connection still works when browser storage is unavailable. */ }
+}
 
 export function useCaveat() {
   const [config, setConfig] = useState<Deployment>(() => {
@@ -26,47 +33,67 @@ export function useCaveat() {
     catch { return defaultConfig }
   })
   const [amount, setAmount] = useState('1')
-  const [minimum, setMinimum] = useState('')
+  const [action, setAction] = useState<Action>('swap')
+  const [minimumOverride, setMinimumOverride] = useState<{ key: string; value: string } | null>(null)
   const [minutes, setMinutes] = useState(10)
   const [wallet, setWallet] = useState('')
+  const walletRevision = useRef(0)
   const [draftConfig, setDraftConfig] = useState(config)
   const [dialog, setDialog] = useState<DialogName>(null)
   const [entries, setEntries] = useState<Receipt[]>([])
   const [message, setMessage] = useState('')
   const [busy, setBusy] = useState(false)
-  const [prepared, setPrepared] = useState<Prepared | null>(null)
+  const [prepared, setPrepared] = useState<PreparedAction | null>(null)
   const [lastResult, setLastResult] = useState<Receipt | null>(null)
-  const [liveQuote, setLiveQuote] = useState('')
+  const [pending, setPending] = useState<{ hash: string; source: string; action: Action } | null>(() => {
+    try { return JSON.parse(localStorage.getItem('caveat-action-pending') || 'null') } catch { return null }
+  })
+  const quote = useLiveQuote(action, amount, busy || dialog === 'review')
+  const customMinimum = minimumOverride?.key === quote.key
+  const minimum = customMinimum ? minimumOverride.value : quote.minimum
 
-  function invalidate() { setPrepared(null); setLastResult(null); setLiveQuote(''); setMessage('') }
-  function changeAmount(value: string) { setAmount(value); invalidate() }
-  function changeMinimum(value: string) { setMinimum(value); invalidate() }
+  useEffect(() => {
+    try { if (localStorage.getItem(walletPreference) === 'disconnected') return }
+    catch { /* Freighter can still verify an existing permission without storage. */ }
+    let active = true
+    const revision = walletRevision.current
+    void import('../lib/stellar').then(stellar => stellar.restoreWallet()).then(address => {
+      // A late restore must not undo a manual connect or disconnect.
+      if (active && revision === walletRevision.current && address) setWallet(address)
+    }).catch(() => { /* An unavailable wallet leaves the normal connect action visible. */ })
+    return () => { active = false }
+  }, [])
+
+  function invalidate() { setPrepared(null); setLastResult(null); setMessage('') }
+  function changeAmount(value: string) { setAmount(value); setMinimumOverride(null); invalidate() }
+  function changeAction(value: Action) { setAction(value); setMinimumOverride(null); invalidate() }
+  function changeMinimum(value: string) { setMinimumOverride({ key: quote.key, value }); invalidate() }
   function changeMinutes(value: number) { setMinutes(value); invalidate() }
   function record(receipt: Omit<Receipt, 'id' | 'time'>) {
     const item = { ...receipt, id: crypto.randomUUID(), time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }) }
     setEntries(previous => [item, ...previous]); setLastResult(item)
   }
   async function connect() {
+    walletRevision.current += 1
     setBusy(true); setMessage('Connecting to Freighter…')
     try {
       const stellar = await import('../lib/stellar')
-      setWallet(await stellar.connectWallet()); setMessage('Testnet wallet connected.')
+      setWallet(await stellar.connectWallet()); rememberWallet(true); setMessage('Testnet wallet connected.')
     } catch (error) { setMessage(error instanceof Error ? error.message : 'Connection failed.') }
     finally { setBusy(false) }
   }
-  function disconnect() { setWallet(''); invalidate() }
+  function disconnect() { walletRevision.current += 1; rememberWallet(false); setWallet(''); invalidate() }
   async function run() {
+    if (pending) { setMessage('An earlier action is awaiting confirmation. Check it before preparing another.'); return }
     try { toUnits(amount) }
     catch (error) { setMessage(error instanceof Error ? error.message : 'Invalid spending amount.'); return }
     if (!wallet) { await connect(); return }
-    if (!config.account || !config.input || !config.output) {
-      openSettings(); setMessage('Configure your deployed account and exact token contracts to prepare a testnet swap.'); return
-    }
-    if (!minimum.trim()) { setMessage('Load a live quote or enter the minimum amount you want to receive.'); return }
+    if (quote.status !== 'ready') { setMessage(quote.status === 'error' ? 'The live quote is unavailable. Retry before preparing your swap.' : 'Waiting for the latest live quote…'); return }
+    if (!minimum.trim()) { setMessage('Enter the minimum amount you want to receive.'); return }
     setBusy(true); setMessage('Reading testnet contracts and simulating your intent…')
     try {
-      const stellar = await import('../lib/stellar')
-      setPrepared(await stellar.prepareIntent(wallet, config, { amount, minimum, minutes }))
+      const { executor } = await import('../lib/executor')
+      setPrepared(await executor.prepare(wallet, action, { amount, minimum, minutes, ...(action === 'liquidity' ? { maxB: quote.maxB } : {}) }))
       setMessage(''); setDialog('review')
     } catch (error) { setMessage(error instanceof Error ? error.message : 'Testnet preparation failed.') }
     finally { setBusy(false) }
@@ -76,15 +103,34 @@ export function useCaveat() {
     setBusy(true); setDialog(null)
     try {
       const stellar = await import('../lib/stellar')
-      const receipt = await stellar.submitIntent(wallet, prepared, setMessage)
-      record({
-        title: 'Soroswap guarded swap', status: receipt.status, mode: 'Testnet', hash: receipt.hash,
-        detail: receipt.status === 'confirmed'
-          ? `Ledger confirmed.${receipt.spent !== undefined && receipt.received !== undefined ? ` Spent ${fromUnits(receipt.spent, prepared.inputDecimals)} input; received ${fromUnits(receipt.received, prepared.outputDecimals)} output.` : ''}`
-          : receipt.status === 'failed' ? 'Ledger reports failure. Contract changes rolled back; network fees may apply.' : 'Awaiting confirmation. Inspect the transaction before retrying.',
+      const receipt = await stellar.submitTransaction(wallet, prepared, setMessage, hash => {
+        const value = { hash, source: prepared.source, action: prepared.action }
+        setPending(value)
+        try { localStorage.setItem('caveat-action-pending', JSON.stringify(value)) }
+        catch { /* Keep the current page's pending guard even when storage is unavailable. */ }
       })
+      finishAction(receipt, prepared.action)
       setMessage(''); setPrepared(null)
     } catch (error) { setMessage(error instanceof Error ? error.message : 'Submission failed.') }
+    finally { setBusy(false) }
+  }
+  function finishAction(receipt: LedgerReceipt, action: Action) {
+    const outcome = receipt.value as Outcome | undefined
+    if (receipt.status !== 'pending') {
+      setPending(null)
+      try { localStorage.removeItem('caveat-action-pending') } catch { /* The confirmed status still belongs in the current session. */ }
+    }
+    record({ title: action === 'swap' ? 'Protected Soroswap swap' : 'Protected Soroswap liquidity', status: receipt.status, mode: 'Testnet', hash: receipt.hash,
+      detail: receipt.status === 'confirmed'
+        ? `Ledger confirmed.${outcome ? action === 'swap' ? ` Spent ${fromUnits(outcome.spent_a)} XLM; received ${fromUnits(outcome.received)} test USDC in the signing wallet.` : ` Spent ${fromUnits(outcome.spent_a)} XLM and ${fromUnits(outcome.spent_b)} test USDC; received ${fromUnits(outcome.received)} pool shares in the signing wallet.` : ''}`
+        : receipt.status === 'failed' ? 'Ledger reports failure. Contract changes rolled back; network fees may apply.' : 'Awaiting confirmation. Check this submission before preparing another action.',
+    })
+  }
+  async function checkPending() {
+    if (!pending) return
+    setBusy(true); setMessage('Checking the submitted action…')
+    try { const stellar = await import('../lib/stellar'); finishAction(await stellar.transactionStatus(pending.hash), pending.action); setMessage('') }
+    catch (error) { setMessage(error instanceof Error ? error.message : 'Could not check confirmation.') }
     finally { setBusy(false) }
   }
   function openSettings() { setDraftConfig(config); setDialog('settings'); setMessage('') }
@@ -100,25 +146,16 @@ export function useCaveat() {
   function applyDeployment(next: Deployment) {
     localStorage.setItem('caveat-deployment', JSON.stringify(next))
     setConfig(next); setDraftConfig(next); invalidate()
-    setAmount('1'); setMinimum('')
+    setAmount('1'); setMinimumOverride(null)
   }
-  async function refreshQuote() {
-    if (!wallet) { await connect(); return }
-    setBusy(true); setMessage('Reading the live Soroswap quote…')
-    try {
-      const { quoteIntent } = await import('../lib/testnet')
-      const quote = await quoteIntent(wallet, config, amount)
-      setPrepared(null); setLastResult(null); setLiveQuote(quote.expected); setMinimum(quote.minimum)
-      setMessage('Minimum set 1% below this quote. Review or edit it before signing; prices can change.')
-    } catch (error) { setMessage(error instanceof Error ? error.message : 'Quote lookup failed.') }
-    finally { setBusy(false) }
-  }
+  function refreshQuote() { invalidate(); quote.refresh() }
+  function useAutomaticMinimum() { setMinimumOverride(null); invalidate() }
   return {
-    amount, minimum, minutes, wallet, config, draftConfig, dialog,
-    entries, message, busy, prepared, lastResult, liveQuote,
-    changeAmount, changeMinimum, changeMinutes,
+    action, amount, minimum, minutes, wallet, config, draftConfig, dialog,
+    entries, message, busy, prepared, lastResult, pending, checkPending, quote, customMinimum,
+    changeAction, changeAmount, changeMinimum, changeMinutes,
     setDraftConfig, setDialog, setMessage, connect, disconnect, run, sign,
-    openSettings, closeDialog, saveSettings, applyDeployment, refreshQuote, setBusy, record,
+    openSettings, closeDialog, saveSettings, applyDeployment, refreshQuote, useAutomaticMinimum, setBusy, record,
   }
 }
 export type CaveatState = ReturnType<typeof useCaveat>

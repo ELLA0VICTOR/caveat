@@ -1,0 +1,7201 @@
+{
+  "network": "Stellar Testnet",
+  "rpc": "https://soroban-testnet.stellar.org",
+  "startedAt": "2026-10-06T13:47:00.556Z",
+  "status": "passed",
+  "fixtureOnly": true,
+  "accountWasmHash": "39671aeb423ecd71bfd6cda8f3b989a736390d90cd634a91d5b0c8e548cfe4f9",
+  "fixtureWasmHash": "947682a6342f92dcb2d4eb2e2110d6cf317710e191cd203eed67e6571f6e1fe7",
+  "setup": [
+    {
+      "label": "Deploy CAVIN test asset",
+      "hash": "ab0a5f2242144106eaa8c56f587d1dd0e2a7e4b796b9e7dcf0c700dcaed4db8e",
+      "status": "SUCCESS",
+      "ledger": 5054168,
+      "closedAt": "2026-10-06T13:47:07.000Z",
+      "resultCode": "txSuccess",
+      "feeChargedStroops": "247568",
+      "value": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+      "diagnostics": [
+        {
+          "successful": true,
+          "topics": [
+            "fn_call",
+            {
+              "0": 218,
+              "1": 98,
+              "2": 84,
+              "3": 170,
+              "4": 124,
+              "5": 94,
+              "6": 187,
+              "7": 27,
+              "8": 41,
+              "9": 146,
+              "10": 153,
+              "11": 134,
+              "12": 239,
+              "13": 174,
+              "14": 4,
+              "15": 86,
+              "16": 187,
+              "17": 156,
+              "18": 15,
+              "19": 198,
+              "20": 58,
+              "21": 254,
+              "22": 196,
+              "23": 19,
+              "24": 160,
+              "25": 199,
+              "26": 141,
+              "27": 5,
+              "28": 132,
+              "29": 100,
+              "30": 172,
+              "31": 1
+            },
+            "init_asset"
+          ],
+          "data": {
+            "0": 0,
+            "1": 0,
+            "2": 0,
+            "3": 2,
+            "4": 67,
+            "5": 65,
+            "6": 86,
+            "7": 73,
+            "8": 78,
+            "9": 0,
+            "10": 0,
+            "11": 0,
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0,
+            "19": 0,
+            "20": 169,
+            "21": 7,
+            "22": 56,
+            "23": 111,
+            "24": 163,
+            "25": 82,
+            "26": 211,
+            "27": 81,
+            "28": 8,
+            "29": 46,
+            "30": 171,
+            "31": 15,
+            "32": 205,
+            "33": 61,
+            "34": 111,
+            "35": 226,
+            "36": 184,
+            "37": 149,
+            "38": 85,
+            "39": 166,
+            "40": 76,
+            "41": 250,
+            "42": 247,
+            "43": 24,
+            "44": 78,
+            "45": 67,
+            "46": 3,
+            "47": 109,
+            "48": 227,
+            "49": 14,
+            "50": 54,
+            "51": 135
+          }
+        },
+        {
+          "successful": true,
+          "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+          "topics": [
+            "fn_return",
+            "init_asset"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "488"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "488"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "124070"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "37272"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "96924"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "48"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "488"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "0"
+        }
+      ]
+    },
+    {
+      "label": "Deploy CAVOUT test asset",
+      "hash": "94aabb66e548fa4532d71bbf5ecd75282f0050a77e9dd96e77b57a89173e0d96",
+      "status": "SUCCESS",
+      "ledger": 5054169,
+      "closedAt": "2026-10-06T13:47:12.000Z",
+      "resultCode": "txSuccess",
+      "feeChargedStroops": "247568",
+      "value": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+      "diagnostics": [
+        {
+          "successful": true,
+          "topics": [
+            "fn_call",
+            {
+              "0": 43,
+              "1": 192,
+              "2": 94,
+              "3": 94,
+              "4": 116,
+              "5": 119,
+              "6": 9,
+              "7": 30,
+              "8": 22,
+              "9": 107,
+              "10": 74,
+              "11": 254,
+              "12": 241,
+              "13": 177,
+              "14": 84,
+              "15": 233,
+              "16": 108,
+              "17": 160,
+              "18": 194,
+              "19": 31,
+              "20": 222,
+              "21": 204,
+              "22": 210,
+              "23": 137,
+              "24": 112,
+              "25": 192,
+              "26": 67,
+              "27": 138,
+              "28": 196,
+              "29": 114,
+              "30": 24,
+              "31": 81
+            },
+            "init_asset"
+          ],
+          "data": {
+            "0": 0,
+            "1": 0,
+            "2": 0,
+            "3": 2,
+            "4": 67,
+            "5": 65,
+            "6": 86,
+            "7": 79,
+            "8": 85,
+            "9": 84,
+            "10": 0,
+            "11": 0,
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0,
+            "19": 0,
+            "20": 169,
+            "21": 7,
+            "22": 56,
+            "23": 111,
+            "24": 163,
+            "25": 82,
+            "26": 211,
+            "27": 81,
+            "28": 8,
+            "29": 46,
+            "30": 171,
+            "31": 15,
+            "32": 205,
+            "33": 61,
+            "34": 111,
+            "35": 226,
+            "36": 184,
+            "37": 149,
+            "38": 85,
+            "39": 166,
+            "40": 76,
+            "41": 250,
+            "42": 247,
+            "43": 24,
+            "44": 78,
+            "45": 67,
+            "46": 3,
+            "47": 109,
+            "48": 227,
+            "49": 14,
+            "50": 54,
+            "51": 135
+          }
+        },
+        {
+          "successful": true,
+          "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+          "topics": [
+            "fn_return",
+            "init_asset"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "488"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "488"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "124070"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "37276"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "70011"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "48"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "488"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "0"
+        }
+      ]
+    },
+    {
+      "label": "Deploy honest fixture",
+      "hash": "0f7c6512823a9ca55888d9ea18cc932af00b6c292307c25338d3c68c3369e88f",
+      "status": "SUCCESS",
+      "ledger": 5054170,
+      "closedAt": "2026-10-06T13:47:17.000Z",
+      "resultCode": "txSuccess",
+      "feeChargedStroops": "78202",
+      "value": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+      "diagnostics": [
+        {
+          "successful": true,
+          "topics": [
+            "fn_call",
+            {
+              "0": 5,
+              "1": 9,
+              "2": 124,
+              "3": 114,
+              "4": 248,
+              "5": 92,
+              "6": 152,
+              "7": 101,
+              "8": 58,
+              "9": 180,
+              "10": 98,
+              "11": 108,
+              "12": 5,
+              "13": 203,
+              "14": 87,
+              "15": 221,
+              "16": 135,
+              "17": 49,
+              "18": 182,
+              "19": 83,
+              "20": 150,
+              "21": 156,
+              "22": 217,
+              "23": 72,
+              "24": 116,
+              "25": 101,
+              "26": 151,
+              "27": 103,
+              "28": 219,
+              "29": 147,
+              "30": 197,
+              "31": 191
+            },
+            "__constructor"
+          ],
+          "data": 0
+        },
+        {
+          "successful": true,
+          "contract": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+          "topics": [
+            "fn_return",
+            "__constructor"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "2"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "140"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "140"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "727889"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "2449952"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "253698"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "48"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "140"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "0"
+        }
+      ]
+    },
+    {
+      "label": "Deploy honest Caveat account",
+      "hash": "fa742d26a40ca2e5e1b489abce0f777e1eb049d8cebb27704091cd50d8e97166",
+      "status": "SUCCESS",
+      "ledger": 5054171,
+      "closedAt": "2026-10-06T13:47:22.000Z",
+      "resultCode": "txSuccess",
+      "feeChargedStroops": "218505",
+      "value": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+      "diagnostics": [
+        {
+          "successful": true,
+          "topics": [
+            "fn_call",
+            {
+              "0": 18,
+              "1": 209,
+              "2": 170,
+              "3": 147,
+              "4": 128,
+              "5": 67,
+              "6": 83,
+              "7": 119,
+              "8": 181,
+              "9": 37,
+              "10": 60,
+              "11": 91,
+              "12": 167,
+              "13": 114,
+              "14": 33,
+              "15": 38,
+              "16": 70,
+              "17": 252,
+              "18": 247,
+              "19": 61,
+              "20": 20,
+              "21": 193,
+              "22": 42,
+              "23": 191,
+              "24": 175,
+              "25": 161,
+              "26": 142,
+              "27": 148,
+              "28": 118,
+              "29": 90,
+              "30": 41,
+              "31": 2
+            },
+            "__constructor"
+          ],
+          "data": [
+            "GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX",
+            [
+              "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+              "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+            ],
+            [
+              "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY"
+            ]
+          ]
+        },
+        {
+          "successful": true,
+          "contract": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+          "topics": [
+            "fn_return",
+            "__constructor"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "2"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "420"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "420"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "973430"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "2499181"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "261215"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "48"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "420"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "0"
+        }
+      ]
+    },
+    {
+      "label": "Fund honest account with 10 test CAVIN",
+      "hash": "6b34b19fe0c45b12cf01ac4dd20637ece290df47bfd4c2e3695fc67a16d23c9d",
+      "status": "SUCCESS",
+      "ledger": 5054172,
+      "closedAt": "2026-10-06T13:47:27.000Z",
+      "resultCode": "txSuccess",
+      "feeChargedStroops": "482481",
+      "value": null,
+      "diagnostics": [
+        {
+          "successful": true,
+          "topics": [
+            "fn_call",
+            {
+              "0": 218,
+              "1": 98,
+              "2": 84,
+              "3": 170,
+              "4": 124,
+              "5": 94,
+              "6": 187,
+              "7": 27,
+              "8": 41,
+              "9": 146,
+              "10": 153,
+              "11": 134,
+              "12": 239,
+              "13": 174,
+              "14": 4,
+              "15": 86,
+              "16": 187,
+              "17": 156,
+              "18": 15,
+              "19": 198,
+              "20": 58,
+              "21": 254,
+              "22": 196,
+              "23": 19,
+              "24": 160,
+              "25": 199,
+              "26": 141,
+              "27": 5,
+              "28": 132,
+              "29": 100,
+              "30": 172,
+              "31": 1
+            },
+            "mint"
+          ],
+          "data": [
+            "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+            "100000000"
+          ]
+        },
+        {
+          "successful": true,
+          "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+          "topics": [
+            "mint",
+            "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+            "CAVIN:GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX"
+          ],
+          "data": "100000000"
+        },
+        {
+          "successful": true,
+          "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+          "topics": [
+            "fn_return",
+            "mint"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "3"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "200"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "196229"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "44134"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "80044"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "112"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "196"
+        }
+      ]
+    },
+    {
+      "label": "Fund honest fixture with 100 test CAVOUT",
+      "hash": "21858427ffe8bb82330f2a357862ebe7d8a8b5f7bc37554f100ec1749efc3ed9",
+      "status": "SUCCESS",
+      "ledger": 5054173,
+      "closedAt": "2026-10-06T13:47:32.000Z",
+      "resultCode": "txSuccess",
+      "feeChargedStroops": "482481",
+      "value": null,
+      "diagnostics": [
+        {
+          "successful": true,
+          "topics": [
+            "fn_call",
+            {
+              "0": 43,
+              "1": 192,
+              "2": 94,
+              "3": 94,
+              "4": 116,
+              "5": 119,
+              "6": 9,
+              "7": 30,
+              "8": 22,
+              "9": 107,
+              "10": 74,
+              "11": 254,
+              "12": 241,
+              "13": 177,
+              "14": 84,
+              "15": 233,
+              "16": 108,
+              "17": 160,
+              "18": 194,
+              "19": 31,
+              "20": 222,
+              "21": 204,
+              "22": 210,
+              "23": 137,
+              "24": 112,
+              "25": 192,
+              "26": 67,
+              "27": 138,
+              "28": 196,
+              "29": 114,
+              "30": 24,
+              "31": 81
+            },
+            "mint"
+          ],
+          "data": [
+            "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+            "1000000000"
+          ]
+        },
+        {
+          "successful": true,
+          "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+          "topics": [
+            "mint",
+            "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+            "CAVOUT:GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX"
+          ],
+          "data": "1000000000"
+        },
+        {
+          "successful": true,
+          "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+          "topics": [
+            "fn_return",
+            "mint"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "3"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "200"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "196229"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "44141"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "100779"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "112"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "196"
+        }
+      ]
+    },
+    {
+      "label": "Honest guarded fixture swap",
+      "hash": "858d794cde20f712dce7b7b2fc86128031f06be94948b91617ddced558e2d074",
+      "status": "SUCCESS",
+      "ledger": 5054174,
+      "closedAt": "2026-10-06T13:47:37.000Z",
+      "resultCode": "txSuccess",
+      "feeChargedStroops": "976744",
+      "value": {
+        "received": "20000000",
+        "spent": "10000000"
+      },
+      "diagnostics": [
+        {
+          "successful": true,
+          "topics": [
+            "fn_call",
+            {
+              "0": 18,
+              "1": 209,
+              "2": 170,
+              "3": 147,
+              "4": 128,
+              "5": 67,
+              "6": 83,
+              "7": 119,
+              "8": 181,
+              "9": 37,
+              "10": 60,
+              "11": 91,
+              "12": 167,
+              "13": 114,
+              "14": 33,
+              "15": 38,
+              "16": 70,
+              "17": 252,
+              "18": 247,
+              "19": 61,
+              "20": 20,
+              "21": 193,
+              "22": 42,
+              "23": 191,
+              "24": 175,
+              "25": 161,
+              "26": 142,
+              "27": 148,
+              "28": 118,
+              "29": 90,
+              "30": 41,
+              "31": 2
+            },
+            "execute"
+          ],
+          "data": {
+            "amount_in": "10000000",
+            "deny_approvals": true,
+            "expires_at": "1791295054",
+            "max_spend": "10000000",
+            "min_receive": "19000000",
+            "nonce": "0",
+            "pair": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+            "router": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+            "token_in": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+            "token_out": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+          }
+        },
+        {
+          "successful": true,
+          "contract": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+          "topics": [
+            "fn_call",
+            {
+              "0": 218,
+              "1": 98,
+              "2": 84,
+              "3": 170,
+              "4": 124,
+              "5": 94,
+              "6": 187,
+              "7": 27,
+              "8": 41,
+              "9": 146,
+              "10": 153,
+              "11": 134,
+              "12": 239,
+              "13": 174,
+              "14": 4,
+              "15": 86,
+              "16": 187,
+              "17": 156,
+              "18": 15,
+              "19": 198,
+              "20": 58,
+              "21": 254,
+              "22": 196,
+              "23": 19,
+              "24": 160,
+              "25": 199,
+              "26": 141,
+              "27": 5,
+              "28": 132,
+              "29": 100,
+              "30": 172,
+              "31": 1
+            },
+            "balance"
+          ],
+          "data": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY"
+        },
+        {
+          "successful": true,
+          "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+          "topics": [
+            "fn_return",
+            "balance"
+          ],
+          "data": "100000000"
+        },
+        {
+          "successful": true,
+          "contract": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+          "topics": [
+            "fn_call",
+            {
+              "0": 43,
+              "1": 192,
+              "2": 94,
+              "3": 94,
+              "4": 116,
+              "5": 119,
+              "6": 9,
+              "7": 30,
+              "8": 22,
+              "9": 107,
+              "10": 74,
+              "11": 254,
+              "12": 241,
+              "13": 177,
+              "14": 84,
+              "15": 233,
+              "16": 108,
+              "17": 160,
+              "18": 194,
+              "19": 31,
+              "20": 222,
+              "21": 204,
+              "22": 210,
+              "23": 137,
+              "24": 112,
+              "25": 192,
+              "26": 67,
+              "27": 138,
+              "28": 196,
+              "29": 114,
+              "30": 24,
+              "31": 81
+            },
+            "balance"
+          ],
+          "data": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY"
+        },
+        {
+          "successful": true,
+          "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+          "topics": [
+            "fn_return",
+            "balance"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "contract": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+          "topics": [
+            "fn_call",
+            {
+              "0": 5,
+              "1": 9,
+              "2": 124,
+              "3": 114,
+              "4": 248,
+              "5": 92,
+              "6": 152,
+              "7": 101,
+              "8": 58,
+              "9": 180,
+              "10": 98,
+              "11": 108,
+              "12": 5,
+              "13": 203,
+              "14": 87,
+              "15": 221,
+              "16": 135,
+              "17": 49,
+              "18": 182,
+              "19": 83,
+              "20": 150,
+              "21": 156,
+              "22": 217,
+              "23": 72,
+              "24": 116,
+              "25": 101,
+              "26": 151,
+              "27": 103,
+              "28": 219,
+              "29": 147,
+              "30": 197,
+              "31": 191
+            },
+            "router_pair_for"
+          ],
+          "data": [
+            "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+            "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+          ]
+        },
+        {
+          "successful": true,
+          "contract": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+          "topics": [
+            "fn_return",
+            "router_pair_for"
+          ],
+          "data": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY"
+        },
+        {
+          "successful": true,
+          "contract": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+          "topics": [
+            "fn_call",
+            {
+              "0": 5,
+              "1": 9,
+              "2": 124,
+              "3": 114,
+              "4": 248,
+              "5": 92,
+              "6": 152,
+              "7": 101,
+              "8": 58,
+              "9": 180,
+              "10": 98,
+              "11": 108,
+              "12": 5,
+              "13": 203,
+              "14": 87,
+              "15": 221,
+              "16": 135,
+              "17": 49,
+              "18": 182,
+              "19": 83,
+              "20": 150,
+              "21": 156,
+              "22": 217,
+              "23": 72,
+              "24": 116,
+              "25": 101,
+              "26": 151,
+              "27": 103,
+              "28": 219,
+              "29": 147,
+              "30": 197,
+              "31": 191
+            },
+            "swap_exact_tokens_for_tokens"
+          ],
+          "data": [
+            "10000000",
+            "0",
+            [
+              "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+              "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+            ],
+            "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+            "1791295054"
+          ]
+        },
+        {
+          "successful": true,
+          "contract": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+          "topics": [
+            "fn_call",
+            {
+              "0": 218,
+              "1": 98,
+              "2": 84,
+              "3": 170,
+              "4": 124,
+              "5": 94,
+              "6": 187,
+              "7": 27,
+              "8": 41,
+              "9": 146,
+              "10": 153,
+              "11": 134,
+              "12": 239,
+              "13": 174,
+              "14": 4,
+              "15": 86,
+              "16": 187,
+              "17": 156,
+              "18": 15,
+              "19": 198,
+              "20": 58,
+              "21": 254,
+              "22": 196,
+              "23": 19,
+              "24": 160,
+              "25": 199,
+              "26": 141,
+              "27": 5,
+              "28": 132,
+              "29": 100,
+              "30": 172,
+              "31": 1
+            },
+            "transfer"
+          ],
+          "data": [
+            "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+            "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+            "10000000"
+          ]
+        },
+        {
+          "successful": true,
+          "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+          "topics": [
+            "transfer",
+            "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+            "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+            "CAVIN:GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX"
+          ],
+          "data": "10000000"
+        },
+        {
+          "successful": true,
+          "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+          "topics": [
+            "fn_return",
+            "transfer"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "contract": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+          "topics": [
+            "fn_call",
+            {
+              "0": 43,
+              "1": 192,
+              "2": 94,
+              "3": 94,
+              "4": 116,
+              "5": 119,
+              "6": 9,
+              "7": 30,
+              "8": 22,
+              "9": 107,
+              "10": 74,
+              "11": 254,
+              "12": 241,
+              "13": 177,
+              "14": 84,
+              "15": 233,
+              "16": 108,
+              "17": 160,
+              "18": 194,
+              "19": 31,
+              "20": 222,
+              "21": 204,
+              "22": 210,
+              "23": 137,
+              "24": 112,
+              "25": 192,
+              "26": 67,
+              "27": 138,
+              "28": 196,
+              "29": 114,
+              "30": 24,
+              "31": 81
+            },
+            "transfer"
+          ],
+          "data": [
+            "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+            "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+            "20000000"
+          ]
+        },
+        {
+          "successful": true,
+          "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+          "topics": [
+            "transfer",
+            "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+            "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+            "CAVOUT:GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX"
+          ],
+          "data": "20000000"
+        },
+        {
+          "successful": true,
+          "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+          "topics": [
+            "fn_return",
+            "transfer"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "contract": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+          "topics": [
+            "fixture",
+            0
+          ],
+          "data": "20000000"
+        },
+        {
+          "successful": true,
+          "contract": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+          "topics": [
+            "fn_return",
+            "swap_exact_tokens_for_tokens"
+          ],
+          "data": [
+            "10000000",
+            "20000000"
+          ]
+        },
+        {
+          "successful": true,
+          "contract": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+          "topics": [
+            "fn_call",
+            {
+              "0": 218,
+              "1": 98,
+              "2": 84,
+              "3": 170,
+              "4": 124,
+              "5": 94,
+              "6": 187,
+              "7": 27,
+              "8": 41,
+              "9": 146,
+              "10": 153,
+              "11": 134,
+              "12": 239,
+              "13": 174,
+              "14": 4,
+              "15": 86,
+              "16": 187,
+              "17": 156,
+              "18": 15,
+              "19": 198,
+              "20": 58,
+              "21": 254,
+              "22": 196,
+              "23": 19,
+              "24": 160,
+              "25": 199,
+              "26": 141,
+              "27": 5,
+              "28": 132,
+              "29": 100,
+              "30": 172,
+              "31": 1
+            },
+            "balance"
+          ],
+          "data": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY"
+        },
+        {
+          "successful": true,
+          "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+          "topics": [
+            "fn_return",
+            "balance"
+          ],
+          "data": "90000000"
+        },
+        {
+          "successful": true,
+          "contract": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+          "topics": [
+            "fn_call",
+            {
+              "0": 43,
+              "1": 192,
+              "2": 94,
+              "3": 94,
+              "4": 116,
+              "5": 119,
+              "6": 9,
+              "7": 30,
+              "8": 22,
+              "9": 107,
+              "10": 74,
+              "11": 254,
+              "12": 241,
+              "13": 177,
+              "14": 84,
+              "15": 233,
+              "16": 108,
+              "17": 160,
+              "18": 194,
+              "19": 31,
+              "20": 222,
+              "21": 204,
+              "22": 210,
+              "23": 137,
+              "24": 112,
+              "25": 192,
+              "26": 67,
+              "27": 138,
+              "28": 196,
+              "29": 114,
+              "30": 24,
+              "31": 81
+            },
+            "balance"
+          ],
+          "data": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY"
+        },
+        {
+          "successful": true,
+          "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+          "topics": [
+            "fn_return",
+            "balance"
+          ],
+          "data": "20000000"
+        },
+        {
+          "successful": true,
+          "contract": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+          "topics": [
+            "executed",
+            "0"
+          ],
+          "data": {
+            "received": "20000000",
+            "spent": "10000000"
+          }
+        },
+        {
+          "successful": true,
+          "contract": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+          "topics": [
+            "fn_return",
+            "execute"
+          ],
+          "data": {
+            "received": "20000000",
+            "spent": "10000000"
+          }
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "11"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "5"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "1316"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "1316"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "4"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "824"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "2256474"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "2685061"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "664885"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "112"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "420"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "240"
+        }
+      ]
+    },
+    {
+      "label": "Deploy lying-underpayment fixture",
+      "hash": "4f2bbfa4dc2baaa47494c4f5256912b8aa650005f792157268406ed964a366d3",
+      "status": "SUCCESS",
+      "ledger": 5054175,
+      "closedAt": "2026-10-06T13:47:42.000Z",
+      "resultCode": "txSuccess",
+      "feeChargedStroops": "78202",
+      "value": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+      "diagnostics": [
+        {
+          "successful": true,
+          "topics": [
+            "fn_call",
+            {
+              "0": 112,
+              "1": 19,
+              "2": 186,
+              "3": 156,
+              "4": 222,
+              "5": 204,
+              "6": 90,
+              "7": 167,
+              "8": 120,
+              "9": 203,
+              "10": 87,
+              "11": 141,
+              "12": 41,
+              "13": 55,
+              "14": 155,
+              "15": 89,
+              "16": 59,
+              "17": 158,
+              "18": 131,
+              "19": 128,
+              "20": 127,
+              "21": 140,
+              "22": 123,
+              "23": 129,
+              "24": 94,
+              "25": 185,
+              "26": 134,
+              "27": 64,
+              "28": 99,
+              "29": 78,
+              "30": 46,
+              "31": 57
+            },
+            "__constructor"
+          ],
+          "data": 1
+        },
+        {
+          "successful": true,
+          "contract": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+          "topics": [
+            "fn_return",
+            "__constructor"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "2"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "140"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "140"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "727889"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "2449952"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "275874"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "48"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "140"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "0"
+        }
+      ]
+    },
+    {
+      "label": "Deploy lying-underpayment Caveat account",
+      "hash": "7278c2d16a1d228b8ef02b45ada0457b4e9431d1247e720670628150cd3b40d2",
+      "status": "SUCCESS",
+      "ledger": 5054176,
+      "closedAt": "2026-10-06T13:47:47.000Z",
+      "resultCode": "txSuccess",
+      "feeChargedStroops": "218505",
+      "value": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+      "diagnostics": [
+        {
+          "successful": true,
+          "topics": [
+            "fn_call",
+            {
+              "0": 230,
+              "1": 20,
+              "2": 185,
+              "3": 49,
+              "4": 63,
+              "5": 53,
+              "6": 246,
+              "7": 118,
+              "8": 48,
+              "9": 55,
+              "10": 228,
+              "11": 160,
+              "12": 132,
+              "13": 92,
+              "14": 151,
+              "15": 241,
+              "16": 127,
+              "17": 182,
+              "18": 220,
+              "19": 14,
+              "20": 243,
+              "21": 79,
+              "22": 26,
+              "23": 76,
+              "24": 171,
+              "25": 98,
+              "26": 227,
+              "27": 38,
+              "28": 2,
+              "29": 184,
+              "30": 71,
+              "31": 115
+            },
+            "__constructor"
+          ],
+          "data": [
+            "GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX",
+            [
+              "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+              "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+            ],
+            [
+              "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU"
+            ]
+          ]
+        },
+        {
+          "successful": true,
+          "contract": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+          "topics": [
+            "fn_return",
+            "__constructor"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "2"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "420"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "420"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "973430"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "2499181"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "295236"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "48"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "420"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "0"
+        }
+      ]
+    },
+    {
+      "label": "Fund lying-underpayment account with 10 test CAVIN",
+      "hash": "d8ae6c4199f2779f67deca0b0190f73f6c9a27cae819019790838b112d74bd9e",
+      "status": "SUCCESS",
+      "ledger": 5054177,
+      "closedAt": "2026-10-06T13:47:52.000Z",
+      "resultCode": "txSuccess",
+      "feeChargedStroops": "482481",
+      "value": null,
+      "diagnostics": [
+        {
+          "successful": true,
+          "topics": [
+            "fn_call",
+            {
+              "0": 218,
+              "1": 98,
+              "2": 84,
+              "3": 170,
+              "4": 124,
+              "5": 94,
+              "6": 187,
+              "7": 27,
+              "8": 41,
+              "9": 146,
+              "10": 153,
+              "11": 134,
+              "12": 239,
+              "13": 174,
+              "14": 4,
+              "15": 86,
+              "16": 187,
+              "17": 156,
+              "18": 15,
+              "19": 198,
+              "20": 58,
+              "21": 254,
+              "22": 196,
+              "23": 19,
+              "24": 160,
+              "25": 199,
+              "26": 141,
+              "27": 5,
+              "28": 132,
+              "29": 100,
+              "30": 172,
+              "31": 1
+            },
+            "mint"
+          ],
+          "data": [
+            "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+            "100000000"
+          ]
+        },
+        {
+          "successful": true,
+          "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+          "topics": [
+            "mint",
+            "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+            "CAVIN:GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX"
+          ],
+          "data": "100000000"
+        },
+        {
+          "successful": true,
+          "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+          "topics": [
+            "fn_return",
+            "mint"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "3"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "200"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "196229"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "44134"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "79669"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "112"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "196"
+        }
+      ]
+    },
+    {
+      "label": "Fund lying-underpayment fixture with 100 test CAVOUT",
+      "hash": "1cc36c2fb20882bb126de05517076c4ffbc58896ba1962af4b08f0f5d6f58d27",
+      "status": "SUCCESS",
+      "ledger": 5054178,
+      "closedAt": "2026-10-06T13:47:57.000Z",
+      "resultCode": "txSuccess",
+      "feeChargedStroops": "482481",
+      "value": null,
+      "diagnostics": [
+        {
+          "successful": true,
+          "topics": [
+            "fn_call",
+            {
+              "0": 43,
+              "1": 192,
+              "2": 94,
+              "3": 94,
+              "4": 116,
+              "5": 119,
+              "6": 9,
+              "7": 30,
+              "8": 22,
+              "9": 107,
+              "10": 74,
+              "11": 254,
+              "12": 241,
+              "13": 177,
+              "14": 84,
+              "15": 233,
+              "16": 108,
+              "17": 160,
+              "18": 194,
+              "19": 31,
+              "20": 222,
+              "21": 204,
+              "22": 210,
+              "23": 137,
+              "24": 112,
+              "25": 192,
+              "26": 67,
+              "27": 138,
+              "28": 196,
+              "29": 114,
+              "30": 24,
+              "31": 81
+            },
+            "mint"
+          ],
+          "data": [
+            "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+            "1000000000"
+          ]
+        },
+        {
+          "successful": true,
+          "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+          "topics": [
+            "mint",
+            "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+            "CAVOUT:GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX"
+          ],
+          "data": "1000000000"
+        },
+        {
+          "successful": true,
+          "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+          "topics": [
+            "fn_return",
+            "mint"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "3"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "200"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "196229"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "44141"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "92446"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "112"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "196"
+        }
+      ]
+    },
+    {
+      "label": "Lying underpayment — deliberate ledger rejection",
+      "hash": "bf4c2c8f317ffe170776347dd6875b0b81c2a1b231c080854f266e1ab54814e9",
+      "status": "FAILED",
+      "ledger": 5054179,
+      "closedAt": "2026-10-06T13:48:02.000Z",
+      "resultCode": "txFailed",
+      "feeChargedStroops": "26848",
+      "diagnostics": [
+        {
+          "successful": false,
+          "topics": [
+            "fn_call",
+            {
+              "0": 230,
+              "1": 20,
+              "2": 185,
+              "3": 49,
+              "4": 63,
+              "5": 53,
+              "6": 246,
+              "7": 118,
+              "8": 48,
+              "9": 55,
+              "10": 228,
+              "11": 160,
+              "12": 132,
+              "13": 92,
+              "14": 151,
+              "15": 241,
+              "16": 127,
+              "17": 182,
+              "18": 220,
+              "19": 14,
+              "20": 243,
+              "21": 79,
+              "22": 26,
+              "23": 76,
+              "24": 171,
+              "25": 98,
+              "26": 227,
+              "27": 38,
+              "28": 2,
+              "29": 184,
+              "30": 71,
+              "31": 115
+            },
+            "execute"
+          ],
+          "data": {
+            "amount_in": "10000000",
+            "deny_approvals": true,
+            "expires_at": "1791295080",
+            "max_spend": "10000000",
+            "min_receive": "19000000",
+            "nonce": "0",
+            "pair": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+            "router": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+            "token_in": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+            "token_out": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+          }
+        },
+        {
+          "successful": false,
+          "contract": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+          "topics": [
+            "fn_call",
+            {
+              "0": 218,
+              "1": 98,
+              "2": 84,
+              "3": 170,
+              "4": 124,
+              "5": 94,
+              "6": 187,
+              "7": 27,
+              "8": 41,
+              "9": 146,
+              "10": 153,
+              "11": 134,
+              "12": 239,
+              "13": 174,
+              "14": 4,
+              "15": 86,
+              "16": 187,
+              "17": 156,
+              "18": 15,
+              "19": 198,
+              "20": 58,
+              "21": 254,
+              "22": 196,
+              "23": 19,
+              "24": 160,
+              "25": 199,
+              "26": 141,
+              "27": 5,
+              "28": 132,
+              "29": 100,
+              "30": 172,
+              "31": 1
+            },
+            "balance"
+          ],
+          "data": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7"
+        },
+        {
+          "successful": false,
+          "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+          "topics": [
+            "fn_return",
+            "balance"
+          ],
+          "data": "100000000"
+        },
+        {
+          "successful": false,
+          "contract": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+          "topics": [
+            "fn_call",
+            {
+              "0": 43,
+              "1": 192,
+              "2": 94,
+              "3": 94,
+              "4": 116,
+              "5": 119,
+              "6": 9,
+              "7": 30,
+              "8": 22,
+              "9": 107,
+              "10": 74,
+              "11": 254,
+              "12": 241,
+              "13": 177,
+              "14": 84,
+              "15": 233,
+              "16": 108,
+              "17": 160,
+              "18": 194,
+              "19": 31,
+              "20": 222,
+              "21": 204,
+              "22": 210,
+              "23": 137,
+              "24": 112,
+              "25": 192,
+              "26": 67,
+              "27": 138,
+              "28": 196,
+              "29": 114,
+              "30": 24,
+              "31": 81
+            },
+            "balance"
+          ],
+          "data": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7"
+        },
+        {
+          "successful": false,
+          "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+          "topics": [
+            "fn_return",
+            "balance"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": false,
+          "contract": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+          "topics": [
+            "fn_call",
+            {
+              "0": 112,
+              "1": 19,
+              "2": 186,
+              "3": 156,
+              "4": 222,
+              "5": 204,
+              "6": 90,
+              "7": 167,
+              "8": 120,
+              "9": 203,
+              "10": 87,
+              "11": 141,
+              "12": 41,
+              "13": 55,
+              "14": 155,
+              "15": 89,
+              "16": 59,
+              "17": 158,
+              "18": 131,
+              "19": 128,
+              "20": 127,
+              "21": 140,
+              "22": 123,
+              "23": 129,
+              "24": 94,
+              "25": 185,
+              "26": 134,
+              "27": 64,
+              "28": 99,
+              "29": 78,
+              "30": 46,
+              "31": 57
+            },
+            "router_pair_for"
+          ],
+          "data": [
+            "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+            "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+          ]
+        },
+        {
+          "successful": false,
+          "contract": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+          "topics": [
+            "fn_return",
+            "router_pair_for"
+          ],
+          "data": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU"
+        },
+        {
+          "successful": false,
+          "contract": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+          "topics": [
+            "fn_call",
+            {
+              "0": 112,
+              "1": 19,
+              "2": 186,
+              "3": 156,
+              "4": 222,
+              "5": 204,
+              "6": 90,
+              "7": 167,
+              "8": 120,
+              "9": 203,
+              "10": 87,
+              "11": 141,
+              "12": 41,
+              "13": 55,
+              "14": 155,
+              "15": 89,
+              "16": 59,
+              "17": 158,
+              "18": 131,
+              "19": 128,
+              "20": 127,
+              "21": 140,
+              "22": 123,
+              "23": 129,
+              "24": 94,
+              "25": 185,
+              "26": 134,
+              "27": 64,
+              "28": 99,
+              "29": 78,
+              "30": 46,
+              "31": 57
+            },
+            "swap_exact_tokens_for_tokens"
+          ],
+          "data": [
+            "10000000",
+            "0",
+            [
+              "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+              "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+            ],
+            "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+            "1791295080"
+          ]
+        },
+        {
+          "successful": false,
+          "contract": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+          "topics": [
+            "fn_call",
+            {
+              "0": 218,
+              "1": 98,
+              "2": 84,
+              "3": 170,
+              "4": 124,
+              "5": 94,
+              "6": 187,
+              "7": 27,
+              "8": 41,
+              "9": 146,
+              "10": 153,
+              "11": 134,
+              "12": 239,
+              "13": 174,
+              "14": 4,
+              "15": 86,
+              "16": 187,
+              "17": 156,
+              "18": 15,
+              "19": 198,
+              "20": 58,
+              "21": 254,
+              "22": 196,
+              "23": 19,
+              "24": 160,
+              "25": 199,
+              "26": 141,
+              "27": 5,
+              "28": 132,
+              "29": 100,
+              "30": 172,
+              "31": 1
+            },
+            "transfer"
+          ],
+          "data": [
+            "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+            "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+            "10000000"
+          ]
+        },
+        {
+          "successful": false,
+          "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+          "topics": [
+            "transfer",
+            "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+            "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+            "CAVIN:GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX"
+          ],
+          "data": "10000000"
+        },
+        {
+          "successful": false,
+          "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+          "topics": [
+            "fn_return",
+            "transfer"
+          ],
+          "data": null
+        },
+        {
+          "successful": false,
+          "contract": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+          "topics": [
+            "fn_call",
+            {
+              "0": 43,
+              "1": 192,
+              "2": 94,
+              "3": 94,
+              "4": 116,
+              "5": 119,
+              "6": 9,
+              "7": 30,
+              "8": 22,
+              "9": 107,
+              "10": 74,
+              "11": 254,
+              "12": 241,
+              "13": 177,
+              "14": 84,
+              "15": 233,
+              "16": 108,
+              "17": 160,
+              "18": 194,
+              "19": 31,
+              "20": 222,
+              "21": 204,
+              "22": 210,
+              "23": 137,
+              "24": 112,
+              "25": 192,
+              "26": 67,
+              "27": 138,
+              "28": 196,
+              "29": 114,
+              "30": 24,
+              "31": 81
+            },
+            "transfer"
+          ],
+          "data": [
+            "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+            "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+            "5000000"
+          ]
+        },
+        {
+          "successful": false,
+          "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+          "topics": [
+            "transfer",
+            "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+            "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+            "CAVOUT:GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX"
+          ],
+          "data": "5000000"
+        },
+        {
+          "successful": false,
+          "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+          "topics": [
+            "fn_return",
+            "transfer"
+          ],
+          "data": null
+        },
+        {
+          "successful": false,
+          "contract": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+          "topics": [
+            "fixture",
+            1
+          ],
+          "data": "5000000"
+        },
+        {
+          "successful": false,
+          "contract": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+          "topics": [
+            "fn_return",
+            "swap_exact_tokens_for_tokens"
+          ],
+          "data": [
+            "10000000",
+            "20000000"
+          ]
+        },
+        {
+          "successful": false,
+          "contract": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+          "topics": [
+            "fn_call",
+            {
+              "0": 218,
+              "1": 98,
+              "2": 84,
+              "3": 170,
+              "4": 124,
+              "5": 94,
+              "6": 187,
+              "7": 27,
+              "8": 41,
+              "9": 146,
+              "10": 153,
+              "11": 134,
+              "12": 239,
+              "13": 174,
+              "14": 4,
+              "15": 86,
+              "16": 187,
+              "17": 156,
+              "18": 15,
+              "19": 198,
+              "20": 58,
+              "21": 254,
+              "22": 196,
+              "23": 19,
+              "24": 160,
+              "25": 199,
+              "26": 141,
+              "27": 5,
+              "28": 132,
+              "29": 100,
+              "30": 172,
+              "31": 1
+            },
+            "balance"
+          ],
+          "data": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7"
+        },
+        {
+          "successful": false,
+          "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+          "topics": [
+            "fn_return",
+            "balance"
+          ],
+          "data": "90000000"
+        },
+        {
+          "successful": false,
+          "contract": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+          "topics": [
+            "fn_call",
+            {
+              "0": 43,
+              "1": 192,
+              "2": 94,
+              "3": 94,
+              "4": 116,
+              "5": 119,
+              "6": 9,
+              "7": 30,
+              "8": 22,
+              "9": 107,
+              "10": 74,
+              "11": 254,
+              "12": 241,
+              "13": 177,
+              "14": 84,
+              "15": 233,
+              "16": 108,
+              "17": 160,
+              "18": 194,
+              "19": 31,
+              "20": 222,
+              "21": 204,
+              "22": 210,
+              "23": 137,
+              "24": 112,
+              "25": 192,
+              "26": 67,
+              "27": 138,
+              "28": 196,
+              "29": 114,
+              "30": 24,
+              "31": 81
+            },
+            "balance"
+          ],
+          "data": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7"
+        },
+        {
+          "successful": false,
+          "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+          "topics": [
+            "fn_return",
+            "balance"
+          ],
+          "data": "5000000"
+        },
+        {
+          "successful": false,
+          "contract": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+          "topics": [
+            "error",
+            {
+              "type": "contract",
+              "code": 8
+            }
+          ],
+          "data": [
+            "failing with contract error",
+            8
+          ]
+        },
+        {
+          "successful": false,
+          "contract": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+          "topics": [
+            "error",
+            {
+              "type": "contract",
+              "code": 8
+            }
+          ],
+          "data": "escalating error to VM trap from failed host function call: fail_with_error"
+        },
+        {
+          "successful": false,
+          "contract": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+          "topics": [
+            "log"
+          ],
+          "data": [
+            "VM call trapped with HostError",
+            "execute",
+            {
+              "type": "contract",
+              "code": 8
+            }
+          ]
+        },
+        {
+          "successful": false,
+          "topics": [
+            "host_fn_failed",
+            {
+              "type": "contract",
+              "code": 8
+            }
+          ],
+          "data": null
+        },
+        {
+          "successful": false,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "11"
+        },
+        {
+          "successful": false,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": false,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": false,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": false,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": false,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": false,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": false,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": false,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": false,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": false,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": false,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": false,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "2025186"
+        },
+        {
+          "successful": false,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "2685061"
+        },
+        {
+          "successful": false,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "773268"
+        },
+        {
+          "successful": false,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": false,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": false,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": false,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "0"
+        }
+      ]
+    },
+    {
+      "label": "Deploy forbidden-approval fixture",
+      "hash": "ba535452c12748b4b17bfff4e70f148ed769acd9625fa287f3dc154ad4f89fd6",
+      "status": "SUCCESS",
+      "ledger": 5054180,
+      "closedAt": "2026-10-06T13:48:07.000Z",
+      "resultCode": "txSuccess",
+      "feeChargedStroops": "78202",
+      "value": "CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I",
+      "diagnostics": [
+        {
+          "successful": true,
+          "topics": [
+            "fn_call",
+            {
+              "0": 195,
+              "1": 217,
+              "2": 171,
+              "3": 120,
+              "4": 139,
+              "5": 191,
+              "6": 183,
+              "7": 190,
+              "8": 102,
+              "9": 20,
+              "10": 123,
+              "11": 60,
+              "12": 131,
+              "13": 119,
+              "14": 145,
+              "15": 69,
+              "16": 57,
+              "17": 143,
+              "18": 47,
+              "19": 61,
+              "20": 20,
+              "21": 40,
+              "22": 238,
+              "23": 220,
+              "24": 52,
+              "25": 1,
+              "26": 97,
+              "27": 215,
+              "28": 81,
+              "29": 111,
+              "30": 134,
+              "31": 174
+            },
+            "__constructor"
+          ],
+          "data": 2
+        },
+        {
+          "successful": true,
+          "contract": "CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I",
+          "topics": [
+            "fn_return",
+            "__constructor"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "2"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "140"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "140"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "727889"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "2449952"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "183772"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "48"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "140"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "0"
+        }
+      ]
+    },
+    {
+      "label": "Deploy forbidden-approval Caveat account",
+      "hash": "2a9c39931db1533a9b2619fdb63ddc92cee9b69a8f5322083829bf7e23396f06",
+      "status": "SUCCESS",
+      "ledger": 5054181,
+      "closedAt": "2026-10-06T13:48:12.000Z",
+      "resultCode": "txSuccess",
+      "feeChargedStroops": "218505",
+      "value": "CCZQF7J77GAIV3QQIO2K6DLM3TWUNJYZ4KK6FXNSOBJX4HEGVSUFGTG5",
+      "diagnostics": [
+        {
+          "successful": true,
+          "topics": [
+            "fn_call",
+            {
+              "0": 179,
+              "1": 2,
+              "2": 253,
+              "3": 63,
+              "4": 249,
+              "5": 128,
+              "6": 138,
+              "7": 238,
+              "8": 16,
+              "9": 67,
+              "10": 180,
+              "11": 175,
+              "12": 13,
+              "13": 108,
+              "14": 220,
+              "15": 237,
+              "16": 70,
+              "17": 167,
+              "18": 25,
+              "19": 226,
+              "20": 149,
+              "21": 226,
+              "22": 221,
+              "23": 178,
+              "24": 112,
+              "25": 83,
+              "26": 126,
+              "27": 28,
+              "28": 134,
+              "29": 172,
+              "30": 168,
+              "31": 83
+            },
+            "__constructor"
+          ],
+          "data": [
+            "GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX",
+            [
+              "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+              "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+            ],
+            [
+              "CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I"
+            ]
+          ]
+        },
+        {
+          "successful": true,
+          "contract": "CCZQF7J77GAIV3QQIO2K6DLM3TWUNJYZ4KK6FXNSOBJX4HEGVSUFGTG5",
+          "topics": [
+            "fn_return",
+            "__constructor"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "2"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "420"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "420"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "973430"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "2499181"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "340168"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "48"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "420"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "0"
+        }
+      ]
+    },
+    {
+      "label": "Fund forbidden-approval account with 10 test CAVIN",
+      "hash": "546378dbd5351eaf322665f052545bbcae583f5da0498948ee2a8b9303e56b20",
+      "status": "SUCCESS",
+      "ledger": 5054182,
+      "closedAt": "2026-10-06T13:48:17.000Z",
+      "resultCode": "txSuccess",
+      "feeChargedStroops": "482481",
+      "value": null,
+      "diagnostics": [
+        {
+          "successful": true,
+          "topics": [
+            "fn_call",
+            {
+              "0": 218,
+              "1": 98,
+              "2": 84,
+              "3": 170,
+              "4": 124,
+              "5": 94,
+              "6": 187,
+              "7": 27,
+              "8": 41,
+              "9": 146,
+              "10": 153,
+              "11": 134,
+              "12": 239,
+              "13": 174,
+              "14": 4,
+              "15": 86,
+              "16": 187,
+              "17": 156,
+              "18": 15,
+              "19": 198,
+              "20": 58,
+              "21": 254,
+              "22": 196,
+              "23": 19,
+              "24": 160,
+              "25": 199,
+              "26": 141,
+              "27": 5,
+              "28": 132,
+              "29": 100,
+              "30": 172,
+              "31": 1
+            },
+            "mint"
+          ],
+          "data": [
+            "CCZQF7J77GAIV3QQIO2K6DLM3TWUNJYZ4KK6FXNSOBJX4HEGVSUFGTG5",
+            "100000000"
+          ]
+        },
+        {
+          "successful": true,
+          "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+          "topics": [
+            "mint",
+            "CCZQF7J77GAIV3QQIO2K6DLM3TWUNJYZ4KK6FXNSOBJX4HEGVSUFGTG5",
+            "CAVIN:GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX"
+          ],
+          "data": "100000000"
+        },
+        {
+          "successful": true,
+          "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+          "topics": [
+            "fn_return",
+            "mint"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "3"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "200"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "196229"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "44134"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "80746"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "112"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "196"
+        }
+      ]
+    },
+    {
+      "label": "Fund forbidden-approval fixture with 100 test CAVOUT",
+      "hash": "8c2113e5ee294d66ea1c135535ef5311fceb177832694d870d48c0a954f546f5",
+      "status": "SUCCESS",
+      "ledger": 5054183,
+      "closedAt": "2026-10-06T13:48:22.000Z",
+      "resultCode": "txSuccess",
+      "feeChargedStroops": "482481",
+      "value": null,
+      "diagnostics": [
+        {
+          "successful": true,
+          "topics": [
+            "fn_call",
+            {
+              "0": 43,
+              "1": 192,
+              "2": 94,
+              "3": 94,
+              "4": 116,
+              "5": 119,
+              "6": 9,
+              "7": 30,
+              "8": 22,
+              "9": 107,
+              "10": 74,
+              "11": 254,
+              "12": 241,
+              "13": 177,
+              "14": 84,
+              "15": 233,
+              "16": 108,
+              "17": 160,
+              "18": 194,
+              "19": 31,
+              "20": 222,
+              "21": 204,
+              "22": 210,
+              "23": 137,
+              "24": 112,
+              "25": 192,
+              "26": 67,
+              "27": 138,
+              "28": 196,
+              "29": 114,
+              "30": 24,
+              "31": 81
+            },
+            "mint"
+          ],
+          "data": [
+            "CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I",
+            "1000000000"
+          ]
+        },
+        {
+          "successful": true,
+          "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+          "topics": [
+            "mint",
+            "CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I",
+            "CAVOUT:GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX"
+          ],
+          "data": "1000000000"
+        },
+        {
+          "successful": true,
+          "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+          "topics": [
+            "fn_return",
+            "mint"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "3"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "200"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "196229"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "44141"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "90251"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "112"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "196"
+        }
+      ]
+    },
+    {
+      "label": "Deploy extra-transfer fixture",
+      "hash": "911889853835471ffce1c921b9cd8d7bcc1940c5a2ea8f9a0712a9da001cbb8f",
+      "status": "SUCCESS",
+      "ledger": 5054184,
+      "closedAt": "2026-10-06T13:48:27.000Z",
+      "resultCode": "txSuccess",
+      "feeChargedStroops": "78202",
+      "value": "CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY",
+      "diagnostics": [
+        {
+          "successful": true,
+          "topics": [
+            "fn_call",
+            {
+              "0": 140,
+              "1": 190,
+              "2": 146,
+              "3": 37,
+              "4": 59,
+              "5": 173,
+              "6": 97,
+              "7": 100,
+              "8": 139,
+              "9": 42,
+              "10": 149,
+              "11": 143,
+              "12": 131,
+              "13": 239,
+              "14": 163,
+              "15": 98,
+              "16": 144,
+              "17": 224,
+              "18": 10,
+              "19": 61,
+              "20": 67,
+              "21": 130,
+              "22": 148,
+              "23": 117,
+              "24": 207,
+              "25": 187,
+              "26": 19,
+              "27": 232,
+              "28": 18,
+              "29": 89,
+              "30": 6,
+              "31": 247
+            },
+            "__constructor"
+          ],
+          "data": 3
+        },
+        {
+          "successful": true,
+          "contract": "CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY",
+          "topics": [
+            "fn_return",
+            "__constructor"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "2"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "140"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "140"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "727889"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "2449952"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "360403"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "48"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "140"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "0"
+        }
+      ]
+    },
+    {
+      "label": "Deploy extra-transfer Caveat account",
+      "hash": "06b2bb465c110785d92d7061acea7472f679c02e380ce8dbc01071dc99e27102",
+      "status": "SUCCESS",
+      "ledger": 5054185,
+      "closedAt": "2026-10-06T13:48:32.000Z",
+      "resultCode": "txSuccess",
+      "feeChargedStroops": "218505",
+      "value": "CBIAP3273T4EW4EKSPIO3ZL6UZJKOOW6SIVO2A2SV2WFY4XOZ6TSIGDF",
+      "diagnostics": [
+        {
+          "successful": true,
+          "topics": [
+            "fn_call",
+            {
+              "0": 80,
+              "1": 7,
+              "2": 239,
+              "3": 95,
+              "4": 220,
+              "5": 248,
+              "6": 75,
+              "7": 112,
+              "8": 138,
+              "9": 147,
+              "10": 208,
+              "11": 237,
+              "12": 229,
+              "13": 126,
+              "14": 166,
+              "15": 82,
+              "16": 167,
+              "17": 58,
+              "18": 222,
+              "19": 146,
+              "20": 42,
+              "21": 237,
+              "22": 3,
+              "23": 82,
+              "24": 174,
+              "25": 172,
+              "26": 92,
+              "27": 114,
+              "28": 238,
+              "29": 207,
+              "30": 167,
+              "31": 36
+            },
+            "__constructor"
+          ],
+          "data": [
+            "GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX",
+            [
+              "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+              "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+            ],
+            [
+              "CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY"
+            ]
+          ]
+        },
+        {
+          "successful": true,
+          "contract": "CBIAP3273T4EW4EKSPIO3ZL6UZJKOOW6SIVO2A2SV2WFY4XOZ6TSIGDF",
+          "topics": [
+            "fn_return",
+            "__constructor"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "2"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "420"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "420"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "973430"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "2499181"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "300094"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "48"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "420"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "0"
+        }
+      ]
+    },
+    {
+      "label": "Fund extra-transfer account with 10 test CAVIN",
+      "hash": "240abd2d3a30842edaa3de9132d57cb0120eae51682ff91972f735333b7181f0",
+      "status": "SUCCESS",
+      "ledger": 5054186,
+      "closedAt": "2026-10-06T13:48:37.000Z",
+      "resultCode": "txSuccess",
+      "feeChargedStroops": "482481",
+      "value": null,
+      "diagnostics": [
+        {
+          "successful": true,
+          "topics": [
+            "fn_call",
+            {
+              "0": 218,
+              "1": 98,
+              "2": 84,
+              "3": 170,
+              "4": 124,
+              "5": 94,
+              "6": 187,
+              "7": 27,
+              "8": 41,
+              "9": 146,
+              "10": 153,
+              "11": 134,
+              "12": 239,
+              "13": 174,
+              "14": 4,
+              "15": 86,
+              "16": 187,
+              "17": 156,
+              "18": 15,
+              "19": 198,
+              "20": 58,
+              "21": 254,
+              "22": 196,
+              "23": 19,
+              "24": 160,
+              "25": 199,
+              "26": 141,
+              "27": 5,
+              "28": 132,
+              "29": 100,
+              "30": 172,
+              "31": 1
+            },
+            "mint"
+          ],
+          "data": [
+            "CBIAP3273T4EW4EKSPIO3ZL6UZJKOOW6SIVO2A2SV2WFY4XOZ6TSIGDF",
+            "100000000"
+          ]
+        },
+        {
+          "successful": true,
+          "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+          "topics": [
+            "mint",
+            "CBIAP3273T4EW4EKSPIO3ZL6UZJKOOW6SIVO2A2SV2WFY4XOZ6TSIGDF",
+            "CAVIN:GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX"
+          ],
+          "data": "100000000"
+        },
+        {
+          "successful": true,
+          "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+          "topics": [
+            "fn_return",
+            "mint"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "3"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "200"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "196229"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "44134"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "153027"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "112"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "196"
+        }
+      ]
+    },
+    {
+      "label": "Fund extra-transfer fixture with 100 test CAVOUT",
+      "hash": "5785210806ff610f01081f9c7e0c63ccff8779a2fa35e6ba8582725d20b5839d",
+      "status": "SUCCESS",
+      "ledger": 5054187,
+      "closedAt": "2026-10-06T13:48:42.000Z",
+      "resultCode": "txSuccess",
+      "feeChargedStroops": "482481",
+      "value": null,
+      "diagnostics": [
+        {
+          "successful": true,
+          "topics": [
+            "fn_call",
+            {
+              "0": 43,
+              "1": 192,
+              "2": 94,
+              "3": 94,
+              "4": 116,
+              "5": 119,
+              "6": 9,
+              "7": 30,
+              "8": 22,
+              "9": 107,
+              "10": 74,
+              "11": 254,
+              "12": 241,
+              "13": 177,
+              "14": 84,
+              "15": 233,
+              "16": 108,
+              "17": 160,
+              "18": 194,
+              "19": 31,
+              "20": 222,
+              "21": 204,
+              "22": 210,
+              "23": 137,
+              "24": 112,
+              "25": 192,
+              "26": 67,
+              "27": 138,
+              "28": 196,
+              "29": 114,
+              "30": 24,
+              "31": 81
+            },
+            "mint"
+          ],
+          "data": [
+            "CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY",
+            "1000000000"
+          ]
+        },
+        {
+          "successful": true,
+          "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+          "topics": [
+            "mint",
+            "CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY",
+            "CAVOUT:GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX"
+          ],
+          "data": "1000000000"
+        },
+        {
+          "successful": true,
+          "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+          "topics": [
+            "fn_return",
+            "mint"
+          ],
+          "data": null
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_entry"
+          ],
+          "data": "3"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_entry"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_read_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "ledger_write_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_key_byte"
+          ],
+          "data": "40"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_key_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_data_byte"
+          ],
+          "data": "144"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_data_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "read_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "write_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event"
+          ],
+          "data": "1"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "emit_event_byte"
+          ],
+          "data": "200"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "cpu_insn"
+          ],
+          "data": "196229"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "mem_byte"
+          ],
+          "data": "44141"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "invoke_time_nsecs"
+          ],
+          "data": "160727"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_key_byte"
+          ],
+          "data": "112"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_data_byte"
+          ],
+          "data": "224"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_rw_code_byte"
+          ],
+          "data": "0"
+        },
+        {
+          "successful": true,
+          "topics": [
+            "core_metrics",
+            "max_emit_event_byte"
+          ],
+          "data": "196"
+        }
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "name": "honest",
+      "mode": 0,
+      "account": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+      "router": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+      "policy": {
+        "amount_in": "10000000",
+        "deny_approvals": true,
+        "expires_at": "1791295054",
+        "max_spend": "10000000",
+        "min_receive": "19000000",
+        "nonce": "0",
+        "pair": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+        "router": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+        "token_in": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+        "token_out": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+      },
+      "before": {
+        "accountInput": "100000000",
+        "accountOutput": "0",
+        "routerInput": "0",
+        "routerOutput": "1000000000",
+        "nonce": "0",
+        "allowance": "0"
+      },
+      "simulationLedger": 5054173,
+      "receipt": {
+        "label": "Honest guarded fixture swap",
+        "hash": "858d794cde20f712dce7b7b2fc86128031f06be94948b91617ddced558e2d074",
+        "status": "SUCCESS",
+        "ledger": 5054174,
+        "closedAt": "2026-10-06T13:47:37.000Z",
+        "resultCode": "txSuccess",
+        "feeChargedStroops": "976744",
+        "value": {
+          "received": "20000000",
+          "spent": "10000000"
+        },
+        "diagnostics": [
+          {
+            "successful": true,
+            "topics": [
+              "fn_call",
+              {
+                "0": 18,
+                "1": 209,
+                "2": 170,
+                "3": 147,
+                "4": 128,
+                "5": 67,
+                "6": 83,
+                "7": 119,
+                "8": 181,
+                "9": 37,
+                "10": 60,
+                "11": 91,
+                "12": 167,
+                "13": 114,
+                "14": 33,
+                "15": 38,
+                "16": 70,
+                "17": 252,
+                "18": 247,
+                "19": 61,
+                "20": 20,
+                "21": 193,
+                "22": 42,
+                "23": 191,
+                "24": 175,
+                "25": 161,
+                "26": 142,
+                "27": 148,
+                "28": 118,
+                "29": 90,
+                "30": 41,
+                "31": 2
+              },
+              "execute"
+            ],
+            "data": {
+              "amount_in": "10000000",
+              "deny_approvals": true,
+              "expires_at": "1791295054",
+              "max_spend": "10000000",
+              "min_receive": "19000000",
+              "nonce": "0",
+              "pair": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+              "router": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+              "token_in": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+              "token_out": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+            }
+          },
+          {
+            "successful": true,
+            "contract": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+            "topics": [
+              "fn_call",
+              {
+                "0": 218,
+                "1": 98,
+                "2": 84,
+                "3": 170,
+                "4": 124,
+                "5": 94,
+                "6": 187,
+                "7": 27,
+                "8": 41,
+                "9": 146,
+                "10": 153,
+                "11": 134,
+                "12": 239,
+                "13": 174,
+                "14": 4,
+                "15": 86,
+                "16": 187,
+                "17": 156,
+                "18": 15,
+                "19": 198,
+                "20": 58,
+                "21": 254,
+                "22": 196,
+                "23": 19,
+                "24": 160,
+                "25": 199,
+                "26": 141,
+                "27": 5,
+                "28": 132,
+                "29": 100,
+                "30": 172,
+                "31": 1
+              },
+              "balance"
+            ],
+            "data": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY"
+          },
+          {
+            "successful": true,
+            "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+            "topics": [
+              "fn_return",
+              "balance"
+            ],
+            "data": "100000000"
+          },
+          {
+            "successful": true,
+            "contract": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+            "topics": [
+              "fn_call",
+              {
+                "0": 43,
+                "1": 192,
+                "2": 94,
+                "3": 94,
+                "4": 116,
+                "5": 119,
+                "6": 9,
+                "7": 30,
+                "8": 22,
+                "9": 107,
+                "10": 74,
+                "11": 254,
+                "12": 241,
+                "13": 177,
+                "14": 84,
+                "15": 233,
+                "16": 108,
+                "17": 160,
+                "18": 194,
+                "19": 31,
+                "20": 222,
+                "21": 204,
+                "22": 210,
+                "23": 137,
+                "24": 112,
+                "25": 192,
+                "26": 67,
+                "27": 138,
+                "28": 196,
+                "29": 114,
+                "30": 24,
+                "31": 81
+              },
+              "balance"
+            ],
+            "data": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY"
+          },
+          {
+            "successful": true,
+            "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+            "topics": [
+              "fn_return",
+              "balance"
+            ],
+            "data": "0"
+          },
+          {
+            "successful": true,
+            "contract": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+            "topics": [
+              "fn_call",
+              {
+                "0": 5,
+                "1": 9,
+                "2": 124,
+                "3": 114,
+                "4": 248,
+                "5": 92,
+                "6": 152,
+                "7": 101,
+                "8": 58,
+                "9": 180,
+                "10": 98,
+                "11": 108,
+                "12": 5,
+                "13": 203,
+                "14": 87,
+                "15": 221,
+                "16": 135,
+                "17": 49,
+                "18": 182,
+                "19": 83,
+                "20": 150,
+                "21": 156,
+                "22": 217,
+                "23": 72,
+                "24": 116,
+                "25": 101,
+                "26": 151,
+                "27": 103,
+                "28": 219,
+                "29": 147,
+                "30": 197,
+                "31": 191
+              },
+              "router_pair_for"
+            ],
+            "data": [
+              "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+              "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+            ]
+          },
+          {
+            "successful": true,
+            "contract": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+            "topics": [
+              "fn_return",
+              "router_pair_for"
+            ],
+            "data": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY"
+          },
+          {
+            "successful": true,
+            "contract": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+            "topics": [
+              "fn_call",
+              {
+                "0": 5,
+                "1": 9,
+                "2": 124,
+                "3": 114,
+                "4": 248,
+                "5": 92,
+                "6": 152,
+                "7": 101,
+                "8": 58,
+                "9": 180,
+                "10": 98,
+                "11": 108,
+                "12": 5,
+                "13": 203,
+                "14": 87,
+                "15": 221,
+                "16": 135,
+                "17": 49,
+                "18": 182,
+                "19": 83,
+                "20": 150,
+                "21": 156,
+                "22": 217,
+                "23": 72,
+                "24": 116,
+                "25": 101,
+                "26": 151,
+                "27": 103,
+                "28": 219,
+                "29": 147,
+                "30": 197,
+                "31": 191
+              },
+              "swap_exact_tokens_for_tokens"
+            ],
+            "data": [
+              "10000000",
+              "0",
+              [
+                "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+                "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+              ],
+              "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+              "1791295054"
+            ]
+          },
+          {
+            "successful": true,
+            "contract": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+            "topics": [
+              "fn_call",
+              {
+                "0": 218,
+                "1": 98,
+                "2": 84,
+                "3": 170,
+                "4": 124,
+                "5": 94,
+                "6": 187,
+                "7": 27,
+                "8": 41,
+                "9": 146,
+                "10": 153,
+                "11": 134,
+                "12": 239,
+                "13": 174,
+                "14": 4,
+                "15": 86,
+                "16": 187,
+                "17": 156,
+                "18": 15,
+                "19": 198,
+                "20": 58,
+                "21": 254,
+                "22": 196,
+                "23": 19,
+                "24": 160,
+                "25": 199,
+                "26": 141,
+                "27": 5,
+                "28": 132,
+                "29": 100,
+                "30": 172,
+                "31": 1
+              },
+              "transfer"
+            ],
+            "data": [
+              "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+              "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+              "10000000"
+            ]
+          },
+          {
+            "successful": true,
+            "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+            "topics": [
+              "transfer",
+              "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+              "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+              "CAVIN:GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX"
+            ],
+            "data": "10000000"
+          },
+          {
+            "successful": true,
+            "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+            "topics": [
+              "fn_return",
+              "transfer"
+            ],
+            "data": null
+          },
+          {
+            "successful": true,
+            "contract": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+            "topics": [
+              "fn_call",
+              {
+                "0": 43,
+                "1": 192,
+                "2": 94,
+                "3": 94,
+                "4": 116,
+                "5": 119,
+                "6": 9,
+                "7": 30,
+                "8": 22,
+                "9": 107,
+                "10": 74,
+                "11": 254,
+                "12": 241,
+                "13": 177,
+                "14": 84,
+                "15": 233,
+                "16": 108,
+                "17": 160,
+                "18": 194,
+                "19": 31,
+                "20": 222,
+                "21": 204,
+                "22": 210,
+                "23": 137,
+                "24": 112,
+                "25": 192,
+                "26": 67,
+                "27": 138,
+                "28": 196,
+                "29": 114,
+                "30": 24,
+                "31": 81
+              },
+              "transfer"
+            ],
+            "data": [
+              "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+              "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+              "20000000"
+            ]
+          },
+          {
+            "successful": true,
+            "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+            "topics": [
+              "transfer",
+              "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+              "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+              "CAVOUT:GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX"
+            ],
+            "data": "20000000"
+          },
+          {
+            "successful": true,
+            "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+            "topics": [
+              "fn_return",
+              "transfer"
+            ],
+            "data": null
+          },
+          {
+            "successful": true,
+            "contract": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+            "topics": [
+              "fixture",
+              0
+            ],
+            "data": "20000000"
+          },
+          {
+            "successful": true,
+            "contract": "CACQS7DS7BOJQZJ2WRRGYBOLK7OYOMNWKOLJZWKIORSZOZ63SPC37ZWY",
+            "topics": [
+              "fn_return",
+              "swap_exact_tokens_for_tokens"
+            ],
+            "data": [
+              "10000000",
+              "20000000"
+            ]
+          },
+          {
+            "successful": true,
+            "contract": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+            "topics": [
+              "fn_call",
+              {
+                "0": 218,
+                "1": 98,
+                "2": 84,
+                "3": 170,
+                "4": 124,
+                "5": 94,
+                "6": 187,
+                "7": 27,
+                "8": 41,
+                "9": 146,
+                "10": 153,
+                "11": 134,
+                "12": 239,
+                "13": 174,
+                "14": 4,
+                "15": 86,
+                "16": 187,
+                "17": 156,
+                "18": 15,
+                "19": 198,
+                "20": 58,
+                "21": 254,
+                "22": 196,
+                "23": 19,
+                "24": 160,
+                "25": 199,
+                "26": 141,
+                "27": 5,
+                "28": 132,
+                "29": 100,
+                "30": 172,
+                "31": 1
+              },
+              "balance"
+            ],
+            "data": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY"
+          },
+          {
+            "successful": true,
+            "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+            "topics": [
+              "fn_return",
+              "balance"
+            ],
+            "data": "90000000"
+          },
+          {
+            "successful": true,
+            "contract": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+            "topics": [
+              "fn_call",
+              {
+                "0": 43,
+                "1": 192,
+                "2": 94,
+                "3": 94,
+                "4": 116,
+                "5": 119,
+                "6": 9,
+                "7": 30,
+                "8": 22,
+                "9": 107,
+                "10": 74,
+                "11": 254,
+                "12": 241,
+                "13": 177,
+                "14": 84,
+                "15": 233,
+                "16": 108,
+                "17": 160,
+                "18": 194,
+                "19": 31,
+                "20": 222,
+                "21": 204,
+                "22": 210,
+                "23": 137,
+                "24": 112,
+                "25": 192,
+                "26": 67,
+                "27": 138,
+                "28": 196,
+                "29": 114,
+                "30": 24,
+                "31": 81
+              },
+              "balance"
+            ],
+            "data": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY"
+          },
+          {
+            "successful": true,
+            "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+            "topics": [
+              "fn_return",
+              "balance"
+            ],
+            "data": "20000000"
+          },
+          {
+            "successful": true,
+            "contract": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+            "topics": [
+              "executed",
+              "0"
+            ],
+            "data": {
+              "received": "20000000",
+              "spent": "10000000"
+            }
+          },
+          {
+            "successful": true,
+            "contract": "CAJNDKUTQBBVG55VEU6FXJ3SEETEN7HXHUKMCKV7V6QY5FDWLIUQFURY",
+            "topics": [
+              "fn_return",
+              "execute"
+            ],
+            "data": {
+              "received": "20000000",
+              "spent": "10000000"
+            }
+          },
+          {
+            "successful": true,
+            "topics": [
+              "core_metrics",
+              "read_entry"
+            ],
+            "data": "11"
+          },
+          {
+            "successful": true,
+            "topics": [
+              "core_metrics",
+              "write_entry"
+            ],
+            "data": "5"
+          },
+          {
+            "successful": true,
+            "topics": [
+              "core_metrics",
+              "ledger_read_byte"
+            ],
+            "data": "144"
+          },
+          {
+            "successful": true,
+            "topics": [
+              "core_metrics",
+              "ledger_write_byte"
+            ],
+            "data": "1316"
+          },
+          {
+            "successful": true,
+            "topics": [
+              "core_metrics",
+              "read_key_byte"
+            ],
+            "data": "40"
+          },
+          {
+            "successful": true,
+            "topics": [
+              "core_metrics",
+              "write_key_byte"
+            ],
+            "data": "0"
+          },
+          {
+            "successful": true,
+            "topics": [
+              "core_metrics",
+              "read_data_byte"
+            ],
+            "data": "144"
+          },
+          {
+            "successful": true,
+            "topics": [
+              "core_metrics",
+              "write_data_byte"
+            ],
+            "data": "1316"
+          },
+          {
+            "successful": true,
+            "topics": [
+              "core_metrics",
+              "read_code_byte"
+            ],
+            "data": "0"
+          },
+          {
+            "successful": true,
+            "topics": [
+              "core_metrics",
+              "write_code_byte"
+            ],
+            "data": "0"
+          },
+          {
+            "successful": true,
+            "topics": [
+              "core_metrics",
+              "emit_event"
+            ],
+            "data": "4"
+          },
+          {
+            "successful": true,
+            "topics": [
+              "core_metrics",
+              "emit_event_byte"
+            ],
+            "data": "824"
+          },
+          {
+            "successful": true,
+            "topics": [
+              "core_metrics",
+              "cpu_insn"
+            ],
+            "data": "2256474"
+          },
+          {
+            "successful": true,
+            "topics": [
+              "core_metrics",
+              "mem_byte"
+            ],
+            "data": "2685061"
+          },
+          {
+            "successful": true,
+            "topics": [
+              "core_metrics",
+              "invoke_time_nsecs"
+            ],
+            "data": "664885"
+          },
+          {
+            "successful": true,
+            "topics": [
+              "core_metrics",
+              "max_rw_key_byte"
+            ],
+            "data": "112"
+          },
+          {
+            "successful": true,
+            "topics": [
+              "core_metrics",
+              "max_rw_data_byte"
+            ],
+            "data": "420"
+          },
+          {
+            "successful": true,
+            "topics": [
+              "core_metrics",
+              "max_rw_code_byte"
+            ],
+            "data": "0"
+          },
+          {
+            "successful": true,
+            "topics": [
+              "core_metrics",
+              "max_emit_event_byte"
+            ],
+            "data": "240"
+          }
+        ]
+      },
+      "after": {
+        "accountInput": "90000000",
+        "accountOutput": "20000000",
+        "routerInput": "10000000",
+        "routerOutput": "980000000",
+        "nonce": "1",
+        "allowance": "0"
+      },
+      "passed": true
+    },
+    {
+      "name": "lying-underpayment",
+      "mode": 1,
+      "account": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+      "router": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+      "policy": {
+        "amount_in": "10000000",
+        "deny_approvals": true,
+        "expires_at": "1791295080",
+        "max_spend": "10000000",
+        "min_receive": "19000000",
+        "nonce": "0",
+        "pair": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+        "router": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+        "token_in": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+        "token_out": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+      },
+      "before": {
+        "accountInput": "100000000",
+        "accountOutput": "0",
+        "routerInput": "0",
+        "routerOutput": "1000000000",
+        "nonce": "0",
+        "allowance": "0"
+      },
+      "simulationLedger": 5054178,
+      "simulationError": "HostError: Error(Contract, #8)\n\nEvent log (newest first):\n   0: [Diagnostic Event] contract:CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7, topics:[error, Error(Contract, #8)], data:\"escalating error to VM trap from failed host function call: fail_with_error\"\n   1: [Diagnostic Event] contract:CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7, topics:[error, Error(Contract, #8)], data:[\"failing with contract error\", 8]\n   2: [Diagnostic Event] contract:CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT, topics:[fn_return, balance], data:5000000\n   3: [Diagnostic Event] contract:CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7, topics:[fn_call, CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT, balance], data:CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7\n   4: [Diagnostic Event] contract:CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, topics:[fn_return, balance], data:90000000\n   5: [Diagnostic Event] contract:CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7, topics:[fn_call, CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, balance], data:CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7\n   6: [Diagnostic Event] contract:CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU, topics:[fn_return, swap_exact_tokens_for_tokens], data:[10000000, 20000000]\n   7: [Contract Event] contract:CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU, topics:[fixture, 1], data:5000000\n   8: [Diagnostic Event] contract:CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT, topics:[fn_return, transfer], data:Void\n   9: [Contract Event] contract:CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT, topics:[transfer, CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU, CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7, \"CAVOUT:GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX\"], data:5000000\n   10: [Diagnostic Event] contract:CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU, topics:[fn_call, CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT, transfer], data:[CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU, CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7, 5000000]\n   11: [Diagnostic Event] contract:CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, topics:[fn_return, transfer], data:Void\n   12: [Contract Event] contract:CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, topics:[transfer, CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7, CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU, \"CAVIN:GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX\"], data:10000000\n   13: [Diagnostic Event] contract:CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU, topics:[fn_call, CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, transfer], data:[CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7, CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU, 10000000]\n   14: [Diagnostic Event] contract:CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7, topics:[fn_call, CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU, swap_exact_tokens_for_tokens], data:[10000000, 0, [CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT], CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7, 1791295080]\n   15: [Diagnostic Event] contract:CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU, topics:[fn_return, router_pair_for], data:CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU\n   16: [Diagnostic Event] contract:CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7, topics:[fn_call, CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU, router_pair_for], data:[CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT]\n   17: [Diagnostic Event] contract:CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT, topics:[fn_return, balance], data:0\n   18: [Diagnostic Event] contract:CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7, topics:[fn_call, CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT, balance], data:CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7\n   19: [Diagnostic Event] contract:CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, topics:[fn_return, balance], data:100000000\n   20: [Diagnostic Event] contract:CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7, topics:[fn_call, CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, balance], data:CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7\n   21: [Diagnostic Event] topics:[fn_call, CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7, execute], data:{amount_in: 10000000, deny_approvals: true, expires_at: 1791295080, max_spend: 10000000, min_receive: 19000000, nonce: 0, pair: CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU, router: CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU, token_in: CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, token_out: CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT}\n",
+      "resourceProbe": {
+        "minReceive": "1",
+        "simulationLedger": 5054178,
+        "simulatedOutcome": {
+          "received": "5000000",
+          "spent": "10000000"
+        },
+        "submitted": false
+      },
+      "receipt": {
+        "label": "Lying underpayment — deliberate ledger rejection",
+        "hash": "bf4c2c8f317ffe170776347dd6875b0b81c2a1b231c080854f266e1ab54814e9",
+        "status": "FAILED",
+        "ledger": 5054179,
+        "closedAt": "2026-10-06T13:48:02.000Z",
+        "resultCode": "txFailed",
+        "feeChargedStroops": "26848",
+        "diagnostics": [
+          {
+            "successful": false,
+            "topics": [
+              "fn_call",
+              {
+                "0": 230,
+                "1": 20,
+                "2": 185,
+                "3": 49,
+                "4": 63,
+                "5": 53,
+                "6": 246,
+                "7": 118,
+                "8": 48,
+                "9": 55,
+                "10": 228,
+                "11": 160,
+                "12": 132,
+                "13": 92,
+                "14": 151,
+                "15": 241,
+                "16": 127,
+                "17": 182,
+                "18": 220,
+                "19": 14,
+                "20": 243,
+                "21": 79,
+                "22": 26,
+                "23": 76,
+                "24": 171,
+                "25": 98,
+                "26": 227,
+                "27": 38,
+                "28": 2,
+                "29": 184,
+                "30": 71,
+                "31": 115
+              },
+              "execute"
+            ],
+            "data": {
+              "amount_in": "10000000",
+              "deny_approvals": true,
+              "expires_at": "1791295080",
+              "max_spend": "10000000",
+              "min_receive": "19000000",
+              "nonce": "0",
+              "pair": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+              "router": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+              "token_in": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+              "token_out": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+            }
+          },
+          {
+            "successful": false,
+            "contract": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+            "topics": [
+              "fn_call",
+              {
+                "0": 218,
+                "1": 98,
+                "2": 84,
+                "3": 170,
+                "4": 124,
+                "5": 94,
+                "6": 187,
+                "7": 27,
+                "8": 41,
+                "9": 146,
+                "10": 153,
+                "11": 134,
+                "12": 239,
+                "13": 174,
+                "14": 4,
+                "15": 86,
+                "16": 187,
+                "17": 156,
+                "18": 15,
+                "19": 198,
+                "20": 58,
+                "21": 254,
+                "22": 196,
+                "23": 19,
+                "24": 160,
+                "25": 199,
+                "26": 141,
+                "27": 5,
+                "28": 132,
+                "29": 100,
+                "30": 172,
+                "31": 1
+              },
+              "balance"
+            ],
+            "data": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7"
+          },
+          {
+            "successful": false,
+            "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+            "topics": [
+              "fn_return",
+              "balance"
+            ],
+            "data": "100000000"
+          },
+          {
+            "successful": false,
+            "contract": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+            "topics": [
+              "fn_call",
+              {
+                "0": 43,
+                "1": 192,
+                "2": 94,
+                "3": 94,
+                "4": 116,
+                "5": 119,
+                "6": 9,
+                "7": 30,
+                "8": 22,
+                "9": 107,
+                "10": 74,
+                "11": 254,
+                "12": 241,
+                "13": 177,
+                "14": 84,
+                "15": 233,
+                "16": 108,
+                "17": 160,
+                "18": 194,
+                "19": 31,
+                "20": 222,
+                "21": 204,
+                "22": 210,
+                "23": 137,
+                "24": 112,
+                "25": 192,
+                "26": 67,
+                "27": 138,
+                "28": 196,
+                "29": 114,
+                "30": 24,
+                "31": 81
+              },
+              "balance"
+            ],
+            "data": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7"
+          },
+          {
+            "successful": false,
+            "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+            "topics": [
+              "fn_return",
+              "balance"
+            ],
+            "data": "0"
+          },
+          {
+            "successful": false,
+            "contract": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+            "topics": [
+              "fn_call",
+              {
+                "0": 112,
+                "1": 19,
+                "2": 186,
+                "3": 156,
+                "4": 222,
+                "5": 204,
+                "6": 90,
+                "7": 167,
+                "8": 120,
+                "9": 203,
+                "10": 87,
+                "11": 141,
+                "12": 41,
+                "13": 55,
+                "14": 155,
+                "15": 89,
+                "16": 59,
+                "17": 158,
+                "18": 131,
+                "19": 128,
+                "20": 127,
+                "21": 140,
+                "22": 123,
+                "23": 129,
+                "24": 94,
+                "25": 185,
+                "26": 134,
+                "27": 64,
+                "28": 99,
+                "29": 78,
+                "30": 46,
+                "31": 57
+              },
+              "router_pair_for"
+            ],
+            "data": [
+              "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+              "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+            ]
+          },
+          {
+            "successful": false,
+            "contract": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+            "topics": [
+              "fn_return",
+              "router_pair_for"
+            ],
+            "data": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU"
+          },
+          {
+            "successful": false,
+            "contract": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+            "topics": [
+              "fn_call",
+              {
+                "0": 112,
+                "1": 19,
+                "2": 186,
+                "3": 156,
+                "4": 222,
+                "5": 204,
+                "6": 90,
+                "7": 167,
+                "8": 120,
+                "9": 203,
+                "10": 87,
+                "11": 141,
+                "12": 41,
+                "13": 55,
+                "14": 155,
+                "15": 89,
+                "16": 59,
+                "17": 158,
+                "18": 131,
+                "19": 128,
+                "20": 127,
+                "21": 140,
+                "22": 123,
+                "23": 129,
+                "24": 94,
+                "25": 185,
+                "26": 134,
+                "27": 64,
+                "28": 99,
+                "29": 78,
+                "30": 46,
+                "31": 57
+              },
+              "swap_exact_tokens_for_tokens"
+            ],
+            "data": [
+              "10000000",
+              "0",
+              [
+                "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+                "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+              ],
+              "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+              "1791295080"
+            ]
+          },
+          {
+            "successful": false,
+            "contract": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+            "topics": [
+              "fn_call",
+              {
+                "0": 218,
+                "1": 98,
+                "2": 84,
+                "3": 170,
+                "4": 124,
+                "5": 94,
+                "6": 187,
+                "7": 27,
+                "8": 41,
+                "9": 146,
+                "10": 153,
+                "11": 134,
+                "12": 239,
+                "13": 174,
+                "14": 4,
+                "15": 86,
+                "16": 187,
+                "17": 156,
+                "18": 15,
+                "19": 198,
+                "20": 58,
+                "21": 254,
+                "22": 196,
+                "23": 19,
+                "24": 160,
+                "25": 199,
+                "26": 141,
+                "27": 5,
+                "28": 132,
+                "29": 100,
+                "30": 172,
+                "31": 1
+              },
+              "transfer"
+            ],
+            "data": [
+              "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+              "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+              "10000000"
+            ]
+          },
+          {
+            "successful": false,
+            "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+            "topics": [
+              "transfer",
+              "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+              "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+              "CAVIN:GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX"
+            ],
+            "data": "10000000"
+          },
+          {
+            "successful": false,
+            "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+            "topics": [
+              "fn_return",
+              "transfer"
+            ],
+            "data": null
+          },
+          {
+            "successful": false,
+            "contract": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+            "topics": [
+              "fn_call",
+              {
+                "0": 43,
+                "1": 192,
+                "2": 94,
+                "3": 94,
+                "4": 116,
+                "5": 119,
+                "6": 9,
+                "7": 30,
+                "8": 22,
+                "9": 107,
+                "10": 74,
+                "11": 254,
+                "12": 241,
+                "13": 177,
+                "14": 84,
+                "15": 233,
+                "16": 108,
+                "17": 160,
+                "18": 194,
+                "19": 31,
+                "20": 222,
+                "21": 204,
+                "22": 210,
+                "23": 137,
+                "24": 112,
+                "25": 192,
+                "26": 67,
+                "27": 138,
+                "28": 196,
+                "29": 114,
+                "30": 24,
+                "31": 81
+              },
+              "transfer"
+            ],
+            "data": [
+              "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+              "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+              "5000000"
+            ]
+          },
+          {
+            "successful": false,
+            "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+            "topics": [
+              "transfer",
+              "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+              "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+              "CAVOUT:GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX"
+            ],
+            "data": "5000000"
+          },
+          {
+            "successful": false,
+            "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+            "topics": [
+              "fn_return",
+              "transfer"
+            ],
+            "data": null
+          },
+          {
+            "successful": false,
+            "contract": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+            "topics": [
+              "fixture",
+              1
+            ],
+            "data": "5000000"
+          },
+          {
+            "successful": false,
+            "contract": "CBYBHOU433GFVJ3YZNLY2KJXTNMTXHUDQB7YY64BL24YMQDDJYXDT7AU",
+            "topics": [
+              "fn_return",
+              "swap_exact_tokens_for_tokens"
+            ],
+            "data": [
+              "10000000",
+              "20000000"
+            ]
+          },
+          {
+            "successful": false,
+            "contract": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+            "topics": [
+              "fn_call",
+              {
+                "0": 218,
+                "1": 98,
+                "2": 84,
+                "3": 170,
+                "4": 124,
+                "5": 94,
+                "6": 187,
+                "7": 27,
+                "8": 41,
+                "9": 146,
+                "10": 153,
+                "11": 134,
+                "12": 239,
+                "13": 174,
+                "14": 4,
+                "15": 86,
+                "16": 187,
+                "17": 156,
+                "18": 15,
+                "19": 198,
+                "20": 58,
+                "21": 254,
+                "22": 196,
+                "23": 19,
+                "24": 160,
+                "25": 199,
+                "26": 141,
+                "27": 5,
+                "28": 132,
+                "29": 100,
+                "30": 172,
+                "31": 1
+              },
+              "balance"
+            ],
+            "data": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7"
+          },
+          {
+            "successful": false,
+            "contract": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+            "topics": [
+              "fn_return",
+              "balance"
+            ],
+            "data": "90000000"
+          },
+          {
+            "successful": false,
+            "contract": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+            "topics": [
+              "fn_call",
+              {
+                "0": 43,
+                "1": 192,
+                "2": 94,
+                "3": 94,
+                "4": 116,
+                "5": 119,
+                "6": 9,
+                "7": 30,
+                "8": 22,
+                "9": 107,
+                "10": 74,
+                "11": 254,
+                "12": 241,
+                "13": 177,
+                "14": 84,
+                "15": 233,
+                "16": 108,
+                "17": 160,
+                "18": 194,
+                "19": 31,
+                "20": 222,
+                "21": 204,
+                "22": 210,
+                "23": 137,
+                "24": 112,
+                "25": 192,
+                "26": 67,
+                "27": 138,
+                "28": 196,
+                "29": 114,
+                "30": 24,
+                "31": 81
+              },
+              "balance"
+            ],
+            "data": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7"
+          },
+          {
+            "successful": false,
+            "contract": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+            "topics": [
+              "fn_return",
+              "balance"
+            ],
+            "data": "5000000"
+          },
+          {
+            "successful": false,
+            "contract": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+            "topics": [
+              "error",
+              {
+                "type": "contract",
+                "code": 8
+              }
+            ],
+            "data": [
+              "failing with contract error",
+              8
+            ]
+          },
+          {
+            "successful": false,
+            "contract": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+            "topics": [
+              "error",
+              {
+                "type": "contract",
+                "code": 8
+              }
+            ],
+            "data": "escalating error to VM trap from failed host function call: fail_with_error"
+          },
+          {
+            "successful": false,
+            "contract": "CDTBJOJRH427M5RQG7SKBBC4S7YX7NW4B3ZU6GSMVNROGJQCXBDXHQD7",
+            "topics": [
+              "log"
+            ],
+            "data": [
+              "VM call trapped with HostError",
+              "execute",
+              {
+                "type": "contract",
+                "code": 8
+              }
+            ]
+          },
+          {
+            "successful": false,
+            "topics": [
+              "host_fn_failed",
+              {
+                "type": "contract",
+                "code": 8
+              }
+            ],
+            "data": null
+          },
+          {
+            "successful": false,
+            "topics": [
+              "core_metrics",
+              "read_entry"
+            ],
+            "data": "11"
+          },
+          {
+            "successful": false,
+            "topics": [
+              "core_metrics",
+              "write_entry"
+            ],
+            "data": "0"
+          },
+          {
+            "successful": false,
+            "topics": [
+              "core_metrics",
+              "ledger_read_byte"
+            ],
+            "data": "144"
+          },
+          {
+            "successful": false,
+            "topics": [
+              "core_metrics",
+              "ledger_write_byte"
+            ],
+            "data": "0"
+          },
+          {
+            "successful": false,
+            "topics": [
+              "core_metrics",
+              "read_key_byte"
+            ],
+            "data": "40"
+          },
+          {
+            "successful": false,
+            "topics": [
+              "core_metrics",
+              "write_key_byte"
+            ],
+            "data": "0"
+          },
+          {
+            "successful": false,
+            "topics": [
+              "core_metrics",
+              "read_data_byte"
+            ],
+            "data": "144"
+          },
+          {
+            "successful": false,
+            "topics": [
+              "core_metrics",
+              "write_data_byte"
+            ],
+            "data": "0"
+          },
+          {
+            "successful": false,
+            "topics": [
+              "core_metrics",
+              "read_code_byte"
+            ],
+            "data": "0"
+          },
+          {
+            "successful": false,
+            "topics": [
+              "core_metrics",
+              "write_code_byte"
+            ],
+            "data": "0"
+          },
+          {
+            "successful": false,
+            "topics": [
+              "core_metrics",
+              "emit_event"
+            ],
+            "data": "0"
+          },
+          {
+            "successful": false,
+            "topics": [
+              "core_metrics",
+              "emit_event_byte"
+            ],
+            "data": "0"
+          },
+          {
+            "successful": false,
+            "topics": [
+              "core_metrics",
+              "cpu_insn"
+            ],
+            "data": "2025186"
+          },
+          {
+            "successful": false,
+            "topics": [
+              "core_metrics",
+              "mem_byte"
+            ],
+            "data": "2685061"
+          },
+          {
+            "successful": false,
+            "topics": [
+              "core_metrics",
+              "invoke_time_nsecs"
+            ],
+            "data": "773268"
+          },
+          {
+            "successful": false,
+            "topics": [
+              "core_metrics",
+              "max_rw_key_byte"
+            ],
+            "data": "40"
+          },
+          {
+            "successful": false,
+            "topics": [
+              "core_metrics",
+              "max_rw_data_byte"
+            ],
+            "data": "144"
+          },
+          {
+            "successful": false,
+            "topics": [
+              "core_metrics",
+              "max_rw_code_byte"
+            ],
+            "data": "0"
+          },
+          {
+            "successful": false,
+            "topics": [
+              "core_metrics",
+              "max_emit_event_byte"
+            ],
+            "data": "0"
+          }
+        ]
+      },
+      "after": {
+        "accountInput": "100000000",
+        "accountOutput": "0",
+        "routerInput": "0",
+        "routerOutput": "1000000000",
+        "nonce": "0",
+        "allowance": "0"
+      },
+      "passed": true
+    },
+    {
+      "name": "forbidden-approval",
+      "mode": 2,
+      "account": "CCZQF7J77GAIV3QQIO2K6DLM3TWUNJYZ4KK6FXNSOBJX4HEGVSUFGTG5",
+      "router": "CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I",
+      "policy": {
+        "amount_in": "10000000",
+        "deny_approvals": true,
+        "expires_at": "1791295104",
+        "max_spend": "10000000",
+        "min_receive": "19000000",
+        "nonce": "0",
+        "pair": "CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I",
+        "router": "CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I",
+        "token_in": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+        "token_out": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+      },
+      "before": {
+        "accountInput": "100000000",
+        "accountOutput": "0",
+        "routerInput": "0",
+        "routerOutput": "1000000000",
+        "nonce": "0",
+        "allowance": "0"
+      },
+      "simulationLedger": 5054183,
+      "simulationError": "HostError: Error(Auth, InvalidAction)\n\nEvent log (newest first):\n   0: [Diagnostic Event] contract:CCZQF7J77GAIV3QQIO2K6DLM3TWUNJYZ4KK6FXNSOBJX4HEGVSUFGTG5, topics:[error, Error(Auth, InvalidAction)], data:\"escalating error to VM trap from failed host function call: call\"\n   1: [Diagnostic Event] contract:CCZQF7J77GAIV3QQIO2K6DLM3TWUNJYZ4KK6FXNSOBJX4HEGVSUFGTG5, topics:[error, Error(Auth, InvalidAction)], data:[\"contract call failed\", swap_exact_tokens_for_tokens, [10000000, 0, [CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT], CCZQF7J77GAIV3QQIO2K6DLM3TWUNJYZ4KK6FXNSOBJX4HEGVSUFGTG5, 1791295104]]\n   2: [Failed Diagnostic Event (not emitted)] contract:CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I, topics:[log], data:[\"VM call trapped with HostError\", swap_exact_tokens_for_tokens, Error(Auth, InvalidAction)]\n   3: [Failed Diagnostic Event (not emitted)] contract:CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I, topics:[error, Error(Auth, InvalidAction)], data:\"escalating error to VM trap from failed host function call: call\"\n   4: [Failed Diagnostic Event (not emitted)] contract:CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I, topics:[error, Error(Auth, InvalidAction)], data:[\"contract call failed\", approve, [CCZQF7J77GAIV3QQIO2K6DLM3TWUNJYZ4KK6FXNSOBJX4HEGVSUFGTG5, CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I, 170141183460469231731687303715884105727, 5054283]]\n   5: [Failed Diagnostic Event (not emitted)] contract:CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, topics:[error, Error(Auth, InvalidAction)], data:[\"[recording authorization only] encountered unauthorized call for a contract earlier in the call stack, make sure that you have called `authorize_as_current_contract()` with the appropriate arguments for it.\", CCZQF7J77GAIV3QQIO2K6DLM3TWUNJYZ4KK6FXNSOBJX4HEGVSUFGTG5]\n   6: [Failed Diagnostic Event (not emitted)] contract:CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I, topics:[fn_call, CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, approve], data:[CCZQF7J77GAIV3QQIO2K6DLM3TWUNJYZ4KK6FXNSOBJX4HEGVSUFGTG5, CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I, 170141183460469231731687303715884105727, 5054283]\n   7: [Diagnostic Event] contract:CCZQF7J77GAIV3QQIO2K6DLM3TWUNJYZ4KK6FXNSOBJX4HEGVSUFGTG5, topics:[fn_call, CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I, swap_exact_tokens_for_tokens], data:[10000000, 0, [CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT], CCZQF7J77GAIV3QQIO2K6DLM3TWUNJYZ4KK6FXNSOBJX4HEGVSUFGTG5, 1791295104]\n   8: [Diagnostic Event] contract:CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I, topics:[fn_return, router_pair_for], data:CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I\n   9: [Diagnostic Event] contract:CCZQF7J77GAIV3QQIO2K6DLM3TWUNJYZ4KK6FXNSOBJX4HEGVSUFGTG5, topics:[fn_call, CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I, router_pair_for], data:[CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT]\n   10: [Diagnostic Event] contract:CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT, topics:[fn_return, balance], data:0\n   11: [Diagnostic Event] contract:CCZQF7J77GAIV3QQIO2K6DLM3TWUNJYZ4KK6FXNSOBJX4HEGVSUFGTG5, topics:[fn_call, CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT, balance], data:CCZQF7J77GAIV3QQIO2K6DLM3TWUNJYZ4KK6FXNSOBJX4HEGVSUFGTG5\n   12: [Diagnostic Event] contract:CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, topics:[fn_return, balance], data:100000000\n   13: [Diagnostic Event] contract:CCZQF7J77GAIV3QQIO2K6DLM3TWUNJYZ4KK6FXNSOBJX4HEGVSUFGTG5, topics:[fn_call, CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, balance], data:CCZQF7J77GAIV3QQIO2K6DLM3TWUNJYZ4KK6FXNSOBJX4HEGVSUFGTG5\n   14: [Diagnostic Event] topics:[fn_call, CCZQF7J77GAIV3QQIO2K6DLM3TWUNJYZ4KK6FXNSOBJX4HEGVSUFGTG5, execute], data:{amount_in: 10000000, deny_approvals: true, expires_at: 1791295104, max_spend: 10000000, min_receive: 19000000, nonce: 0, pair: CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I, router: CDB5TK3YRO73PPTGCR5TZA3XSFCTTDZPHUKCR3W4GQAWDV2RN6DK5K2I, token_in: CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, token_out: CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT}\n",
+      "after": {
+        "accountInput": "100000000",
+        "accountOutput": "0",
+        "routerInput": "0",
+        "routerOutput": "1000000000",
+        "nonce": "0",
+        "allowance": "0"
+      },
+      "passed": true
+    },
+    {
+      "name": "extra-transfer",
+      "mode": 3,
+      "account": "CBIAP3273T4EW4EKSPIO3ZL6UZJKOOW6SIVO2A2SV2WFY4XOZ6TSIGDF",
+      "router": "CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY",
+      "policy": {
+        "amount_in": "10000000",
+        "deny_approvals": true,
+        "expires_at": "1791295125",
+        "max_spend": "10000000",
+        "min_receive": "19000000",
+        "nonce": "0",
+        "pair": "CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY",
+        "router": "CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY",
+        "token_in": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+        "token_out": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT"
+      },
+      "before": {
+        "accountInput": "100000000",
+        "accountOutput": "0",
+        "routerInput": "0",
+        "routerOutput": "1000000000",
+        "nonce": "0",
+        "allowance": "0"
+      },
+      "simulationLedger": 5054187,
+      "simulationError": "HostError: Error(Auth, InvalidAction)\n\nEvent log (newest first):\n   0: [Diagnostic Event] contract:CBIAP3273T4EW4EKSPIO3ZL6UZJKOOW6SIVO2A2SV2WFY4XOZ6TSIGDF, topics:[error, Error(Auth, InvalidAction)], data:\"escalating error to VM trap from failed host function call: call\"\n   1: [Diagnostic Event] contract:CBIAP3273T4EW4EKSPIO3ZL6UZJKOOW6SIVO2A2SV2WFY4XOZ6TSIGDF, topics:[error, Error(Auth, InvalidAction)], data:[\"contract call failed\", swap_exact_tokens_for_tokens, [10000000, 0, [CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT], CBIAP3273T4EW4EKSPIO3ZL6UZJKOOW6SIVO2A2SV2WFY4XOZ6TSIGDF, 1791295125]]\n   2: [Failed Diagnostic Event (not emitted)] contract:CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY, topics:[log], data:[\"VM call trapped with HostError\", swap_exact_tokens_for_tokens, Error(Auth, InvalidAction)]\n   3: [Failed Diagnostic Event (not emitted)] contract:CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY, topics:[error, Error(Auth, InvalidAction)], data:\"escalating error to VM trap from failed host function call: call\"\n   4: [Failed Diagnostic Event (not emitted)] contract:CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY, topics:[error, Error(Auth, InvalidAction)], data:[\"contract call failed\", transfer, [CBIAP3273T4EW4EKSPIO3ZL6UZJKOOW6SIVO2A2SV2WFY4XOZ6TSIGDF, CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY, 10000001]]\n   5: [Failed Diagnostic Event (not emitted)] contract:CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, topics:[error, Error(Auth, InvalidAction)], data:[\"[recording authorization only] encountered unauthorized call for a contract earlier in the call stack, make sure that you have called `authorize_as_current_contract()` with the appropriate arguments for it.\", CBIAP3273T4EW4EKSPIO3ZL6UZJKOOW6SIVO2A2SV2WFY4XOZ6TSIGDF]\n   6: [Failed Diagnostic Event (not emitted)] contract:CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY, topics:[fn_call, CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, transfer], data:[CBIAP3273T4EW4EKSPIO3ZL6UZJKOOW6SIVO2A2SV2WFY4XOZ6TSIGDF, CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY, 10000001]\n   7: [Diagnostic Event] contract:CBIAP3273T4EW4EKSPIO3ZL6UZJKOOW6SIVO2A2SV2WFY4XOZ6TSIGDF, topics:[fn_call, CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY, swap_exact_tokens_for_tokens], data:[10000000, 0, [CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT], CBIAP3273T4EW4EKSPIO3ZL6UZJKOOW6SIVO2A2SV2WFY4XOZ6TSIGDF, 1791295125]\n   8: [Diagnostic Event] contract:CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY, topics:[fn_return, router_pair_for], data:CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY\n   9: [Diagnostic Event] contract:CBIAP3273T4EW4EKSPIO3ZL6UZJKOOW6SIVO2A2SV2WFY4XOZ6TSIGDF, topics:[fn_call, CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY, router_pair_for], data:[CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT]\n   10: [Diagnostic Event] contract:CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT, topics:[fn_return, balance], data:0\n   11: [Diagnostic Event] contract:CBIAP3273T4EW4EKSPIO3ZL6UZJKOOW6SIVO2A2SV2WFY4XOZ6TSIGDF, topics:[fn_call, CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT, balance], data:CBIAP3273T4EW4EKSPIO3ZL6UZJKOOW6SIVO2A2SV2WFY4XOZ6TSIGDF\n   12: [Diagnostic Event] contract:CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, topics:[fn_return, balance], data:100000000\n   13: [Diagnostic Event] contract:CBIAP3273T4EW4EKSPIO3ZL6UZJKOOW6SIVO2A2SV2WFY4XOZ6TSIGDF, topics:[fn_call, CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, balance], data:CBIAP3273T4EW4EKSPIO3ZL6UZJKOOW6SIVO2A2SV2WFY4XOZ6TSIGDF\n   14: [Diagnostic Event] topics:[fn_call, CBIAP3273T4EW4EKSPIO3ZL6UZJKOOW6SIVO2A2SV2WFY4XOZ6TSIGDF, execute], data:{amount_in: 10000000, deny_approvals: true, expires_at: 1791295125, max_spend: 10000000, min_receive: 19000000, nonce: 0, pair: CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY, router: CCGL5ERFHOWWCZELFKKY7A7PUNRJBYAKHVBYFFDVZ65RH2ASLEDPPAHY, token_in: CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW, token_out: CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT}\n",
+      "after": {
+        "accountInput": "100000000",
+        "accountOutput": "0",
+        "routerInput": "0",
+        "routerOutput": "1000000000",
+        "nonce": "0",
+        "allowance": "0"
+      },
+      "passed": true
+    }
+  ],
+  "owner": "GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX",
+  "tokens": {
+    "input": "CDNGEVFKPRPLWGZJSKMYN35OARLLXHAPYY5P5RATUDDY2BMEMSWADVOW",
+    "output": "CAV4AXS6OR3QSHQWNNFP54NRKTUWZIGCD7PMZUUJODAEHCWEOIMFD3MT",
+    "decimals": 7,
+    "inputCode": "CAVIN",
+    "outputCode": "CAVOUT",
+    "issuer": "GCUQOODPUNJNGUIIF2VQ7TJ5N7RLRFKVUZGPV5YYJZBQG3PDBY3IPFJX"
+  },
+  "completedAt": "2026-10-06T13:48:46.861Z"
+}
