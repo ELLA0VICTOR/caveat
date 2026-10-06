@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { toUnits } from '../lib/policy'
-import type { Action } from '@caveat/sdk'
+import type { Action, SwapDirection } from '@caveat/sdk'
 
 type QuoteState = {
   key: string
@@ -11,8 +11,8 @@ type QuoteState = {
   error?: string
 }
 
-export function useLiveQuote(action: Action, amount: string, paused: boolean) {
-  const key = JSON.stringify([action, amount])
+export function useLiveQuote(action: Action, amount: string, paused: boolean, direction: SwapDirection) {
+  const key = JSON.stringify([action, amount, action === 'swap' ? direction : 'xlm-to-usdc'])
   const [response, setResponse] = useState<QuoteState | null>(null)
   const [revision, setRevision] = useState(0)
   let valid = true
@@ -26,7 +26,7 @@ export function useLiveQuote(action: Action, amount: string, paused: boolean) {
       setResponse({ key, status: 'loading' })
       try {
         const quote = await Promise.race([
-          import('../lib/executor').then(stellar => stellar.quoteAction(action, amount)),
+          import('../lib/executor').then(stellar => stellar.quoteAction(action, amount, direction)),
           new Promise<never>((_, reject) => {
             timeout = setTimeout(() => reject(new Error('Quote request timed out. Please retry.')), 15000)
           }),
@@ -37,7 +37,7 @@ export function useLiveQuote(action: Action, amount: string, paused: boolean) {
       } finally { clearTimeout(timeout) }
     }, 400)
     return () => { active = false; clearTimeout(timer); clearTimeout(timeout) }
-  }, [action, amount, key, paused, revision, valid])
+  }, [action, amount, direction, key, paused, revision, valid])
 
   // A response for an older amount/route is never displayed or used for the minimum.
   const current = valid && response?.key === key ? response : null

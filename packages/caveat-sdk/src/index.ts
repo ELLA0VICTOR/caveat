@@ -1,9 +1,10 @@
 import { Account, Address, Asset, BASE_FEE, Contract, Horizon, Networks, Operation, StrKey, TransactionBuilder, nativeToScVal, rpc, scValToNative, scvSortedMap, xdr } from '@stellar/stellar-sdk'
-import { EXECUTOR, EXECUTOR_HASH, HORIZON_URL, ROUTE, ROUTE_HASHES, RPC_URL, USDC_ISSUER } from './deployment.ts'
+import { EXECUTOR, EXECUTOR_HASH, HORIZON_URL, ROUTE, ROUTE_HASHES, RPC_URL, USDC_ISSUER, swapAssets } from './deployment.ts'
+import type { SwapDirection } from './deployment.ts'
 export * from './deployment.ts'
 export type Action = 'swap' | 'liquidity'
 export type Outcome = { spent_a: bigint; spent_b: bigint; received: bigint }
-export type Terms = { amount: string; minimum: string; minutes: number; maxB?: string }
+export type Terms = { amount: string; minimum: string; minutes: number; maxB?: string; direction?: SwapDirection }
 export type PreparedAction = { xdr: string; source: string; fee: string; expiresAt: number; action: Action; terms: Terms; nonce: bigint; executor: string; simulation: Outcome }
 export type TransactionPreparation = Pick<PreparedAction, 'xdr' | 'source' | 'fee' | 'expiresAt'>
 export type Quote = { expected: string; minimum: string; maxB?: string; ledger?: number }
@@ -27,9 +28,10 @@ export function struct(fields: Record<string, xdr.ScVal>): xdr.ScVal {
 }
 export function encodePolicy(action: Action, owner: string, terms: Terms, nonce: bigint, expiresAt: number) {
   const i128 = (value: string) => nativeToScVal(toUnits(value), { type: 'i128' })
+  const assets = swapAssets(terms.direction)
   return struct({ owner: address(owner), router: address(ROUTE.router), pair: address(ROUTE.pair),
     expires_at: nativeToScVal(expiresAt, { type: 'u64' }), nonce: nativeToScVal(nonce, { type: 'u64' }), deny_approvals: nativeToScVal(true),
-    ...(action === 'swap' ? { token_in: address(ROUTE.token_a), token_out: address(ROUTE.token_b), amount_in: i128(terms.amount), max_spend: i128(terms.amount), min_receive: i128(terms.minimum) }
+    ...(action === 'swap' ? { token_in: address(assets.tokenIn), token_out: address(assets.tokenOut), amount_in: i128(terms.amount), max_spend: i128(terms.amount), min_receive: i128(terms.minimum) }
       : { token_a: address(ROUTE.token_a), token_b: address(ROUTE.token_b), max_a: i128(terms.amount), max_b: i128(terms.maxB ?? ''), min_shares: i128(terms.minimum) }),
   })
 }
@@ -75,11 +77,12 @@ export class CaveatClient {
     for (const key of ['router', 'pair', 'token_a', 'token_b'] as const) if (values[key] !== ROUTE[key]) throw new Error('Executor configuration differs from the supported route.')
     await this.verifyRoute()
   }
-  async quote(action: Action, amount: string): Promise<Quote> {
+  async quote(action: Action, amount: string, direction: SwapDirection = 'xlm-to-usdc'): Promise<Quote> {
     const units = toUnits(amount)
     await this.verifyRoute()
     if (action === 'swap') {
-      const amounts = await this.read(ROUTE.router, 'router_get_amounts_out', [nativeToScVal(units, { type: 'i128' }), nativeToScVal([address(ROUTE.token_a), address(ROUTE.token_b)])]) as bigint[]
+      const assets = swapAssets(direction)
+      const amounts = await this.read(ROUTE.router, 'router_get_amounts_out', [nativeToScVal(units, { type: 'i128' }), nativeToScVal([address(assets.tokenIn), address(assets.tokenOut)])]) as bigint[]
       if (amounts.length !== 2 || BigInt(amounts[0]) !== units || BigInt(amounts[1]) <= 0n) throw new Error('No usable swap quote.')
       const expected = BigInt(amounts[1]); const minimum = expected * 99n / 100n
       if (minimum <= 0n) throw new Error('Amount is too small.')
@@ -106,10 +109,11 @@ export class CaveatClient {
     return { xlm: fromUnits(BigInt(a as bigint)), usdc: fromUnits(BigInt(b as bigint)), shares: fromUnits(BigInt(shares as bigint)), nonce: BigInt(nonce as bigint), trustline: Boolean(trustline && 'is_authorized' in trustline && trustline.is_authorized) }
   }
   async prepare(owner: string, action: Action, terms: Terms): Promise<PreparedAction> {
+    terms = { ...terms } // Capture before any async work; later caller edits cannot alter review terms.
     if (!Number.isInteger(terms.minutes) || terms.minutes < 1 || terms.minutes > 60) throw new Error('Expiry must be 1–60 minutes.')
     await this.verifyExecutor()
     const state = await this.wallet(owner)
-    if (!state.trustline) throw new Error('Enable test USDC in Wallet setup first. Stellar requires a trustline to receive it.')
+    if (!state.trustline) throw new Error('Enable test USDC in Wallet setup first. Stellar requires its exact wallet trustline.')
     const expiresAt = Math.floor(Date.now() / 1000) + terms.minutes * 60
     const policy = encodePolicy(action, owner, terms, state.nonce, expiresAt)
     const operation = new Contract(this.executor).call(action === 'swap' ? 'swap' : 'add_liquidity', policy)

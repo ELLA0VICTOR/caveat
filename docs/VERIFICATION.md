@@ -6,8 +6,8 @@ Verified on October 6, 2026:
 
 - 21 Rust host tests passed: 12 retained account/recovery tests and 9 new shared-executor tests.
 - Locked formatting checks and optimized `wasm32v1-none` builds passed for all three contracts.
-- 9 Node tests passed, including exact policy wire types and changed/expired signer-payload rejection.
-- Frontend and independent example production builds and lint passed. All 11 Edge browser tests passed, covering both forms, automatic quote races, wallet persistence, pending-action recovery, responsive layouts and the independent client. Browser quote/wallet controls do not mock contract execution or ledger outcomes. Desktop, mobile liquidity and separate-app screenshots were inspected.
+- 10 Node tests passed, including exact policy wire types, reverse-direction token/bound encoding and changed/expired signer-payload rejection.
+- Frontend and independent example production builds and lint passed. All 12 Edge browser tests passed, covering both forms, automatic quote races, token reversal, wallet persistence, pending-action recovery, responsive layouts and the independent client. The reversal test checks exact token identities, cleared old bounds and ignoring late quotes from the other direction. Browser quote/wallet controls do not mock contract execution or ledger outcomes. Desktop, mobile liquidity and separate-app screenshots were inspected.
 - Shared guard bytecode, immutable configuration, actual Soroswap router/factory/pair hashes and underlying SAC identities were verified through public RPC.
 - Disposable test identities were generated in process memory. No user secret was read or saved. Reports contain public policies, balances, hashes and diagnostics.
 
@@ -34,6 +34,8 @@ Shared executor: `CCQMSZDYKY7TO6O65FEH663CISHHNWWUFY7N56GD2CWYGKETELXX554O`.
 | [Wallet-funded liquidity](https://stellar.expert/explorer/testnet/tx/a7bc0267c2b394544db81e416fb6627290dd2f1631c8086a22f5768bc0df29a6) | Confirmed, ledger 5,054,836; spent 1 XLM + 0.10604 test USDC, wallet received 0.3088669 pool shares |
 
 The guard's XLM, USDC and share balances were all zero after each action. The disposable wallet nonce advanced from 0 to 1 to 2. A 100,000-USDC minimum for a 1-XLM swap was subsequently rejected by genuine RPC with contract error #8; it was not submitted and nonce remained 2. [Public real-integration report](evidence/testnet-executor.json).
+
+The reverse direction was also submitted through the same published executor and SDK, using a fresh disposable wallet. [USDC → XLM transaction](https://stellar.expert/explorer/testnet/tx/2e139dad916534f9971554e1326b4061f2c63fb5c31978fe1c5de43cf4b0e875) succeeded in ledger 5,055,346, spending exactly 0.05 test USDC and returning XLM directly to the wallet. Before/after USDC balances matched that spend; the wallet XLM difference matched actual receipt minus the recorded network fee. Nonce advanced to 2 after a preceding forward swap, and all three guard token balances remained zero. An impossible reverse minimum was rejected in genuine RPC preflight, with wallet balances and nonce unchanged. [Public reverse report](evidence/testnet-reverse-swap.json). No contract code or deployment changed for this feature.
 
 Testnet congestion initially left a minimum-inclusion-fee upload unconfirmed. The SDK now derives a fee from recent Soroban inclusion statistics and shows the assembled maximum before signing. An unconfirmed submission is not successful execution.
 

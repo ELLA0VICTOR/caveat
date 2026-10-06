@@ -16,3 +16,14 @@ export const ROUTE_HASHES = {
   factory: '86285a9234d3f0d687eaf88efe8d5d72172b38c9a86624c9934c0cbf2aff2993',
   pair: '8447525edd62f72ffaf52136358034657ea0511a8fec1cd0ebde649f86cca464',
 }
+export type SwapDirection = 'xlm-to-usdc' | 'usdc-to-xlm'
+export function swapAssets(direction: SwapDirection = 'xlm-to-usdc') {
+  if (direction !== 'xlm-to-usdc' && direction !== 'usdc-to-xlm') throw new Error('Unsupported swap direction.')
+  const reverse = direction === 'usdc-to-xlm'
+  return {
+    tokenIn: reverse ? ROUTE.token_b : ROUTE.token_a,
+    tokenOut: reverse ? ROUTE.token_a : ROUTE.token_b,
+    inputSymbol: reverse ? 'USDC' : 'XLM',
+    outputSymbol: reverse ? 'XLM' : 'USDC',
+  }
+}

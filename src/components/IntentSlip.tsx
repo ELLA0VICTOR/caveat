@@ -1,6 +1,5 @@
-import { ArrowDown, ArrowRight, ArrowUpRight, ChevronDown, Clock3, LoaderCircle, LockKeyhole, RotateCw, Settings2 } from 'lucide-react'
+import { ArrowDown, ArrowDownUp, ArrowRight, ArrowUpRight, ChevronDown, Clock3, LoaderCircle, LockKeyhole, RotateCw, Settings2 } from 'lucide-react'
 import type { CaveatState } from '../hooks/useCaveat'
-import { TESTNET_USDC_ADDRESS, TESTNET_XLM_ADDRESS } from '../lib/tokens'
 import xlmLogo from '../assets/tokens/xlm.svg'
 import usdcLogo from '../assets/tokens/usdc.svg'
 import { ROUTE } from '@caveat/sdk/deployment'
@@ -8,8 +7,8 @@ import { ROUTE } from '@caveat/sdk/deployment'
 const short = (value: string) => `${value.slice(0, 7)}…${value.slice(-5)}`
 export function IntentSlip({ caveat }: { caveat: CaveatState }) {
   const c = caveat
-  const inputIsXlm = ROUTE.token_a === TESTNET_XLM_ADDRESS
-  const outputIsUsdc = ROUTE.token_b === TESTNET_USDC_ADDRESS
+  const inputIsXlm = c.assets.inputSymbol === 'XLM'
+  const outputIsUsdc = c.assets.outputSymbol === 'USDC'
   const liquidity = c.action === 'liquidity'
   return (
     <div className="intent-wrap" id="intent">
@@ -25,23 +24,23 @@ export function IntentSlip({ caveat }: { caveat: CaveatState }) {
           <label htmlFor="amount"><span className="term-number">01</span> SPEND NO MORE THAN</label>
           <div className="amount-line">
             <input id="amount" aria-label="Maximum spending amount" value={c.amount} onChange={event => c.changeAmount(event.target.value)} inputMode="decimal" autoComplete="off" placeholder="0" disabled={c.busy}/>
-            <button className="asset-selector" onClick={c.openSettings} aria-label="Configure input token address" disabled={c.busy}>
-              <span className={`asset-symbol ${inputIsXlm ? 'token-logo' : 'generic-symbol'}`}>{inputIsXlm ? <img src={xlmLogo} alt="Stellar logo"/> : 'I'}</span>{inputIsXlm ? 'XLM' : 'INPUT'}<ChevronDown size={13}/>
+            <button className="asset-selector" onClick={c.openSettings} aria-label="View spend token address" disabled={c.busy}>
+              <span className="asset-symbol token-logo"><img src={inputIsXlm ? xlmLogo : usdcLogo} alt={inputIsXlm ? 'Stellar logo' : 'USDC logo'}/></span>{c.assets.inputSymbol}<ChevronDown size={13}/>
             </button>
           </div>
-          <div className="field-caption"><span title={ROUTE.token_a}>Test XLM · {short(ROUTE.token_a)}</span><span>Maximum spend</span></div>
+          <div className="field-caption"><span title={c.assets.tokenIn}>Test {c.assets.inputSymbol} · {short(c.assets.tokenIn)}</span><span>Maximum spend</span></div>
         </div>
         {liquidity && <div className="liquidity-matching"><div><span className="asset-symbol token-logo"><img src={usdcLogo} alt="USDC logo"/></span><span>Matched test USDC</span><strong>{c.quote.maxB || '—'}</strong></div><p>The live pool ratio sets your second spending limit. Both amounts leave your wallet only inside this transaction.</p><small title={ROUTE.token_b}>{short(ROUTE.token_b)} · signed maximum</small></div>}
-        <div className="transfer-knot"><ArrowDown size={17}/></div>
+        <div className="transfer-knot">{liquidity ? <ArrowDown size={17} aria-hidden="true"/> : <button className="reverse-swap" onClick={c.reverseSwap} disabled={c.busy || Boolean(c.pending)} aria-label="Reverse swap direction" title={`Swap ${c.assets.outputSymbol} for ${c.assets.inputSymbol}`}><ArrowDownUp size={17}/></button>}</div>
         <div className="slip-field receive-field">
           <label htmlFor="minimum"><span className="term-number">02</span> AND RECEIVE AT LEAST</label>
           <div className="amount-line">
             <input id="minimum" aria-label="Minimum receipt amount" value={c.minimum} onChange={event => c.changeMinimum(event.target.value)} inputMode="decimal" autoComplete="off" placeholder="0" disabled={c.busy}/>
             <button className="asset-selector" onClick={c.openSettings} aria-label="View receipt token address" disabled={c.busy}>
-              <span className={`asset-symbol ${liquidity ? 'share-logos' : outputIsUsdc ? 'token-logo' : 'generic-symbol'}`}>{liquidity ? <><img src={xlmLogo} alt="Pool XLM"/><img src={usdcLogo} alt="Pool USDC"/></> : outputIsUsdc ? <img src={usdcLogo} alt="USDC logo"/> : 'O'}</span>{liquidity ? 'SHARES' : outputIsUsdc ? 'USDC' : 'OUTPUT'}<ChevronDown size={13}/>
+              <span className={`asset-symbol ${liquidity ? 'share-logos' : 'token-logo'}`}>{liquidity ? <><img src={xlmLogo} alt="Pool XLM"/><img src={usdcLogo} alt="Pool USDC"/></> : <img src={outputIsUsdc ? usdcLogo : xlmLogo} alt={outputIsUsdc ? 'USDC logo' : 'Stellar logo'}/>}</span>{liquidity ? 'SHARES' : c.assets.outputSymbol}<ChevronDown size={13}/>
             </button>
           </div>
-          <div className="field-caption"><span title={liquidity ? ROUTE.pair : ROUTE.token_b}>{liquidity ? 'Pool shares · ' : 'Test USDC · '}{short(liquidity ? ROUTE.pair : ROUTE.token_b)}</span><span>{c.customMinimum ? 'Your custom minimum' : 'Auto minimum · 1% tolerance'}</span></div>
+          <div className="field-caption"><span title={liquidity ? ROUTE.pair : c.assets.tokenOut}>{liquidity ? 'Pool shares' : `Test ${c.assets.outputSymbol}`} · {short(liquidity ? ROUTE.pair : c.assets.tokenOut)}</span><span>{c.customMinimum ? 'Your custom minimum' : 'Auto minimum · 1% tolerance'}</span></div>
         </div>
         <div className="small-terms">
           <label className="expiry-term"><span><span className="term-number">03</span> VALID FOR</span><span className="expiry-value"><Clock3 size={13}/><select aria-label="Intent expiration" value={c.minutes} disabled={c.busy} onChange={event => c.changeMinutes(Number(event.target.value))}><option value={5}>5 minutes</option><option value={10}>10 minutes</option><option value={30}>30 minutes</option></select></span></label>
@@ -49,7 +48,7 @@ export function IntentSlip({ caveat }: { caveat: CaveatState }) {
         </div>
         <div className="protocol-line"><div><span className="protocol-symbol">↗</span> Routed through <strong>Soroswap</strong></div><button onClick={() => c.setDialog('model')} aria-label="View route details"><ArrowUpRight size={15}/></button></div>
         <div className={`live-quote ${c.quote.status === 'error' ? 'quote-error' : ''}`} aria-live="polite">
-          <div className="quote-line">{c.quote.status === 'loading' ? <span><LoaderCircle size={11} className="loading-icon"/> Updating live quote…</span> : c.quote.status === 'ready' ? <span>Expected receipt: {c.quote.expected} {liquidity ? 'pool shares' : 'USDC'}</span> : c.quote.status === 'error' ? <span>Live quote unavailable</span> : <span>Enter an amount to see the live quote.</span>}
+          <div className="quote-line">{c.quote.status === 'loading' ? <span><LoaderCircle size={11} className="loading-icon"/> Updating live quote…</span> : c.quote.status === 'ready' ? <span>Expected receipt: {c.quote.expected} {liquidity ? 'pool shares' : c.assets.outputSymbol}</span> : c.quote.status === 'error' ? <span>Live quote unavailable</span> : <span>Enter an amount to see the live quote.</span>}
             <button onClick={c.refreshQuote} disabled={c.busy || c.quote.status === 'loading' || c.quote.status === 'idle'} aria-label={c.quote.status === 'error' ? 'Retry live quote' : 'Refresh live quote'}><RotateCw size={12}/></button>
           </div>
           {c.quote.error && <span className="quote-error-detail">{c.quote.error}</span>}

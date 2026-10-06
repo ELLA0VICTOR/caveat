@@ -2,6 +2,7 @@
   "name": "caveat",
   "private": true,
   "version": "0.0.0",
+  "license": "MIT",
   "type": "module",
   "workspaces": ["packages/caveat-sdk", "examples/pool-deposit"],
   "scripts": {
@@ -14,6 +15,7 @@
     "test:attack:testnet": "node --experimental-strip-types scripts/testnet-attacks.mjs",
     "test:executor:testnet": "npm run sdk:build && node scripts/testnet-executor.mjs",
     "test:guard-attacks:testnet": "npm run sdk:build && node scripts/testnet-guard-attacks.mjs",
+    "test:reverse:testnet": "npm run sdk:build && node scripts/testnet-reverse-swap.mjs",
     "lint": "oxlint",
     "test": "npm run sdk:build && node --experimental-strip-types --test tests/policy.test.ts tests/stellar.test.ts tests/executor.test.ts",
     "test:ui": "playwright test",

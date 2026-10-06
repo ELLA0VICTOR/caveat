@@ -11,6 +11,8 @@
 7. Choose **Provide liquidity**. Enter an XLM cap; the current pool ratio fills the test USDC cap. Sign a minimum pool-share receipt as well. Ensure both wallet token balances cover the action.
 8. Only a confirmed transaction means execution succeeded. Check pending submissions before retrying; fees apply to submitted failures.
 
+The middle arrow in **Swap** reverses XLM / test USDC. It changes the exact token identities, quote and signing policy together. Enter a small USDC amount to swap back to XLM. The old minimum is cleared; review the new XLM minimum before signing. On the liquidity form, the downward arrow is only a flow separator.
+
 For a small liquidity demonstration, swapping 2 XLM first usually supplies enough test USDC for a subsequent 1 XLM liquidity contribution. Live pool quotes decide the actual required amounts; do not assume a fixed exchange rate.
 
 The exact test USDC issuer is `GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5`. A trustline allows receipt of that asset; it does not authorize Caveat spending. XLM → USDC swaps supply the test output from the real pool, so a separate USDC faucet is not needed.

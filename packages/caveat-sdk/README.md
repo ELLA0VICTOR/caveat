@@ -2,7 +2,7 @@
 
 A standalone TypeScript client for Caveat's wallet-funded, immutable Soroswap Testnet executor. No React, Freighter, app hooks, server or secret-key dependency. Apps opt in by routing supported actions through this guard.
 
-The current endpoints are XLM → test USDC swaps and XLM / test USDC liquidity contributions. The executor supports both token directions, but the SDK's swap convenience method currently quotes and prepares XLM → USDC only. Liquidity requires an existing funded pool. Pool shares return to the signing wallet; liquidity removal is not implemented.
+The current endpoints are XLM ↔ test USDC swaps and XLM / test USDC liquidity contributions. The SDK quotes and prepares both swap directions through the same pinned executor. Liquidity requires an existing funded pool. Pool shares return to the signing wallet; liquidity removal is not implemented.
 
 ```ts
 import { CaveatClient } from '@caveat/sdk'
@@ -29,6 +29,8 @@ if (receipt.status === 'confirmed') {
 ```
 
 For swaps, use `quote('swap', amount)` and `prepare(owner, 'swap', { amount, minimum, minutes })`. Quote amounts are decimal strings. Policy arithmetic uses exact i128 token units, with seven decimals for these pinned assets and pool shares. Quote estimates use 1% automatic tolerance; callers can choose a stricter minimum. Never silently weaken a user's bounds to make a transaction pass.
+
+For USDC → XLM, use `quote('swap', amount, 'usdc-to-xlm')` and pass `direction: 'usdc-to-xlm'` in the prepared terms. The default direction is `'xlm-to-usdc'`. `swapAssets(direction)` exposes the exact pinned addresses and display symbols. Both quotes and the signed policy must use the same direction. Capture review terms from `prepared.terms`; preparation snapshots caller terms before async work.
 
 `wallet(owner)` reads the actual wallet balances, shares, nonce and USDC trustline status. If necessary, `prepareTrustline(owner)` returns a separate classic transaction enabling the exact test USDC issuer. Sign and confirm that once before preparing the protected action. It grants asset receipt permission, not a spending allowance.
 

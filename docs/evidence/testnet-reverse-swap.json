@@ -1,0 +1,70 @@
+{
+  "network": "Stellar Testnet",
+  "startedAt": "2026-10-06T15:24:44.019Z",
+  "status": "passed",
+  "executor": "CCQMSZDYKY7TO6O65FEH663CISHHNWWUFY7N56GD2CWYGKETELXX554O",
+  "executorHash": "6586b06fee1a0709dbc7638ea180bf89fc8973aaeaa0b1c7b2811126cb549c5d",
+  "owner": "GBYYOLA2XDVGUTNYAZ4PI43T7VLQRCOJXCFKXRKMV63BY4CXTNVS2JBD",
+  "transactions": [
+    {
+      "label": "Enable disposable wallet test USDC",
+      "hash": "475613016e5d3d8eb454fe5869348bd015320c3151428506ac6398d99287c08e",
+      "status": "confirmed",
+      "ledger": 5055342,
+      "feeCharged": "100"
+    },
+    {
+      "label": "XLM → test USDC",
+      "hash": "8b2195666312b9b6648db717bcbebf535ea74d2f7b49b661eed06b85fd86139e",
+      "status": "confirmed",
+      "outcome": {
+        "received": "2114394",
+        "spent_a": "20000000",
+        "spent_b": "0"
+      },
+      "ledger": 5055344,
+      "feeCharged": "122914"
+    },
+    {
+      "label": "Test USDC → XLM",
+      "hash": "2e139dad916534f9971554e1326b4061f2c63fb5c31978fe1c5de43cf4b0e875",
+      "status": "confirmed",
+      "outcome": {
+        "received": "4701154",
+        "spent_a": "500000",
+        "spent_b": "0"
+      },
+      "ledger": 5055346,
+      "feeCharged": "50521"
+    }
+  ],
+  "beforeReverse": {
+    "xlm": "9997.9876986",
+    "usdc": "0.2114394",
+    "shares": "0",
+    "nonce": "1",
+    "trustline": true
+  },
+  "reverseQuote": {
+    "expected": "0.4701154",
+    "minimum": "0.4654142"
+  },
+  "afterReverse": {
+    "xlm": "9998.4527619",
+    "usdc": "0.1614394",
+    "shares": "0",
+    "nonce": "2",
+    "trustline": true
+  },
+  "guardBalances": [
+    "0",
+    "0",
+    "0"
+  ],
+  "impossibleMinimum": {
+    "status": "rejected-by-real-rpc",
+    "submitted": false,
+    "contractError": 8
+  },
+  "finishedAt": "2026-10-06T15:25:23.584Z"
+}

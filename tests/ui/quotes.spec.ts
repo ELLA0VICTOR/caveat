@@ -5,14 +5,14 @@ import { TESTNET_USDC_ADDRESS, TESTNET_XLM_ADDRESS } from '../../src/lib/tokens'
 
 // Controlled quote responses exercise UI races only. No contract execution,
 // signature, or ledger-confirmation response is simulated by these tests.
-type Request = { action: string; amount: string; resolve: (value: { expected: string; minimum: string; maxB?: string }) => void; reject: (error: Error) => void }
+type Request = { action: string; amount: string; direction: string; resolve: (value: { expected: string; minimum: string; maxB?: string }) => void; reject: (error: Error) => void }
 type QuoteWindow = Window & { quoteRequests: Request[] }
 async function controlQuotes(page: Page) {
   await page.route('**/src/lib/executor.ts*', route => route.fulfill({
     contentType: 'application/javascript',
-    body: `export function quoteAction(action, amount) {
+    body: `export function quoteAction(action, amount, direction) {
       return new Promise((resolve, reject) => {
-        (window.quoteRequests ??= []).push({ action, amount, resolve, reject });
+        (window.quoteRequests ??= []).push({ action, amount, direction, resolve, reject });
       });
     }`,
   }))
@@ -117,4 +117,40 @@ test('liquidity uses a separate quote and signed matched-token cap without an ac
   await page.getByRole('button', { name: 'Swap', exact: true }).click()
   await expect(page.getByLabel('Minimum receipt amount')).toHaveValue('')
   await expect(page.getByText('Matched test USDC', { exact: true })).toHaveCount(0)
+})
+
+test('the reverse button changes token identities and discards quotes from the previous direction', async ({ page }) => {
+  await controlQuotes(page)
+  await page.goto('/')
+  await waitForAmount(page, '1')
+  await resolveQuote(page, '1', '0.105', '0.10395')
+  await expect(page.getByLabel('Minimum receipt amount')).toHaveValue('0.10395')
+  await page.getByLabel('Minimum receipt amount').fill('0.2')
+  // Keep an old-direction refresh in flight while the pair is reversed.
+  await page.getByRole('button', { name: 'Refresh live quote' }).click()
+  await waitForAmount(page, '1', 2)
+  // Without a ready quote the new input must be entered, never reused with new units.
+  await page.getByRole('button', { name: 'Reverse swap direction' }).click()
+  await expect(page.getByLabel('Maximum spending amount')).toHaveValue('')
+  await expect(page.getByLabel('Minimum receipt amount')).toHaveValue('')
+  await expect(page.getByRole('button', { name: 'View spend token address' })).toContainText('USDC')
+  await expect(page.getByRole('button', { name: 'View receipt token address' })).toContainText('XLM')
+  await expect(page.locator('.slip-field').first().locator('[title]')).toHaveAttribute('title', TESTNET_USDC_ADDRESS)
+  await expect(page.locator('.receive-field [title]')).toHaveAttribute('title', TESTNET_XLM_ADDRESS)
+  await page.getByLabel('Maximum spending amount').fill('0.05')
+  await page.waitForFunction(() => (window as QuoteWindow).quoteRequests?.some(request => request.direction === 'usdc-to-xlm'))
+  await page.evaluate(() => {
+    const requests = (window as QuoteWindow).quoteRequests
+    requests.findLast(request => request.direction === 'usdc-to-xlm')!.resolve({ expected: '0.47', minimum: '0.4653' })
+    requests.findLast(request => request.direction === 'xlm-to-usdc')!.resolve({ expected: '0.106', minimum: '0.10494' })
+  })
+  await expect(page.getByLabel('Minimum receipt amount')).toHaveValue('0.4653')
+  await expect(page.getByText('Expected receipt: 0.47 XLM')).toBeVisible()
+  await page.getByRole('button', { name: 'Reverse swap direction' }).click()
+  await expect(page.getByLabel('Maximum spending amount')).toHaveValue('0.47')
+  await expect(page.getByLabel('Minimum receipt amount')).toHaveValue('')
+  await expect(page.getByRole('button', { name: 'View spend token address' })).toContainText('XLM')
+  await expect(page.getByRole('button', { name: 'View receipt token address' })).toContainText('USDC')
+  await page.getByRole('button', { name: 'Provide liquidity', exact: true }).click()
+  await expect(page.getByRole('button', { name: 'Reverse swap direction' })).toHaveCount(0)
 })

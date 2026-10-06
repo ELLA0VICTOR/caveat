@@ -65,6 +65,8 @@ em { font-family: var(--display); font-style: normal; font-weight: 500; }
 .field-caption > span:last-child { font-size: 8px; }
 .transfer-knot { height: 0; position: relative; z-index: 1; display: flex; justify-content: center; }
 .transfer-knot > svg { width: 28px; height: 28px; background: var(--sheet); padding: 6px; border: 1px solid var(--line); border-radius: 50%; color: var(--muted); transform: translateY(-50%); }
+.reverse-swap { width: 32px; height: 32px; display: grid; place-items: center; background: var(--sheet); border: 1px solid var(--line); border-radius: 50%; color: var(--accent); transform: translateY(-50%); }
+.reverse-swap:hover:not(:disabled) { background: var(--accent-soft); border-color: var(--accent); }
 .receive-field { padding-top: 23px; padding-bottom: 24px; }
 .receive-field .amount-line input { color: var(--text); }
 .small-terms { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 17px 0; }

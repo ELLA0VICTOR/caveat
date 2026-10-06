@@ -7,7 +7,7 @@ import { Dialog } from './components/Dialog'
 import { IntentSlip } from './components/IntentSlip'
 import { TestnetSetup } from './components/TestnetSetup'
 import { WalletSetup } from './components/WalletSetup'
-import { EXECUTOR, ROUTE } from '@caveat/sdk/deployment'
+import { EXECUTOR, ROUTE, swapAssets } from '@caveat/sdk/deployment'
 import './App.css'
 
 const short = (value: string) => `${value.slice(0, 7)}…${value.slice(-5)}`
@@ -19,6 +19,7 @@ const mechanisms = [
 
 function App() {
   const c = useCaveat()
+  const preparedAssets = swapAssets(c.prepared?.terms.direction)
   const [copied, setCopied] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [copyrightYear] = useState(() => new Date().getFullYear())
@@ -88,7 +89,7 @@ function App() {
         </> : c.dialog === 'review' && c.prepared ? <>
           <span className="dialog-kicker">THE TERMS YOU ARE ABOUT TO SIGN</span><h2>Read the<br/><em>fine print.</em></h2><p className="dialog-intro">RPC simulation passed. Your signature binds these exact conditions. Future execution can still fail.</p>
           <div className="review-terms">{[
-            ['Action', c.prepared.action === 'swap' ? 'Swap' : 'Provide liquidity'], ['Wallet / recipient', c.prepared.source], ['Shared executor', c.prepared.executor], ['Router', ROUTE.router], ['Pool / shares', ROUTE.pair], ['XLM contract', ROUTE.token_a], ['Test USDC contract', ROUTE.token_b], ['Maximum XLM', c.prepared.terms.amount], ...(c.prepared.action === 'liquidity' ? [['Maximum test USDC', c.prepared.terms.maxB!]] : []), ['Minimum receipt', `${c.prepared.terms.minimum} ${c.prepared.action === 'swap' ? 'test USDC' : 'pool shares'}`], ['Maximum network fee', `${Number(c.prepared.fee) / 1e7} test XLM (outside spending limits)`], ['Expires at', new Date(c.prepared.expiresAt * 1000).toLocaleString()], ['Nonce', c.prepared.nonce.toString()], ['Approvals', 'Forbidden'],
+            ['Action', c.prepared.action === 'swap' ? `Swap ${preparedAssets.inputSymbol} → ${preparedAssets.outputSymbol}` : 'Provide liquidity'], ['Wallet / recipient', c.prepared.source], ['Shared executor', c.prepared.executor], ['Router', ROUTE.router], ['Pool / shares', ROUTE.pair], ['XLM contract', ROUTE.token_a], ['Test USDC contract', ROUTE.token_b], [`Maximum ${preparedAssets.inputSymbol}`, c.prepared.terms.amount], ...(c.prepared.action === 'liquidity' ? [['Maximum test USDC', c.prepared.terms.maxB!]] : []), ['Minimum receipt', `${c.prepared.terms.minimum} ${c.prepared.action === 'swap' ? preparedAssets.outputSymbol === 'USDC' ? 'test USDC' : 'XLM' : 'pool shares'}`], ['Maximum network fee', `${Number(c.prepared.fee) / 1e7} test XLM (outside spending limits)`], ['Expires at', new Date(c.prepared.expiresAt * 1000).toLocaleString()], ['Nonce', c.prepared.nonce.toString()], ['Approvals', 'Forbidden'],
           ].map(([label, value]) => <div key={label}><span>{label}</span><code>{value}</code></div>)}</div>
           <button className="plain-link" onClick={async () => { try { await navigator.clipboard.writeText(c.prepared!.xdr); setCopied(true) } catch { c.setMessage('Clipboard unavailable. Use the XDR field below.') } }}><Copy size={14}/>{copied ? 'Transaction XDR copied' : 'Copy unsigned transaction XDR'}</button><details className="xdr-details"><summary>Inspect transaction XDR <ChevronDown size={13}/></summary><textarea readOnly aria-label="Unsigned transaction XDR" value={c.prepared.xdr}/></details>{c.message && <p className="inline-feedback">{c.message}</p>}
           <button className="submit-intent" onClick={c.sign}><Wallet size={16}/> Sign & submit to testnet <ArrowRight size={18}/></button>
