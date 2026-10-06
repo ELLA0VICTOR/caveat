@@ -504,3 +504,33 @@ em { font-family: var(--display); font-style: normal; font-weight: 500; }
 .share-logos img { position: absolute; width: 20px; height: 20px; border: 2px solid var(--sheet); border-radius: 50%; }
 .share-logos img:first-child { left: 0; top: 0; }
 .share-logos img:last-child { right: 0; bottom: 0; }
+
+.transaction-sheet { width: 470px; background: var(--sheet); padding: 34px 32px 27px; }
+.transaction-eyebrow { display: flex; align-items: center; gap: 7px; padding-right: 25px; color: var(--muted); font: 8px var(--mono); letter-spacing: .8px; }
+.transaction-eyebrow > span:last-child { margin-left: auto; color: var(--quiet); }
+.transaction-emblem { display: flex; align-items: center; justify-content: center; width: 66px; height: 66px; margin: 22px auto 18px; color: var(--accent); background: var(--surface); border: 1px solid var(--line); border-radius: 50%; }
+.transaction-confirmed .transaction-emblem { background: #e5f3f2; border-color: #b9d9d4; color: #267260; }
+.transaction-failed .transaction-emblem { background: #f6eaf0; border-color: #e3c7d2; color: var(--danger); }
+.transaction-announcement { text-align: center; }
+.transaction-action { font: 9px var(--mono); color: var(--muted); line-height: 1.7; }
+.transaction-status h2 { font-size: 29px; letter-spacing: -1px; margin: 11px 0 13px; line-height: 1.2; }
+.transaction-description { font-size: 12px; line-height: 1.8; color: var(--text); }
+.transaction-steps { display: flex; justify-content: space-between; list-style: none; padding: 15px 0; margin: 18px 0 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); gap: 12px; }
+.transaction-steps li { display: flex; align-items: center; gap: 7px; font-size: 10px; color: var(--quiet); }
+.transaction-steps li > span { display: flex; align-items: center; justify-content: center; width: 23px; height: 23px; border: 1px solid var(--line); border-radius: 50%; font: 8px var(--mono); }
+.transaction-steps li[data-complete="true"], .transaction-steps li[aria-current="step"] { color: var(--accent); }
+.transaction-steps li[data-complete="true"] > span { background: var(--surface); border-color: var(--line-strong); }
+.transaction-amounts { margin: 8px 0 0; }
+.transaction-amounts > div { display: flex; justify-content: space-between; align-items: baseline; gap: 18px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.transaction-amounts dt { color: var(--muted); font-size: 11px; }
+.transaction-amounts dd { font: 12px var(--mono); margin: 0; text-align: right; overflow-wrap: anywhere; }
+.transaction-amounts > div:last-child { display: block; background: var(--surface); padding: 16px; margin: 13px 0; border: 0; }
+.transaction-amounts > div:last-child dd { font: 500 23px var(--display); color: var(--accent); letter-spacing: -.6px; text-align: left; margin-top: 8px; }
+.transaction-explorer { display: flex; align-items: center; justify-content: space-between; padding: 18px 0 0; gap: 16px; color: var(--accent); font-size: 11px; }
+.transaction-explorer code { display: block; margin-top: 6px; color: var(--muted); font-size: 9px; }
+.transaction-note { text-align: center; color: var(--muted); font-size: 10px; line-height: 1.8; margin-top: 16px; }
+.transaction-sheet .submit-intent { margin-top: 20px; padding: 16px 18px; }
+.transaction-issue { border: 1px solid var(--line); margin-top: 21px; padding: 12px 14px; font-size: 11px; color: var(--text); }
+.transaction-issue summary { cursor: pointer; }
+.transaction-issue p { margin-top: 10px; font: 10px/1.8 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; max-height: 170px; overflow-y: auto; }
+@media (max-width: 640px) { .transaction-sheet { padding: 30px 22px 24px; } .transaction-status h2 { font-size: 27px; } .transaction-steps { gap: 6px; } .transaction-steps li { gap: 5px; font-size: 9px; } }

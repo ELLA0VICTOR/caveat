@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useEffectEvent, useRef, useState } from 'react'
 import { fromUnits, toUnits } from '../lib/policy'
 import { TESTNET_USDC_ADDRESS, TESTNET_XLM_ADDRESS } from '../lib/tokens'
 import type { Deployment, LedgerReceipt } from '../lib/stellar'
 import type { Action, Outcome, PreparedAction, SwapDirection } from '@caveat/sdk'
 import { swapAssets } from '@caveat/sdk/deployment'
 import { useLiveQuote } from './useLiveQuote'
+import type { TransactionAmount, TransactionKind, TransactionNotice } from '../lib/transaction'
 
 export type Receipt = {
   id: string
@@ -14,6 +15,7 @@ export type Receipt = {
   status: 'confirmed' | 'failed' | 'pending'
   mode: 'Testnet'
   hash: string
+  amounts?: TransactionAmount[]
 }
 export type DialogName = 'settings' | 'model' | 'review' | 'receipts' | null
 const defaultConfig: Deployment = {
@@ -46,10 +48,20 @@ export function useCaveat() {
   const [message, setMessage] = useState('')
   const [busy, setBusy] = useState(false)
   const [prepared, setPrepared] = useState<PreparedAction | null>(null)
-  const [lastResult, setLastResult] = useState<Receipt | null>(null)
   const [pending, setPending] = useState<{ hash: string; source: string; action: Action; direction?: SwapDirection } | null>(() => {
     try { return JSON.parse(localStorage.getItem('caveat-action-pending') || 'null') } catch { return null }
   })
+  const [transaction, setTransaction] = useState<TransactionNotice | null>(() => {
+    if (pending) return { kind: pending.action, title: pending.action === 'swap' ? 'Protected Soroswap swap' : 'Protected Soroswap liquidity',
+      phase: 'pending', hash: pending.hash, detail: 'Your submitted transaction is awaiting a ledger result.' }
+    try {
+      const hash = localStorage.getItem('caveat-trustline-pending')
+      if (hash) return { kind: 'trustline', title: 'Enable test USDC', phase: 'pending', hash, detail: 'USDC setup is awaiting ledger confirmation.' }
+    } catch { /* The connected session still works without browser storage. */ }
+    return null
+  })
+  const [transactionOpen, setTransactionOpen] = useState(Boolean(transaction))
+  const transactionChecker = useRef<((hash: string) => Promise<void>) | null>(null)
   const quote = useLiveQuote(action, amount, busy || dialog === 'review', direction)
   const assets = swapAssets(action === 'swap' ? direction : 'xlm-to-usdc')
   const customMinimum = minimumOverride?.key === quote.key
@@ -67,7 +79,7 @@ export function useCaveat() {
     return () => { active = false }
   }, [])
 
-  function invalidate() { setPrepared(null); setLastResult(null); setMessage('') }
+  function invalidate() { setPrepared(null); setMessage('') }
   function changeAmount(value: string) { setAmount(value); setMinimumOverride(null); invalidate() }
   function changeAction(value: Action) {
     if (value === action) return
@@ -84,8 +96,67 @@ export function useCaveat() {
   function changeMinutes(value: number) { setMinutes(value); invalidate() }
   function record(receipt: Omit<Receipt, 'id' | 'time'>) {
     const item = { ...receipt, id: crypto.randomUUID(), time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }) }
-    setEntries(previous => [item, ...previous]); setLastResult(item)
+    setEntries(previous => [item, ...previous.filter(entry => entry.hash !== item.hash)])
+    setTransaction(previous => ({ kind: previous?.kind ?? 'setup', title: receipt.title, phase: receipt.status,
+      detail: receipt.detail, hash: receipt.hash, amounts: receipt.amounts }))
+    if (receipt.status !== 'pending') setTransactionOpen(true)
   }
+  function startTransaction(kind: TransactionKind, title: string, check?: (hash: string) => Promise<void>) {
+    if (transaction?.phase === 'pending' && transaction.hash) { setTransactionOpen(true); return false }
+    transactionChecker.current = check ?? null
+    setTransaction({ kind, title, phase: 'wallet', detail: 'Review and approve the transaction in your wallet.' })
+    setTransactionOpen(true); setMessage('')
+    return true
+  }
+  function resumeTransaction(kind: TransactionKind, title: string, hash: string, check?: (hash: string) => Promise<void>) {
+    transactionChecker.current = check ?? null
+    setTransaction({ kind, title, hash, phase: 'pending', detail: 'Your submitted transaction is awaiting a ledger result.' })
+    setTransactionOpen(true); setMessage('')
+  }
+  function transactionProgress(detail: string, phase?: 'wallet' | 'submitting') {
+    setTransaction(previous => previous ? { ...previous, detail, ...(phase ? { phase } : {}) } : previous)
+  }
+  function transactionSubmitted(hash: string) {
+    setTransaction(previous => previous ? { ...previous, phase: 'pending', hash,
+      detail: 'Submitted to Stellar Testnet. Waiting for ledger confirmation.' } : previous)
+  }
+  function transactionError(error: unknown, kind?: TransactionKind, title?: string) {
+    const issue = error instanceof Error ? error.message : 'Unable to complete this request.'
+    setTransaction(previous => previous && !kind ? { ...previous, phase: previous.hash ? previous.phase : 'error', issue,
+      detail: previous.hash ? previous.phase === 'confirmed' ? previous.detail : 'The transaction result is still being checked. Use the submitted hash before trying another action.' : 'This request could not be completed. Review the details below.' }
+      : { kind: kind ?? 'setup', title: title ?? 'Transaction', phase: 'error', detail: 'This request could not be completed. Review the details below.', issue })
+    setTransactionOpen(true); setMessage('')
+  }
+  function closeTransaction() { if (!busy || transaction?.phase === 'pending') { setTransactionOpen(false); setMessage('') } }
+  function openTransaction() { setTransactionOpen(true) }
+  async function checkTransaction(reveal = true) {
+    if (!transaction?.hash) return
+    if (reveal) setTransactionOpen(true)
+    if (!transactionChecker.current && pending?.hash === transaction.hash) { await checkPending(reveal); return }
+    setBusy(true)
+    setTransaction(previous => previous ? { ...previous, issue: undefined } : previous)
+    try {
+      if (transactionChecker.current) await transactionChecker.current(transaction.hash)
+      else {
+        const stellar = await import('../lib/stellar')
+        const receipt = await stellar.transactionStatus(transaction.hash)
+        if (receipt.status !== 'pending' && transaction.kind === 'trustline') {
+          try { localStorage.removeItem('caveat-trustline-pending') } catch { /* Keep the observed result in this session. */ }
+        }
+        record({ title: transaction.title, mode: 'Testnet', hash: receipt.hash, status: receipt.status,
+          detail: receipt.status === 'confirmed' ? transaction.kind === 'trustline' ? 'Your wallet can now receive the exact test USDC asset.' : 'Confirmed by the Stellar Testnet ledger.'
+            : receipt.status === 'failed' ? 'Ledger reports failure. Network fees may apply.' : 'Awaiting ledger confirmation.' })
+      }
+    }
+    catch (error) { transactionError(error) }
+    finally { setBusy(false) }
+  }
+  const pollTransaction = useEffectEvent(() => { void checkTransaction(false) })
+  useEffect(() => {
+    if (transaction?.phase !== 'pending' || !transaction.hash || transaction.issue || busy) return
+    const timer = window.setTimeout(() => pollTransaction(), 5000)
+    return () => window.clearTimeout(timer)
+  }, [transaction, busy])
   async function connect() {
     walletRevision.current += 1
     setBusy(true); setMessage('Connecting to Freighter…')
@@ -97,7 +168,7 @@ export function useCaveat() {
   }
   function disconnect() { walletRevision.current += 1; rememberWallet(false); setWallet(''); invalidate() }
   async function run() {
-    if (pending) { setMessage('An earlier action is awaiting confirmation. Check it before preparing another.'); return }
+    if (pending || transaction?.phase === 'pending') { openTransaction(); return }
     try { toUnits(amount) }
     catch (error) { setMessage(error instanceof Error ? error.message : 'Invalid spending amount.'); return }
     if (!wallet) { await connect(); return }
@@ -108,23 +179,29 @@ export function useCaveat() {
       const { executor } = await import('../lib/executor')
       setPrepared(await executor.prepare(wallet, action, { amount, minimum, minutes, ...(action === 'liquidity' ? { maxB: quote.maxB } : { direction }) }))
       setMessage(''); setDialog('review')
-    } catch (error) { setMessage(error instanceof Error ? error.message : 'Testnet preparation failed.') }
+    } catch (error) { transactionError(error, action, action === 'swap' ? 'Protected Soroswap swap' : 'Protected Soroswap liquidity') }
     finally { setBusy(false) }
   }
   async function sign() {
     if (!prepared) return
+    const current = prepared
+    if (!startTransaction(current.action, current.action === 'swap' ? 'Protected Soroswap swap' : 'Protected Soroswap liquidity', async hash => {
+      const stellar = await import('../lib/stellar')
+      finishAction(await stellar.transactionStatus(hash), current.action, current.terms.direction)
+    })) return
     setBusy(true); setDialog(null)
     try {
       const stellar = await import('../lib/stellar')
-      const receipt = await stellar.submitTransaction(wallet, prepared, setMessage, hash => {
-        const value = { hash, source: prepared.source, action: prepared.action, direction: prepared.terms.direction }
+      const receipt = await stellar.submitTransaction(wallet, current, transactionProgress, hash => {
+        transactionSubmitted(hash)
+        const value = { hash, source: current.source, action: current.action, direction: current.terms.direction }
         setPending(value)
         try { localStorage.setItem('caveat-action-pending', JSON.stringify(value)) }
         catch { /* Keep the current page's pending guard even when storage is unavailable. */ }
       })
-      finishAction(receipt, prepared.action, prepared.terms.direction)
+      finishAction(receipt, current.action, current.terms.direction)
       setMessage(''); setPrepared(null)
-    } catch (error) { setMessage(error instanceof Error ? error.message : 'Submission failed.') }
+    } catch (error) { transactionError(error) }
     finally { setBusy(false) }
   }
   function finishAction(receipt: LedgerReceipt, action: Action, direction?: SwapDirection) {
@@ -137,16 +214,21 @@ export function useCaveat() {
       try { localStorage.removeItem('caveat-action-pending') } catch { /* The confirmed status still belongs in the current session. */ }
     }
     record({ title: action === 'swap' ? 'Protected Soroswap swap' : 'Protected Soroswap liquidity', status: receipt.status, mode: 'Testnet', hash: receipt.hash,
+      amounts: receipt.status === 'confirmed' && outcome ? action === 'swap'
+        ? [{ label: 'Spent', value: `${fromUnits(outcome.spent_a)} ${inputLabel}` }, { label: 'Received in your wallet', value: `${fromUnits(outcome.received)} ${outputLabel}` }]
+        : [{ label: 'XLM contributed', value: `${fromUnits(outcome.spent_a)} XLM` }, { label: 'USDC contributed', value: `${fromUnits(outcome.spent_b)} test USDC` }, { label: 'Received in your wallet', value: `${fromUnits(outcome.received)} pool shares` }] : undefined,
       detail: receipt.status === 'confirmed'
         ? `Ledger confirmed.${outcome ? action === 'swap' ? ` Spent ${fromUnits(outcome.spent_a)} ${inputLabel}; received ${fromUnits(outcome.received)} ${outputLabel} in the signing wallet.` : ` Spent ${fromUnits(outcome.spent_a)} XLM and ${fromUnits(outcome.spent_b)} test USDC; received ${fromUnits(outcome.received)} pool shares in the signing wallet.` : ''}`
         : receipt.status === 'failed' ? 'Ledger reports failure. Contract changes rolled back; network fees may apply.' : 'Awaiting confirmation. Check this submission before preparing another action.',
     })
   }
-  async function checkPending() {
+  async function checkPending(reveal = true) {
     if (!pending) return
-    setBusy(true); setMessage('Checking the submitted action…')
+    setBusy(true)
+    if (reveal) setTransactionOpen(true)
+    setTransaction(previous => previous ? { ...previous, issue: undefined } : previous)
     try { const stellar = await import('../lib/stellar'); finishAction(await stellar.transactionStatus(pending.hash), pending.action, pending.direction); setMessage('') }
-    catch (error) { setMessage(error instanceof Error ? error.message : 'Could not check confirmation.') }
+    catch (error) { transactionError(error) }
     finally { setBusy(false) }
   }
   function openSettings() { setDraftConfig(config); setDialog('settings'); setMessage('') }
@@ -168,7 +250,8 @@ export function useCaveat() {
   function useAutomaticMinimum() { setMinimumOverride(null); invalidate() }
   return {
     action, direction, assets, reverseSwap, amount, minimum, minutes, wallet, config, draftConfig, dialog,
-    entries, message, busy, prepared, lastResult, pending, checkPending, quote, customMinimum,
+    entries, message, busy, prepared, pending, checkPending, quote, customMinimum,
+    transaction, transactionOpen, startTransaction, resumeTransaction, transactionProgress, transactionSubmitted, transactionError, closeTransaction, openTransaction, checkTransaction,
     changeAction, changeAmount, changeMinimum, changeMinutes,
     setDraftConfig, setDialog, setMessage, connect, disconnect, run, sign,
     openSettings, closeDialog, saveSettings, applyDeployment, refreshQuote, useAutomaticMinimum, setBusy, record,

@@ -13,6 +13,8 @@
 
 The middle arrow in **Swap** reverses XLM / test USDC. It changes the exact token identities, quote and signing policy together. Enter a small USDC amount to swap back to XLM. The old minimum is cleared; review the new XLM minimum before signing. On the liquidity form, the downward arrow is only a flow separator.
 
+A transaction status modal opens for wallet approval, submission, and ledger confirmation. Confirmed swaps show the measured token spend and receipt; liquidity shows both contributions and actual pool shares. USDC setup and earlier account recovery use the same status view. Submitted transactions retain an explorer link and continue confirmation checks after the modal closes. Pending swaps and USDC setup restore the modal after refresh.
+
 For a small liquidity demonstration, swapping 2 XLM first usually supplies enough test USDC for a subsequent 1 XLM liquidity contribution. Live pool quotes decide the actual required amounts; do not assume a fixed exchange rate.
 
 The exact test USDC issuer is `GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5`. A trustline allows receipt of that asset; it does not authorize Caveat spending. XLM → USDC swaps supply the test output from the real pool, so a separate USDC faucet is not needed.

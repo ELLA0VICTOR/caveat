@@ -64,11 +64,16 @@ test('layouts, mobile navigation and local fonts work without external requests'
 
 test('a submitted protected action survives reload and blocks another preparation', async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('caveat-action-pending', JSON.stringify({ hash: 'a'.repeat(64), source: 'GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWHF', action: 'liquidity' })))
+  await page.route('**/src/lib/stellar.ts*', route => route.fulfill({ contentType: 'application/javascript', body: `export async function restoreWallet() { return ''; } export async function transactionStatus(hash) { return { hash, status: 'pending' }; }` }))
   await page.goto('/')
+  await expect(page.getByRole('dialog', { name: 'Transaction status' })).toContainText('Awaiting confirmation')
+  await page.getByRole('button', { name: 'Close dialog' }).click()
   await expect(page.getByRole('button', { name: 'Check submitted action' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Prepare & review intent' })).toHaveCount(0)
   await page.reload()
+  await expect(page.getByRole('dialog', { name: 'Transaction status' })).toContainText('Awaiting confirmation')
+  await page.getByRole('button', { name: 'Close dialog' }).click()
   await expect(page.getByRole('button', { name: 'Check submitted action' })).toBeEnabled()
-  await expect(page.getByText('An action is awaiting confirmation. Check it before preparing another.')).toBeVisible()
+  await expect(page.getByText('An action is awaiting confirmation. Check it before preparing another.')).toHaveCount(0)
   await expect(page.getByText('Testnet · confirmed')).toHaveCount(0)
 })

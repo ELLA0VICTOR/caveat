@@ -7,6 +7,7 @@ import { Dialog } from './components/Dialog'
 import { IntentSlip } from './components/IntentSlip'
 import { TestnetSetup } from './components/TestnetSetup'
 import { WalletSetup } from './components/WalletSetup'
+import { TransactionStatus } from './components/TransactionStatus'
 import { EXECUTOR, ROUTE, swapAssets } from '@caveat/sdk/deployment'
 import './App.css'
 
@@ -70,7 +71,8 @@ function App() {
 
       <footer className="site-footer"><div className="footer-upper"><a href="#top" aria-label="Back to top"><Brand large/></a><p>A little more intention<br/>in every transaction.</p><a href="#intent" className="back-to-intent">Write your terms <ArrowUpRight size={20}/></a></div><div className="footer-lower"><span>© {copyrightYear} CAVEAT</span><span>STELLAR / SOROBAN</span><span>FIND YOUR WAY · GENERAL TRACK</span><button onClick={() => c.setDialog('model')}>Architecture & trust assumptions <ArrowUpRight size={12}/></button></div></footer>
 
-      {c.dialog && <Dialog title={c.dialog === 'settings' ? 'Testnet wallet setup' : c.dialog === 'review' ? 'Review signed intent' : c.dialog === 'receipts' ? 'Execution receipts' : 'Security model'} onClose={c.closeDialog} busy={c.busy} wide={c.dialog === 'review'}>
+      {(c.dialog || c.transactionOpen) && <Dialog title={c.transactionOpen ? 'Transaction status' : c.dialog === 'settings' ? 'Testnet wallet setup' : c.dialog === 'review' ? 'Review signed intent' : c.dialog === 'receipts' ? 'Execution receipts' : 'Security model'} onClose={c.transactionOpen ? c.closeTransaction : c.closeDialog} busy={c.busy && !(c.transactionOpen && c.transaction?.phase === 'pending')} wide={!c.transactionOpen && c.dialog === 'review'} className={c.transactionOpen ? 'transaction-sheet' : ''}>
+        {c.dialog && <div hidden={c.transactionOpen}>
         {c.dialog === 'settings' ? <>
           <span className="dialog-kicker">TESTNET / WALLET SETUP</span><h2>Your wallet.<br/><em>Your conditions.</em></h2><p className="dialog-intro">Use the shared guard directly from Freighter. Enable test USDC once, then review each protected action.</p>
           <div className="dialog-network"><span/> STELLAR TESTNET <code>soroban-testnet.stellar.org</code></div>
@@ -102,6 +104,8 @@ function App() {
           <div className="trust-boundary"><h3>The trust boundary</h3><p>Requires honest pinned tokens and pool-share balances, Soroban execution, and an uncompromised wallet. Applies only to actions routed through this executor. A separate app can integrate it using the SDK.</p><p>Transactions elsewhere in Freighter, later pool losses, issuer clawbacks, weak signed terms and network fees are outside these checks. The executor has no administrator, upgrade function or arbitrary-call interface. Testnet only; independent review is still required.</p></div>
           <a className="plain-link" href="https://developers.stellar.org/docs/learn/fundamentals/contract-development/contract-interactions/stellar-transaction" target="_blank" rel="noreferrer">Read Stellar’s authorization model <ExternalLink size={13}/></a>
         </>}
+        </div>}
+        {c.transactionOpen && c.transaction && <TransactionStatus transaction={c.transaction} busy={c.busy} onClose={c.closeTransaction} onCheck={() => void c.checkTransaction()}/>}
       </Dialog>}
     </div>
   )

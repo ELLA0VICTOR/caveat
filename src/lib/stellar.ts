@@ -107,18 +107,19 @@ export async function transactionStatus(hash: string): Promise<LedgerReceipt> {
   return { hash, status: 'confirmed', value: result.returnValue ? scValToNative(result.returnValue) : undefined }
 }
 
-export async function submitTransaction(source: string, prepared: PreparedTransaction, onProgress: (message: string) => void, onSubmitted?: (hash: string) => void): Promise<LedgerReceipt> {
+export async function submitTransaction(source: string, prepared: PreparedTransaction, onProgress: (message: string, phase?: 'wallet' | 'submitting') => void, onSubmitted?: (hash: string) => void): Promise<LedgerReceipt> {
   const { getNetworkDetails, signTransaction } = await import('@stellar/freighter-api')
   if (source !== prepared.source) throw new Error('Reconnect the wallet that prepared this transaction.')
   if (Math.floor(Date.now() / 1000) >= prepared.expiresAt) throw new Error('This transaction expired. Prepare it again.')
   const network = await getNetworkDetails()
   if (network.error || network.networkPassphrase !== Networks.TESTNET) throw new Error('Freighter must be on Stellar Testnet.')
-  onProgress('Review the complete transaction in Freighter.')
+  onProgress('Review the complete transaction in Freighter.', 'wallet')
   const signed = await signTransaction(prepared.xdr, { networkPassphrase: Networks.TESTNET, address: source })
   if (signed.error || !signed.signedTxXdr) throw new Error(signed.error?.message || 'Wallet signature declined.')
   const tx = TransactionBuilder.fromXDR(signed.signedTxXdr, Networks.TESTNET)
   const original = TransactionBuilder.fromXDR(prepared.xdr, Networks.TESTNET)
   if (hex(tx.hash()) !== hex(original.hash())) throw new Error('Wallet returned a different transaction.')
+  onProgress('Submitting your signed transaction to Stellar Testnet…', 'submitting')
   const sent = await server.sendTransaction(tx)
   if (sent.status === 'ERROR') throw new Error('RPC rejected submission. No successful execution was recorded.')
   if (sent.status !== 'PENDING' && sent.status !== 'DUPLICATE') throw new Error('RPC did not accept submission. Prepare the intent again before retrying.')

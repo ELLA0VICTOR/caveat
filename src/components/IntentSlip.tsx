@@ -54,11 +54,9 @@ export function IntentSlip({ caveat }: { caveat: CaveatState }) {
           {c.quote.error && <span className="quote-error-detail">{c.quote.error}</span>}
           {c.customMinimum && <button className="auto-minimum" onClick={c.useAutomaticMinimum} disabled={c.busy}>Use automatic minimum · 1% tolerance</button>}
         </div>
-        <button className="submit-intent" onClick={c.pending ? c.checkPending : c.run} disabled={c.busy || Boolean(!c.pending && c.wallet && c.quote.status !== 'ready')}>{c.busy ? <><LoaderCircle size={17} className="loading-icon"/> {c.pending ? 'Checking confirmation' : 'Preparing your intent'}</> : c.pending ? 'Check submitted action' : c.wallet && c.quote.status === 'loading' ? <><LoaderCircle size={17} className="loading-icon"/> Updating quote</> : c.wallet ? 'Prepare & review intent' : 'Connect testnet wallet'}<ArrowRight size={19}/></button>
+        <button className="submit-intent" onClick={c.pending ? c.openTransaction : c.run} disabled={c.busy || Boolean(!c.pending && c.wallet && c.quote.status !== 'ready')}>{c.busy ? <><LoaderCircle size={17} className="loading-icon"/> {c.pending ? 'Checking confirmation' : 'Preparing your intent'}</> : c.pending ? 'Check submitted action' : c.wallet && c.quote.status === 'loading' ? <><LoaderCircle size={17} className="loading-icon"/> Updating quote</> : c.wallet ? 'Prepare & review intent' : 'Connect testnet wallet'}<ArrowRight size={19}/></button>
         <p className="execution-disclosure"><span className="live-dot"/>Testnet · wallet → guard → wallet · no deposit</p>
-        {c.pending && <div className="inline-feedback" role="status"><p>An action is awaiting confirmation. Check it before preparing another.</p><a href={`https://stellar.expert/explorer/testnet/tx/${c.pending.hash}`} target="_blank" rel="noreferrer">Inspect submitted transaction <ArrowUpRight size={13}/></a></div>}
-        {c.message && !c.dialog && <div className="inline-feedback" role="status">{c.message}</div>}
-        {c.lastResult && <div className={`inline-feedback receipt-${c.lastResult.status}`} role="status"><strong>Testnet · {c.lastResult.status}</strong><p>{c.lastResult.detail}</p><a href={`https://stellar.expert/explorer/testnet/tx/${c.lastResult.hash}`} target="_blank" rel="noreferrer">Inspect transaction <ArrowUpRight size={13}/></a></div>}
+        {c.message && !c.dialog && !c.transactionOpen && <div className="inline-feedback" role="status">{c.message}</div>}
       </section>
       <div className="slip-bottom"><span className="corner-tick">↳</span><p>Your funds return to your wallet in the same transaction.</p><button onClick={c.openSettings} aria-label="Wallet setup"><ArrowUpRight size={14}/></button></div>
     </div>

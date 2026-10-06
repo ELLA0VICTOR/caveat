@@ -38,11 +38,13 @@ export function TestnetSetup({ caveat: c }: { caveat: CaveatState }) {
     finally { c.setBusy(false) }
   }
   async function finish(value: Pending, status: 'confirmed' | 'failed' | 'pending') {
-    if (status === 'pending') { c.setMessage('Awaiting ledger confirmation. Check this transaction before proceeding.'); return }
+    if (status === 'pending') { c.record({ title: titles[value.action.kind], detail: 'Awaiting ledger confirmation.', hash: value.hash, mode: 'Testnet', status }); return }
     if (status === 'failed') {
       remember(null); setAction(null); c.setMessage('Ledger reports failure. No successful operation was recorded; network fees may apply.')
       c.record({ title: titles[value.action.kind], detail: 'Ledger reports failure.', hash: value.hash, mode: 'Testnet', status }); return
     }
+    c.record({ title: titles[value.action.kind], detail: 'Confirmed by the Stellar Testnet ledger.', hash: value.hash, mode: 'Testnet', status,
+      amounts: value.action.kind === 'withdraw' && value.action.amount ? [{ label: 'Returned to your wallet', value: `${value.action.amount} ${value.action.token === value.action.config.input ? 'XLM' : 'test USDC'}` }] : undefined })
     const stellar = await import('../lib/testnet')
     const completed = value.action
     if (completed.kind === 'create') {
@@ -51,29 +53,38 @@ export function TestnetSetup({ caveat: c }: { caveat: CaveatState }) {
       c.applyDeployment(completed.config); setInfo(verified)
     } else if (completed.kind !== 'upload') setInfo(await stellar.inspectAccount(completed.transaction.source, completed.config))
     remember(null); setAction(null)
-    c.record({ title: titles[completed.kind], detail: 'Confirmed by the Stellar testnet ledger.', hash: value.hash, mode: 'Testnet', status })
     c.setMessage(completed.kind === 'upload' ? 'Earlier contract upload confirmed. New actions already use the shared guard.'
       : completed.kind === 'create' ? 'Earlier account confirmed. New actions require no account deposit.'
         : completed.kind === 'deposit' ? 'Earlier deposit confirmed. Use owner recovery below to return it to your wallet.' : 'Recovery confirmed.')
   }
   async function sign() {
     if (!action) return
+    const current = action
+    if (!c.startTransaction(current.kind === 'withdraw' ? 'recovery' : 'setup', titles[current.kind], async hash => {
+      const { transactionStatus } = await import('../lib/stellar')
+      await finish({ hash, action: current }, (await transactionStatus(hash)).status)
+    })) return
     c.setBusy(true)
     try {
       const { submitTransaction } = await import('../lib/stellar')
-      const receipt = await submitTransaction(c.wallet, action.transaction, c.setMessage, hash => remember({ hash, action }))
+      const receipt = await submitTransaction(c.wallet, current.transaction, c.transactionProgress, hash => { c.transactionSubmitted(hash); remember({ hash, action: current }) })
       await finish({ hash: receipt.hash, action }, receipt.status)
-    } catch (error) { c.setMessage(error instanceof Error ? error.message : 'Submission failed.') }
+    } catch (error) { c.transactionError(error) }
     finally { c.setBusy(false) }
   }
   async function checkPending() {
     if (!pending) return
-    c.setBusy(true); c.setMessage('Checking ledger confirmation…')
+    c.setBusy(true)
+    const current = pending
+    c.resumeTransaction(current.action.kind === 'withdraw' ? 'recovery' : 'setup', titles[current.action.kind], current.hash, async hash => {
+      const { transactionStatus } = await import('../lib/stellar')
+      await finish({ hash, action: current.action }, (await transactionStatus(hash)).status)
+    })
     try {
       const { transactionStatus } = await import('../lib/stellar')
       const receipt = await transactionStatus(pending.hash)
       await finish(pending, receipt.status)
-    } catch (error) { c.setMessage(error instanceof Error ? error.message : 'Could not check confirmation.') }
+    } catch (error) { c.transactionError(error) }
     finally { c.setBusy(false) }
   }
   if (pending) return <div className="wallet-setup"><span className="setup-label">SUBMITTED / CONFIRMATION REQUIRED</span><h3>{titles[pending.action.kind]}</h3><p>This transaction has been submitted. Check its status before preparing another operation.</p><a className="plain-link" href={`https://stellar.expert/explorer/testnet/tx/${pending.hash}`} target="_blank" rel="noreferrer">Inspect {short(pending.hash)} <ArrowUpRight size={12}/></a><button className="setup-button" onClick={checkPending} disabled={c.busy}>{c.busy ? <LoaderCircle size={14} className="loading-icon"/> : null} Check confirmation</button></div>

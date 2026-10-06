@@ -35,26 +35,38 @@ export function WalletSetup({ caveat: c }: { caveat: CaveatState }) {
     finally { c.setBusy(false) }
   }
   async function finish(hash: string, status: 'pending' | 'failed' | 'confirmed') {
-    if (status === 'pending') { c.setMessage('USDC setup is awaiting confirmation. Check it before signing another transaction.'); return }
-    localStorage.removeItem('caveat-trustline-pending'); setPending(''); setPreparation(null)
-    c.record({ hash, status, title: 'Enable test USDC', mode: 'Testnet', detail: status === 'confirmed' ? 'Stellar confirmed the wallet trustline. No Caveat deposit was made.' : 'Trustline setup failed; network fees may apply.' })
+    c.record({ hash, status, title: 'Enable test USDC', mode: 'Testnet', detail: status === 'confirmed' ? 'Your wallet can now receive the exact test USDC asset.' : status === 'pending' ? 'USDC setup is awaiting ledger confirmation.' : 'Trustline setup failed; network fees may apply.' })
+    if (status === 'pending') return
+    try { localStorage.removeItem('caveat-trustline-pending') } catch { /* Keep the observed ledger result in this session. */ }
+    setPending(''); setPreparation(null)
     await refresh()
     c.setMessage(status === 'confirmed' ? 'Your wallet can now receive test USDC. Close setup and prepare your action.' : 'Trustline setup failed.')
   }
   async function sign() {
     if (!preparation) return
+    if (!c.startTransaction('trustline', 'Enable test USDC', async hash => {
+      const { transactionStatus } = await import('../lib/stellar')
+      await finish(hash, (await transactionStatus(hash)).status)
+    })) return
     c.setBusy(true)
     try {
       const { submitTransaction } = await import('../lib/stellar')
-      const result = await submitTransaction(c.wallet, preparation, c.setMessage, hash => { setPending(hash); localStorage.setItem('caveat-trustline-pending', hash) })
+      const result = await submitTransaction(c.wallet, preparation, c.transactionProgress, hash => {
+        c.transactionSubmitted(hash); setPending(hash)
+        try { localStorage.setItem('caveat-trustline-pending', hash) } catch { /* The current page still tracks the submitted hash. */ }
+      })
       await finish(result.hash, result.status)
-    } catch (error) { c.setMessage(error instanceof Error ? error.message : 'USDC setup submission failed.') }
+    } catch (error) { c.transactionError(error) }
     finally { c.setBusy(false) }
   }
   async function check() {
     c.setBusy(true)
+    c.resumeTransaction('trustline', 'Enable test USDC', pending, async hash => {
+      const { transactionStatus } = await import('../lib/stellar')
+      await finish(hash, (await transactionStatus(hash)).status)
+    })
     try { const { transactionStatus } = await import('../lib/stellar'); const result = await transactionStatus(pending); await finish(result.hash, result.status) }
-    catch (error) { c.setMessage(error instanceof Error ? error.message : 'Confirmation unavailable.') }
+    catch (error) { c.transactionError(error) }
     finally { c.setBusy(false) }
   }
   return <section className="wallet-setup"><span className="setup-label">YOUR WALLET / NO CAVEAT DEPOSIT</span><h3>Keep funds where they belong.</h3><p>Caveat takes only the amount needed for your action and returns tokens or pool shares to this wallet in the same transaction.</p>
