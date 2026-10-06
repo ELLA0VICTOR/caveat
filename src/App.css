@@ -4,6 +4,7 @@
 .site-header { max-width: 1320px; height: 100px; margin: 0 auto; padding: 0 44px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); gap: 28px; }
 .wordmark { font-family: var(--display); font-size: 35px; letter-spacing: -2.5px; font-weight: 650; line-height: 1; display: inline-flex; align-items: flex-start; gap: 5px; }
 .brand-asterisk { font-size: 22px; line-height: 1; color: var(--accent); margin-top: 0; font-weight: 400; letter-spacing: 0; }
+.brand-asterisk, .asterisk-small { width: 1em; height: 1em; flex-shrink: 0; display: block; }
 .brand-link { flex-shrink: 0; }
 .site-navigation { display: flex; align-items: center; gap: 31px; margin-left: auto; margin-right: auto; }
 .site-navigation a, .site-navigation button { font-size: 12px; display: flex; align-items: center; gap: 5px; padding: 8px 0; color: var(--text); }

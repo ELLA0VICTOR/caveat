@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { ArrowRight, ArrowUpRight, Check, ChevronDown, Copy, ExternalLink, LoaderCircle, LockKeyhole, Wallet } from 'lucide-react'
 import { useCaveat } from './hooks/useCaveat'
 import { BoundaryArt } from './components/BoundaryArt'
-import { Brand } from './components/Brand'
+import { AsteriskMark, Brand } from './components/Brand'
 import { Dialog } from './components/Dialog'
 import { IntentSlip } from './components/IntentSlip'
 import { TestnetSetup } from './components/TestnetSetup'
@@ -41,7 +41,7 @@ function App() {
       <main id="top">
         <section className="hero-section">
           <div className="hero-editorial">
-            <div className="hero-eyebrow"><span className="asterisk-small">✳</span> A CONDITION FOR EVERY SIGNATURE <span className="eyebrow-line"/></div>
+            <div className="hero-eyebrow"><AsteriskMark className="asterisk-small"/> A CONDITION FOR EVERY SIGNATURE <span className="eyebrow-line"/></div>
             <h1>Your signature.<br/><em>Your terms.</em></h1>
             <p className="hero-description">A better way to say yes to DeFi.<br/>Set what you’ll spend, what you’ll receive,<br className="wide-break"/> and where permission ends.</p>
             <a className="editorial-link" href="#mechanism">The thinking behind Caveat <span><ArrowDownIcon/></span></a>
