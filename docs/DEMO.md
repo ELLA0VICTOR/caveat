@@ -34,6 +34,12 @@ Weak conditions that you willingly sign can still allow a bad deal. The guard ch
 
 ## 5. A live malicious venue experiment
 
+In the existing Swap form, open **Routed through → Soroswap** and select **Underpaying test contract**. The form sets 1 XLM and a 1.9 test-USDC minimum. Click **Check test contract**. The popup shows a fresh Testnet simulation: the venue claims 2 USDC, attempts to transfer 0.5, and the guard rejects the actual receipt with error 8. Inspect the verified contract addresses and expandable RPC diagnostics.
+
+Select **Forbidden approval test** or **Extra transfer test** to check their authorization failures through the same form and popup. These checks run the deployed fixture contracts against isolated guards with the same executor bytecode. Rates are artificial, and checks are simulation-only: no signing, submission, or network fee. A weak minimum such as 0.4 permits the underpayment and is correctly shown as **Conditions satisfied**. Return the selector to **Soroswap** for normal swaps.
+
+To generate fresh submitted ledger evidence and disposable deployments:
+
 ```powershell
 npm.cmd run test:guard-attacks:testnet
 ```

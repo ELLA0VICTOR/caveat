@@ -82,6 +82,18 @@ em { font-family: var(--display); font-style: normal; font-weight: 500; }
 .protocol-line strong { font-weight: 500; color: var(--text); }
 .protocol-symbol { width: 21px; height: 21px; display: inline-grid; place-items: center; background: var(--surface); font-size: 16px; color: var(--text); margin-right: 2px; }
 .protocol-line button { color: var(--muted); padding: 3px; }
+.venue-picker { display: flex; align-items: center; gap: 6px; position: relative; min-width: 0; }
+.venue-picker select { appearance: none; color: var(--text); background: transparent; border: 0; font: inherit; font-weight: 500; padding: 8px 20px 8px 2px; max-width: 215px; cursor: pointer; }
+.venue-picker > svg { position: absolute; right: 3px; pointer-events: none; }
+.venue-picker select:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
+.venue-explanation { padding: 14px 16px; border-left: 2px solid var(--accent); background: var(--surface); margin: -3px 0 17px; }
+.venue-explanation > span { color: var(--accent); font: 8px var(--mono); letter-spacing: .6px; }
+.venue-explanation p { font-size: 11px; line-height: 1.8; margin: 8px 0; color: var(--text); }
+.venue-explanation small { color: var(--muted); font-size: 9px; line-height: 1.7; }
+.venue-explanation details, .verification-contracts { font-size: 10px; color: var(--muted); margin-top: 12px; }
+.venue-explanation summary, .verification-contracts summary { cursor: pointer; padding: 5px 0; }
+.venue-explanation a, .verification-contracts a { display: flex; align-items: center; gap: 10px; padding: 9px 0; color: var(--accent); }
+.venue-explanation code, .verification-contracts code { margin-left: auto; font-size: 9px; }
 .submit-intent { width: 100%; display: flex; align-items: center; justify-content: center; gap: 9px; font-size: 12px; font-weight: 500; padding: 17px 18px; background: var(--accent); color: var(--sheet); border-radius: 2px; letter-spacing: -.1px; }
 .submit-intent > svg:last-child { margin-left: auto; }
 .submit-intent:hover { background: var(--accent-hover); }
@@ -510,6 +522,8 @@ em { font-family: var(--display); font-style: normal; font-weight: 500; }
 .transaction-eyebrow > span:last-child { margin-left: auto; color: var(--quiet); }
 .transaction-emblem { display: flex; align-items: center; justify-content: center; width: 66px; height: 66px; margin: 22px auto 18px; color: var(--accent); background: var(--surface); border: 1px solid var(--line); border-radius: 50%; }
 .transaction-confirmed .transaction-emblem { background: #e5f3f2; border-color: #b9d9d4; color: #267260; }
+.transaction-blocked .transaction-emblem { background: var(--surface); border-color: var(--line-strong); color: var(--accent); }
+.transaction-allowed .transaction-emblem { background: #fff5df; border-color: #decfac; color: #8b641e; }
 .transaction-failed .transaction-emblem { background: #f6eaf0; border-color: #e3c7d2; color: var(--danger); }
 .transaction-announcement { text-align: center; }
 .transaction-action { font: 9px var(--mono); color: var(--muted); line-height: 1.7; }

@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "type": "module",
+  "engines": { "node": "24.x" },
   "workspaces": ["packages/caveat-sdk", "examples/pool-deposit"],
   "scripts": {
     "dev": "npm run sdk:build && npm run build -w @caveat/pool-example && node scripts/stage-integration.mjs && node scripts/stage-contracts.mjs && vite",

@@ -1,109 +1,109 @@
 {
   "network": "Stellar Testnet",
   "fixtureOnly": true,
-  "startedAt": "2026-10-06T14:45:12.135Z",
-  "owner": "GCUPDNIOOYR55RGJ2JXR3RS3XKIKR55KLJEKPES3YJ22QEIP4W7VDKCM",
+  "startedAt": "2026-10-06T16:58:29.203Z",
+  "owner": "GCRAFPHO5EJEUFWGFP6J25NMUO3AD5G2ZAH4CRQ7VP452JST32OD76QG",
   "executorHash": "6586b06fee1a0709dbc7638ea180bf89fc8973aaeaa0b1c7b2811126cb549c5d",
   "fixtureHash": "947682a6342f92dcb2d4eb2e2110d6cf317710e191cd203eed67e6571f6e1fe7",
   "status": "passed",
   "setup": [
     {
       "label": "Enable disposable wallet USDC",
-      "hash": "057dc18a92cb8dac46e8ca10086b704eaf8f74a79e9f1b4b3fe01ed535d31e4a",
+      "hash": "dda7f05a6e41ff1dc24affe5713952901744dd6c2e765d16560342597526c6b3",
       "status": "confirmed",
-      "ledger": 5054867,
+      "ledger": 5056467,
       "feeCharged": "100",
       "errors": []
     },
     {
       "label": "Acquire real test USDC to fund isolated fixtures",
-      "hash": "b7a1733a321bfdc597b9a2162ca061a4937bd1911bb4b7409461202ecc19d00c",
+      "hash": "fdf9d51501353f4772ec9e0a0a7b5fe97aebe4b0af084809f930ffb0e329b3e4",
       "status": "confirmed",
       "outcome": {
-        "received": "42288339",
+        "received": "42287372",
         "spent_a": "400000000",
         "spent_b": "0"
       },
-      "ledger": 5054869,
-      "feeCharged": "122492",
+      "ledger": 5056469,
+      "feeCharged": "122669",
       "errors": []
     },
     {
       "label": "Deploy honest venue fixture",
-      "hash": "c62dd40fd6815e5dbba9b34d10f5dc0b6e4d5c653bc2c491842d10f42105f0e8",
+      "hash": "10648cf780a2d626be2ae84b7ee62f6b5cea721152df1134a7347e2d739be5f9",
       "status": "confirmed",
-      "outcome": "CAEQU4VT6LW47ZMXQT3SDAFS7UXT2O3RMOXAFUKR7A4VK2K7AJQDSU56",
-      "ledger": 5054870,
-      "feeCharged": "79060",
+      "outcome": "CC6VSWKZR625POABSMY45GZGPUZHTWJGI2RTD3NKK7F7TCBL2NY3MVTJ",
+      "ledger": 5056470,
+      "feeCharged": "79237",
       "errors": []
     },
     {
       "label": "Deploy isolated honest guard",
-      "hash": "e13631cdc09c8b924b217d21e288ed380c9614ef0d98a58f1576f96e86031294",
+      "hash": "5a8081a64c21a6ff5acad5edb6712c80ab92bae2e0c6cf610ae81eb9797b6b31",
       "status": "confirmed",
-      "outcome": "CB66MIE3ZOT32R5QF77BLPU7APKPRXV4OVD5235RKBKAZNMCOMZQTMYC",
-      "ledger": 5054871,
-      "feeCharged": "194456",
+      "outcome": "CCLCEX3KNQVAE45F4NTUVGWKH3RDGBJJUQCTX25AVRJISRHGXYYMPWAO",
+      "ledger": 5056471,
+      "feeCharged": "194922",
       "errors": []
     },
     {
       "label": "Fund honest fixture output",
-      "hash": "0ce464b5ede9ccb78786ee05b58dd37613b440403dc3546283861d8f66f46e9a",
+      "hash": "b519d5d22800710d66f5ffb9eae9ce1469f2baf3a2020c750b14d329a4f4743a",
       "status": "confirmed",
       "outcome": null,
-      "ledger": 5054872,
-      "feeCharged": "493621",
+      "ledger": 5056472,
+      "feeCharged": "494835",
       "errors": []
     },
     {
       "label": "Honest wallet-funded fixture swap",
-      "hash": "8c2c8878d22960a94d03dde9a7e0b4d5c78cd5591b9e18fd94938e9f35285572",
+      "hash": "374f9feb34e889463e885f722d20e15041c602274ce4072467903c7b4bf8e744",
       "status": "confirmed",
       "outcome": {
         "received": "20000000",
         "spent_a": "10000000",
         "spent_b": "0"
       },
-      "ledger": 5054873,
-      "feeCharged": "1552678",
+      "ledger": 5056473,
+      "feeCharged": "1556482",
       "errors": []
     },
     {
       "label": "Deploy lying-underpayment venue fixture",
-      "hash": "503de852e9e7e5db6e4c399a287b469250868b4653aa142bd15a0206fc605f0d",
+      "hash": "639bae1ef8761c4c099198b5ae0d2d84ba4be062edd56cd960beef4fd075aa8e",
       "status": "confirmed",
-      "outcome": "CDFREZG5MXN44XTZ4EWMFQ2R6DRRFXHTRDLZ5TBRKW7RNPABWDWTFENJ",
-      "ledger": 5054874,
-      "feeCharged": "79060",
+      "outcome": "CD54XBB6B4WEG5NEL3HESPXRD2QFJX3VHKUBHIDJ3RNQZTARW5MBVMUO",
+      "ledger": 5056475,
+      "feeCharged": "79237",
       "errors": []
     },
     {
       "label": "Deploy isolated lying-underpayment guard",
-      "hash": "3b1d5ab5949a84855c998eb8f03f9f09da590912ae91266c32168cdeec7ed31f",
+      "hash": "b47f151e013c15eaf4545c23c969036a8b5f97b3f89548209d1790ae190d66a6",
       "status": "confirmed",
-      "outcome": "CALSWLXDS5RTOJ57TA5MCW2R75NNHGWUIT5QS27HSBSOUJ2Z6QO2IJRY",
-      "ledger": 5054875,
-      "feeCharged": "194456",
+      "outcome": "CCOKVH4S5COFYYSSB6INN2C47TYKQE3QNU5ZCZLUMZVBV2KKFBYD4MEB",
+      "ledger": 5056476,
+      "feeCharged": "194922",
       "errors": []
     },
     {
       "label": "Fund lying-underpayment fixture output",
-      "hash": "78688074d1350136ebb4362e2b32e64ce16f12e0beaa538dd4a5efb22199e72a",
+      "hash": "fff5f30027ec13c00ad8f49187859b68f3776b5e1039d0cd187180b0e3cf8a9c",
       "status": "confirmed",
       "outcome": null,
-      "ledger": 5054876,
-      "feeCharged": "493621",
+      "ledger": 5056477,
+      "feeCharged": "494835",
       "errors": []
     },
     {
       "label": "Lying venue — atomic wallet funding rollback",
-      "hash": "9817f4f2fedde27fbafb462d3868778e62ee4c1cc1b26e5e83f9d9f368765599",
+      "hash": "613b8b393aeae8373d718e2951077acd742ae26bea934d9a03620870c3342147",
       "status": "failed",
-      "ledger": 5054878,
-      "feeCharged": "37738",
+      "ledger": 5056479,
+      "feeCharged": "37755",
       "errors": [
         {
-          "contract": "CALSWLXDS5RTOJ57TA5MCW2R75NNHGWUIT5QS27HSBSOUJ2Z6QO2IJRY",
+          "contract": "CCOKVH4S5COFYYSSB6INN2C47TYKQE3QNU5ZCZLUMZVBV2KKFBYD4MEB",
           "topics": [
             "error",
             {
@@ -117,7 +117,7 @@
           ]
         },
         {
-          "contract": "CALSWLXDS5RTOJ57TA5MCW2R75NNHGWUIT5QS27HSBSOUJ2Z6QO2IJRY",
+          "contract": "CCOKVH4S5COFYYSSB6INN2C47TYKQE3QNU5ZCZLUMZVBV2KKFBYD4MEB",
           "topics": [
             "error",
             {
@@ -141,38 +141,38 @@
     },
     {
       "label": "Deploy forbidden-approval venue fixture",
-      "hash": "4e4bd1d1772f346e6847a75e5de65fec26361da164ac4c5791de8fae12433311",
+      "hash": "993e47263e6c3d00d480ed9c57327bd12767d9510d287bbec9456b158ddf3882",
       "status": "confirmed",
-      "outcome": "CAF7NSAFGIDFCADFURUJQRM44LMMVYSAM4RYK6YW2BJIEKCK72DY6NM6",
-      "ledger": 5054879,
-      "feeCharged": "79060",
+      "outcome": "CC3253VNMI7PA5VKXDHDRDOKWB6OAZYUKKF2SKEQILU4ZIP47MN26KMK",
+      "ledger": 5056481,
+      "feeCharged": "79237",
       "errors": []
     },
     {
       "label": "Deploy isolated forbidden-approval guard",
-      "hash": "b084224fa726e57bc8ee54cddd04f0b3bffe8a0901aab1e8627a26569dafbd54",
+      "hash": "a745ecbfdf16a3d1e6df5c60c31926dd456e6519596b59c2c1cdb7f9081351fb",
       "status": "confirmed",
-      "outcome": "CDFM5LLSO25Q432Q6UFJJINU32CUTALXVHBKUF7WTHA354B644CQ3X7B",
-      "ledger": 5054880,
-      "feeCharged": "194456",
+      "outcome": "CDSFDJGNPQVIGOYAA5YEWMNCN6CDZKOA6J2V3IXZOIFRGJGCYQYZW5PG",
+      "ledger": 5056482,
+      "feeCharged": "194922",
       "errors": []
     },
     {
       "label": "Deploy extra-transfer venue fixture",
-      "hash": "0e06c85d9ff08482834ccda03a3932bd38b9ec6b7c9461c87a24515cf604494c",
+      "hash": "24a3041bbac4677df4a4ab043c4d09b3f650e9fee847adb7b5ace969764cb227",
       "status": "confirmed",
-      "outcome": "CCFNLCOXRIO5ZP2YZTKOULWHCDM2OYCCZOLQKTQB7Y3AQFYLS3UNEB33",
-      "ledger": 5054882,
-      "feeCharged": "79060",
+      "outcome": "CCJUF33AV5RGPDD7B4MGTP2CKQAFJFEJA7MPP3GG5KPAISF5IE45IWUM",
+      "ledger": 5056484,
+      "feeCharged": "79237",
       "errors": []
     },
     {
       "label": "Deploy isolated extra-transfer guard",
-      "hash": "619e2ed0273116deddee9c032f01b06b38bbd94de0ab8a5d0de1d6c7b77f6073",
+      "hash": "4238f58f3fee69f23e37040cce6d0d72ab3904cb858a3b796b9cdfbe8039acaf",
       "status": "confirmed",
-      "outcome": "CBMLZX7RZNWEOKDJ2LDO4UOPRKWBWCNOQ32OT7L4B5M4YDWYTBCWZ4ST",
-      "ledger": 5054883,
-      "feeCharged": "194456",
+      "outcome": "CAZ6DKQSLHEX2IPDYEG5UEKFUQQPGAZWRFGP7ODEG5AAEJEY3O5EEQUN",
+      "ledger": 5056485,
+      "feeCharged": "194922",
       "errors": []
     }
   ],
@@ -180,24 +180,24 @@
     {
       "name": "honest",
       "mode": 0,
-      "guard": "CB66MIE3ZOT32R5QF77BLPU7APKPRXV4OVD5235RKBKAZNMCOMZQTMYC",
-      "venue": "CAEQU4VT6LW47ZMXQT3SDAFS7UXT2O3RMOXAFUKR7A4VK2K7AJQDSU56",
+      "guard": "CCLCEX3KNQVAE45F4NTUVGWKH3RDGBJJUQCTX25AVRJISRHGXYYMPWAO",
+      "venue": "CC6VSWKZR625POABSMY45GZGPUZHTWJGI2RTD3NKK7F7TCBL2NY3MVTJ",
       "policy": {
         "amount_in": "10000000",
         "deny_approvals": true,
-        "expires_at": "1791298551",
+        "expires_at": "1791306550",
         "max_spend": "10000000",
         "min_receive": "19000000",
         "nonce": "0",
-        "owner": "GCUPDNIOOYR55RGJ2JXR3RS3XKIKR55KLJEKPES3YJ22QEIP4W7VDKCM",
-        "pair": "CAEQU4VT6LW47ZMXQT3SDAFS7UXT2O3RMOXAFUKR7A4VK2K7AJQDSU56",
-        "router": "CAEQU4VT6LW47ZMXQT3SDAFS7UXT2O3RMOXAFUKR7A4VK2K7AJQDSU56",
+        "owner": "GCRAFPHO5EJEUFWGFP6J25NMUO3AD5G2ZAH4CRQ7VP452JST32OD76QG",
+        "pair": "CC6VSWKZR625POABSMY45GZGPUZHTWJGI2RTD3NKK7F7TCBL2NY3MVTJ",
+        "router": "CC6VSWKZR625POABSMY45GZGPUZHTWJGI2RTD3NKK7F7TCBL2NY3MVTJ",
         "token_in": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
         "token_out": "CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA"
       },
       "before": {
-        "ownerA": "99599110271",
-        "ownerB": "22288339",
+        "ownerA": "99599108237",
+        "ownerB": "22287372",
         "guardA": "0",
         "guardB": "0",
         "venueA": "0",
@@ -207,20 +207,20 @@
       },
       "receipt": {
         "label": "Honest wallet-funded fixture swap",
-        "hash": "8c2c8878d22960a94d03dde9a7e0b4d5c78cd5591b9e18fd94938e9f35285572",
+        "hash": "374f9feb34e889463e885f722d20e15041c602274ce4072467903c7b4bf8e744",
         "status": "confirmed",
         "outcome": {
           "received": "20000000",
           "spent_a": "10000000",
           "spent_b": "0"
         },
-        "ledger": 5054873,
-        "feeCharged": "1552678",
+        "ledger": 5056473,
+        "feeCharged": "1556482",
         "errors": []
       },
       "after": {
-        "ownerA": "99587557593",
-        "ownerB": "42288339",
+        "ownerA": "99587551755",
+        "ownerB": "42287372",
         "guardA": "0",
         "guardB": "0",
         "venueA": "10000000",
@@ -233,24 +233,24 @@
     {
       "name": "lying-underpayment",
       "mode": 1,
-      "guard": "CALSWLXDS5RTOJ57TA5MCW2R75NNHGWUIT5QS27HSBSOUJ2Z6QO2IJRY",
-      "venue": "CDFREZG5MXN44XTZ4EWMFQ2R6DRRFXHTRDLZ5TBRKW7RNPABWDWTFENJ",
+      "guard": "CCOKVH4S5COFYYSSB6INN2C47TYKQE3QNU5ZCZLUMZVBV2KKFBYD4MEB",
+      "venue": "CD54XBB6B4WEG5NEL3HESPXRD2QFJX3VHKUBHIDJ3RNQZTARW5MBVMUO",
       "policy": {
         "amount_in": "10000000",
         "deny_approvals": true,
-        "expires_at": "1791298571",
+        "expires_at": "1791306576",
         "max_spend": "10000000",
         "min_receive": "19000000",
         "nonce": "0",
-        "owner": "GCUPDNIOOYR55RGJ2JXR3RS3XKIKR55KLJEKPES3YJ22QEIP4W7VDKCM",
-        "pair": "CDFREZG5MXN44XTZ4EWMFQ2R6DRRFXHTRDLZ5TBRKW7RNPABWDWTFENJ",
-        "router": "CDFREZG5MXN44XTZ4EWMFQ2R6DRRFXHTRDLZ5TBRKW7RNPABWDWTFENJ",
+        "owner": "GCRAFPHO5EJEUFWGFP6J25NMUO3AD5G2ZAH4CRQ7VP452JST32OD76QG",
+        "pair": "CD54XBB6B4WEG5NEL3HESPXRD2QFJX3VHKUBHIDJ3RNQZTARW5MBVMUO",
+        "router": "CD54XBB6B4WEG5NEL3HESPXRD2QFJX3VHKUBHIDJ3RNQZTARW5MBVMUO",
         "token_in": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
         "token_out": "CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA"
       },
       "before": {
-        "ownerA": "99586790456",
-        "ownerB": "37288339",
+        "ownerA": "99586782761",
+        "ownerB": "37287372",
         "guardA": "0",
         "guardB": "0",
         "venueA": "0",
@@ -273,13 +273,13 @@
       },
       "receipt": {
         "label": "Lying venue — atomic wallet funding rollback",
-        "hash": "9817f4f2fedde27fbafb462d3868778e62ee4c1cc1b26e5e83f9d9f368765599",
+        "hash": "613b8b393aeae8373d718e2951077acd742ae26bea934d9a03620870c3342147",
         "status": "failed",
-        "ledger": 5054878,
-        "feeCharged": "37738",
+        "ledger": 5056479,
+        "feeCharged": "37755",
         "errors": [
           {
-            "contract": "CALSWLXDS5RTOJ57TA5MCW2R75NNHGWUIT5QS27HSBSOUJ2Z6QO2IJRY",
+            "contract": "CCOKVH4S5COFYYSSB6INN2C47TYKQE3QNU5ZCZLUMZVBV2KKFBYD4MEB",
             "topics": [
               "error",
               {
@@ -293,7 +293,7 @@
             ]
           },
           {
-            "contract": "CALSWLXDS5RTOJ57TA5MCW2R75NNHGWUIT5QS27HSBSOUJ2Z6QO2IJRY",
+            "contract": "CCOKVH4S5COFYYSSB6INN2C47TYKQE3QNU5ZCZLUMZVBV2KKFBYD4MEB",
             "topics": [
               "error",
               {
@@ -316,8 +316,8 @@
         ]
       },
       "after": {
-        "ownerA": "99586752718",
-        "ownerB": "37288339",
+        "ownerA": "99586745006",
+        "ownerB": "37287372",
         "guardA": "0",
         "guardB": "0",
         "venueA": "0",
@@ -330,24 +330,24 @@
     {
       "name": "forbidden-approval",
       "mode": 2,
-      "guard": "CDFM5LLSO25Q432Q6UFJJINU32CUTALXVHBKUF7WTHA354B644CQ3X7B",
-      "venue": "CAF7NSAFGIDFCADFURUJQRM44LMMVYSAM4RYK6YW2BJIEKCK72DY6NM6",
+      "guard": "CDSFDJGNPQVIGOYAA5YEWMNCN6CDZKOA6J2V3IXZOIFRGJGCYQYZW5PG",
+      "venue": "CC3253VNMI7PA5VKXDHDRDOKWB6OAZYUKKF2SKEQILU4ZIP47MN26KMK",
       "policy": {
         "amount_in": "10000000",
         "deny_approvals": true,
-        "expires_at": "1791298590",
+        "expires_at": "1791306601",
         "max_spend": "10000000",
         "min_receive": "19000000",
         "nonce": "0",
-        "owner": "GCUPDNIOOYR55RGJ2JXR3RS3XKIKR55KLJEKPES3YJ22QEIP4W7VDKCM",
-        "pair": "CAF7NSAFGIDFCADFURUJQRM44LMMVYSAM4RYK6YW2BJIEKCK72DY6NM6",
-        "router": "CAF7NSAFGIDFCADFURUJQRM44LMMVYSAM4RYK6YW2BJIEKCK72DY6NM6",
+        "owner": "GCRAFPHO5EJEUFWGFP6J25NMUO3AD5G2ZAH4CRQ7VP452JST32OD76QG",
+        "pair": "CC3253VNMI7PA5VKXDHDRDOKWB6OAZYUKKF2SKEQILU4ZIP47MN26KMK",
+        "router": "CC3253VNMI7PA5VKXDHDRDOKWB6OAZYUKKF2SKEQILU4ZIP47MN26KMK",
         "token_in": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
         "token_out": "CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA"
       },
       "before": {
-        "ownerA": "99586479202",
-        "ownerB": "37288339",
+        "ownerA": "99586470847",
+        "ownerB": "37287372",
         "guardA": "0",
         "guardB": "0",
         "venueA": "0",
@@ -360,8 +360,8 @@
         "expectedError": "Auth InvalidAction"
       },
       "after": {
-        "ownerA": "99586479202",
-        "ownerB": "37288339",
+        "ownerA": "99586470847",
+        "ownerB": "37287372",
         "guardA": "0",
         "guardB": "0",
         "venueA": "0",
@@ -374,24 +374,24 @@
     {
       "name": "extra-transfer",
       "mode": 3,
-      "guard": "CBMLZX7RZNWEOKDJ2LDO4UOPRKWBWCNOQ32OT7L4B5M4YDWYTBCWZ4ST",
-      "venue": "CCFNLCOXRIO5ZP2YZTKOULWHCDM2OYCCZOLQKTQB7Y3AQFYLS3UNEB33",
+      "guard": "CAZ6DKQSLHEX2IPDYEG5UEKFUQQPGAZWRFGP7ODEG5AAEJEY3O5EEQUN",
+      "venue": "CCJUF33AV5RGPDD7B4MGTP2CKQAFJFEJA7MPP3GG5KPAISF5IE45IWUM",
       "policy": {
         "amount_in": "10000000",
         "deny_approvals": true,
-        "expires_at": "1791298607",
+        "expires_at": "1791306616",
         "max_spend": "10000000",
         "min_receive": "19000000",
         "nonce": "0",
-        "owner": "GCUPDNIOOYR55RGJ2JXR3RS3XKIKR55KLJEKPES3YJ22QEIP4W7VDKCM",
-        "pair": "CCFNLCOXRIO5ZP2YZTKOULWHCDM2OYCCZOLQKTQB7Y3AQFYLS3UNEB33",
-        "router": "CCFNLCOXRIO5ZP2YZTKOULWHCDM2OYCCZOLQKTQB7Y3AQFYLS3UNEB33",
+        "owner": "GCRAFPHO5EJEUFWGFP6J25NMUO3AD5G2ZAH4CRQ7VP452JST32OD76QG",
+        "pair": "CCJUF33AV5RGPDD7B4MGTP2CKQAFJFEJA7MPP3GG5KPAISF5IE45IWUM",
+        "router": "CCJUF33AV5RGPDD7B4MGTP2CKQAFJFEJA7MPP3GG5KPAISF5IE45IWUM",
         "token_in": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
         "token_out": "CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA"
       },
       "before": {
-        "ownerA": "99586205686",
-        "ownerB": "37288339",
+        "ownerA": "99586196688",
+        "ownerB": "37287372",
         "guardA": "0",
         "guardB": "0",
         "venueA": "0",
@@ -404,8 +404,8 @@
         "expectedError": "Auth InvalidAction"
       },
       "after": {
-        "ownerA": "99586205686",
-        "ownerB": "37288339",
+        "ownerA": "99586196688",
+        "ownerB": "37287372",
         "guardA": "0",
         "guardB": "0",
         "venueA": "0",
@@ -416,5 +416,5 @@
       "passed": true
     }
   ],
-  "finishedAt": "2026-10-06T14:46:49.127Z"
+  "finishedAt": "2026-10-06T17:00:19.387Z"
 }

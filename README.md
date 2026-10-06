@@ -281,6 +281,14 @@ The middle arrow switches between XLM → USDC and USDC → XLM. The form update
 
 Liquidity contributions use the existing pool's reserve ratio. Their signed conditions include both underlying-token caps and the minimum actual LP share credit.
 
+### Check adversarial test contracts
+
+The **Swap venue** selector offers three deployed security checks: **Underpaying test contract**, **Forbidden approval test**, and **Extra transfer test**. Each uses an isolated guard with the published executor bytecode. Choose a test venue, keep the 1-XLM amount and 1.9 test-USDC minimum, and click **Check test contract**. Funded scenarios accept up to 1 XLM and use explicitly labelled artificial rates.
+
+The status modal shows a fresh public RPC simulation result, attempted amounts or permissions, ledger number, deployed contract addresses, and expandable diagnostics. The underpaying venue claims 2 USDC but attempts to deliver 0.5; guard error 8 proves the minimum failed. Approval and excess-transfer cases require the exact forbidden token call and its authorization error. Contract hashes, immutable configuration, fixture mode, token identities, and route resolution are verified before simulation.
+
+Checks request no signature, submit no transaction, and create no execution receipt. Weak minimums satisfied by the simulated settlement are displayed as **Conditions satisfied**. Unrelated network or provenance failures remain errors. Deployment pins are in [`src/lib/venues.ts`](src/lib/venues.ts); verification and simulation are in [`src/lib/fixture.ts`](src/lib/fixture.ts). The standalone SDK and normal signing flow retain the published Soroswap route.
+
 ### Independent integration application
 
 ```powershell
@@ -489,7 +497,7 @@ Keep `contracts/Cargo.lock` committed so host-test cryptography dependencies rem
 | 9 executor host tests | Wallet funding, swaps, liquidity, actual receipts, reserve ordering, dual caps, baselines, policy binding, nonce/replay, authorization, and adversarial rollback |
 | 12 account host tests | Retained account policy enforcement and recovery implementation |
 | 10 Node tests | Decimal precision, canonical ABI encoding, token direction, deployment checks, and signed-body/expiry validation |
-| 20 browser tests | Forms, layout, automatic quote races, custom minimums, reversal, wallet restoration, pending submissions, transaction status, recovery, dialogs, and independent integration |
+| 24 browser tests | Forms, layout, automatic quote races, custom minimums, reversal, wallet restoration, pending submissions, transaction status, security-check presentation, recovery, dialogs, and independent integration |
 
 The [verification record](docs/VERIFICATION.md) includes the artifact checksums, test boundaries, and public ledger reports. The [GitHub Actions workflow](.github/workflows/verify.yml) builds the contracts first, uploads their artifacts, then runs the application build, lint, and Node tests.
 
@@ -643,11 +651,13 @@ caveat/
 │   ├── lib/
 │   │   ├── contracts.ts
 │   │   ├── executor.ts
+│   │   ├── fixture.ts
 │   │   ├── policy.ts
 │   │   ├── stellar.ts
 │   │   ├── testnet.ts
 │   │   ├── tokens.ts
-│   │   └── transaction.ts
+│   │   ├── transaction.ts
+│   │   └── venues.ts
 │   ├── App.css
 │   ├── App.tsx
 │   ├── index.css
@@ -657,6 +667,7 @@ caveat/
 │   │   ├── integration.spec.ts
 │   │   ├── quotes.spec.ts
 │   │   ├── transactions.spec.ts
+│   │   ├── venues.spec.ts
 │   │   ├── wallet.spec.ts
 │   │   └── workspace.spec.ts
 │   ├── executor.test.ts
@@ -674,6 +685,7 @@ caveat/
 ├── tsconfig.app.json
 ├── tsconfig.json
 ├── tsconfig.node.json
+├── vercel.json
 └── vite.config.ts
 ```
 
@@ -688,6 +700,8 @@ caveat/
 | `src/components/TransactionStatus.tsx` | Wallet, submission, confirmation, error, and measured receipt presentation |
 | `src/components/TestnetSetup.tsx` | Earlier account recovery |
 | `src/lib/executor.ts` | Main-app adapter to the SDK |
+| `src/lib/fixture.ts` | Test-contract provenance, real RPC simulation, and diagnostic rejection verification |
+| `src/lib/venues.ts` | Isolated Testnet fixture and guard deployment pins |
 | `src/lib/stellar.ts` | Freighter integration and retained transaction/read helpers |
 | `src/lib/testnet.ts` | Earlier account inspection, deployment, and recovery operations |
 | `src/lib/contracts.ts` | Earlier account release pins |
@@ -698,6 +712,16 @@ caveat/
 | `scripts/stage-integration.mjs` | Copy the independent example build into the main public assets |
 | `scripts/stage-contracts.mjs` | Check and stage the legacy account WASM |
 | `scripts/verify-contracts.sh` | Formatting, locked host tests, release builds, and checksums |
+
+## Frontend hosting
+
+The application and independent integration are static Vite builds. [`vercel.json`](vercel.json) configures Vercel with the `vite` framework, `npm run build`, and the `dist` output directory. Node.js 24 is pinned in `package.json`. Import the repository with the repository root as the Vercel project root; npm workspaces build the SDK and independent example before the main app.
+
+Default Testnet operation uses public RPC, Horizon, and browser Freighter access. No server credentials or environment variables are required. The independent example is served at `/integrations/pool/index.html`. The optional legacy account WASM is staged when a verified local artifact exists; normal swaps, liquidity, and test-contract checks use deployed contracts.
+
+Connect Freighter to the deployed origin and select Stellar Testnet. Wallet permissions and pending transaction storage belong to that origin. Contract deployments remain on Stellar Testnet independently of frontend hosting.
+
+See [Vercel's Vite documentation](https://vercel.com/docs/frameworks/frontend/vite) and [Node.js version configuration](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions).
 
 ## Build outputs
 

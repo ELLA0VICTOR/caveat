@@ -19,6 +19,10 @@ For a small liquidity demonstration, swapping 2 XLM first usually supplies enoug
 
 The exact test USDC issuer is `GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5`. A trustline allows receipt of that asset; it does not authorize Caveat spending. XLM → USDC swaps supply the test output from the real pool, so a separate USDC faucet is not needed.
 
+## Test contract checks
+
+Choose **Swap**, then use the **Swap venue** selector to choose **Underpaying test contract**, **Forbidden approval test**, or **Extra transfer test**. Each selection starts with 1 XLM and a 1.9 test-USDC minimum. Click **Check test contract** to run fresh public RPC simulation against deployed contracts. The modal explains verified rejection and links the isolated venue and guard addresses. Rates are artificial; checks accept up to 1 XLM and submit no transaction. A weak custom minimum can permit the smaller underpayment receipt. Select **Soroswap** to return to real pool swaps.
+
 ## Earlier deposited funds
 
 Open Wallet setup → **Recover funds from an earlier account**. The earlier deployment address saved in this browser is preserved. Verify its owner and balances, choose XLM or test USDC, enter the withdrawal amount, review and sign in Freighter. Enable the USDC trustline first for a USDC withdrawal.

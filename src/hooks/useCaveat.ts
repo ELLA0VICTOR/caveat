@@ -6,6 +6,8 @@ import type { Action, Outcome, PreparedAction, SwapDirection } from '@caveat/sdk
 import { swapAssets } from '@caveat/sdk/deployment'
 import { useLiveQuote } from './useLiveQuote'
 import type { TransactionAmount, TransactionKind, TransactionNotice } from '../lib/transaction'
+import { TEST_VENUES } from '../lib/venues'
+import type { Venue } from '../lib/venues'
 
 export type Receipt = {
   id: string
@@ -38,6 +40,7 @@ export function useCaveat() {
   const [amount, setAmount] = useState('1')
   const [action, setAction] = useState<Action>('swap')
   const [direction, setDirection] = useState<SwapDirection>('xlm-to-usdc')
+  const [venue, setVenue] = useState<Venue>('soroswap')
   const [minimumOverride, setMinimumOverride] = useState<{ key: string; value: string } | null>(null)
   const [minutes, setMinutes] = useState(10)
   const [wallet, setWallet] = useState('')
@@ -62,7 +65,7 @@ export function useCaveat() {
   })
   const [transactionOpen, setTransactionOpen] = useState(Boolean(transaction))
   const transactionChecker = useRef<((hash: string) => Promise<void>) | null>(null)
-  const quote = useLiveQuote(action, amount, busy || dialog === 'review', direction)
+  const quote = useLiveQuote(action, amount, busy || dialog === 'review', direction, venue)
   const assets = swapAssets(action === 'swap' ? direction : 'xlm-to-usdc')
   const customMinimum = minimumOverride?.key === quote.key
   const minimum = customMinimum ? minimumOverride.value : quote.minimum
@@ -84,10 +87,16 @@ export function useCaveat() {
   function changeAction(value: Action) {
     if (value === action) return
     if (direction === 'usdc-to-xlm') setAmount('1')
-    setDirection('xlm-to-usdc'); setAction(value); setMinimumOverride(null); invalidate()
+    setDirection('xlm-to-usdc'); setVenue('soroswap'); setAction(value); setMinimumOverride(null); invalidate()
+  }
+  function changeVenue(value: Venue) {
+    if (busy || pending || transaction?.phase === 'pending' || value === venue) return
+    setVenue(value)
+    if (value !== 'soroswap') { setDirection('xlm-to-usdc'); setAmount('1') }
+    setMinimumOverride(null); invalidate()
   }
   function reverseSwap() {
-    if (action !== 'swap' || busy || pending) return
+    if (action !== 'swap' || venue !== 'soroswap' || busy || pending) return
     setDirection(direction === 'xlm-to-usdc' ? 'usdc-to-xlm' : 'xlm-to-usdc')
     setAmount(quote.status === 'ready' ? quote.expected : '')
     setMinimumOverride(null); invalidate()
@@ -172,14 +181,27 @@ export function useCaveat() {
     try { toUnits(amount) }
     catch (error) { setMessage(error instanceof Error ? error.message : 'Invalid spending amount.'); return }
     if (!wallet) { await connect(); return }
-    if (quote.status !== 'ready') { setMessage(quote.status === 'error' ? 'The live quote is unavailable. Retry before preparing your swap.' : 'Waiting for the latest live quote…'); return }
+    if (quote.status !== 'ready') { setMessage(quote.status === 'error' ? 'The current terms are unavailable. Retry before preparing your swap.' : 'Waiting for the latest terms…'); return }
     if (!minimum.trim()) { setMessage('Enter the minimum amount you want to receive.'); return }
     setBusy(true); setMessage('Reading testnet contracts and simulating your intent…')
     try {
+      if (action === 'swap' && venue !== 'soroswap') {
+        const fixture = TEST_VENUES[venue]
+        transactionChecker.current = null
+        setTransaction({ kind: 'swap', title: fixture.label, phase: 'checking',
+          detail: 'Verifying deployed bytecode and running your exact conditions through Stellar Testnet RPC.',
+          verification: { guard: fixture.guard, venue: fixture.venue } })
+        setTransactionOpen(true); setMessage('')
+        const { checkTestVenue } = await import('../lib/fixture')
+        const result = await checkTestVenue(venue, wallet, { amount, minimum, minutes, direction: 'xlm-to-usdc' })
+        setTransaction({ kind: 'swap', title: fixture.label, ...result,
+          verification: { guard: result.guard, venue: result.venue, ledger: result.ledger } })
+        return
+      }
       const { executor } = await import('../lib/executor')
       setPrepared(await executor.prepare(wallet, action, { amount, minimum, minutes, ...(action === 'liquidity' ? { maxB: quote.maxB } : { direction }) }))
       setMessage(''); setDialog('review')
-    } catch (error) { transactionError(error, action, action === 'swap' ? 'Protected Soroswap swap' : 'Protected Soroswap liquidity') }
+    } catch (error) { transactionError(error, action, venue !== 'soroswap' ? TEST_VENUES[venue].label : action === 'swap' ? 'Protected Soroswap swap' : 'Protected Soroswap liquidity') }
     finally { setBusy(false) }
   }
   async function sign() {
@@ -249,7 +271,7 @@ export function useCaveat() {
   function refreshQuote() { invalidate(); quote.refresh() }
   function useAutomaticMinimum() { setMinimumOverride(null); invalidate() }
   return {
-    action, direction, assets, reverseSwap, amount, minimum, minutes, wallet, config, draftConfig, dialog,
+    action, direction, venue, changeVenue, assets, reverseSwap, amount, minimum, minutes, wallet, config, draftConfig, dialog,
     entries, message, busy, prepared, pending, checkPending, quote, customMinimum,
     transaction, transactionOpen, startTransaction, resumeTransaction, transactionProgress, transactionSubmitted, transactionError, closeTransaction, openTransaction, checkTransaction,
     changeAction, changeAmount, changeMinimum, changeMinutes,

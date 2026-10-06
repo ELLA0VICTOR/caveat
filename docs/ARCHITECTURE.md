@@ -79,7 +79,11 @@ Preparation verifies provenance and source authorization, then performs genuine 
 
 The USDC trustline is a one-time classic asset permission to receive that exact issuer. It grants no Caveat spending allowance. Funds stay in the wallet between actions. The earlier account remains immutable and owner-recoverable; its saved address is retained for withdrawal only.
 
-See [verification](VERIFICATION.md) for real Soroswap swap/liquidity receipts and an isolated malicious venue's submitted rollback. Adversarial fixtures are not DEXs and are never accepted by the browser's published route.
+The swap form also offers three labelled test contracts: underpayment, forbidden approval, and extra transfer. Each check verifies the fixture hash, mode, isolated guard hash, immutable configuration, route resolution, and underlying assets before a fresh public RPC simulation. Isolated guards run the same executor bytecode as the Soroswap guard. The normal SDK route remains pinned to Soroswap.
+
+The UI reports **Blocked by Caveat** only when diagnostics prove the selected rejection: guard error 8 with an actual underlying-token transfer below the minimum, or the exact forbidden token call with an authorization error. Unrelated failures remain interruptions. Weak minimums that satisfy the simulated settlement are displayed as **Conditions satisfied**. These checks request no signature, submit no transaction, and create no ledger receipt. Fixture claims use declared artificial rates, separately labelled from live Soroswap quotes.
+
+See [verification](VERIFICATION.md) for real Soroswap swap/liquidity receipts and an isolated malicious venue's submitted rollback.
 
 ## Primary references
 
