@@ -49,6 +49,7 @@ export function IntentSlip({ caveat }: { caveat: CaveatState }) {
           <div className="approval-term"><span><span className="term-number">04</span> APPROVALS</span><strong><LockKeyhole size={13}/> None allowed</strong></div>
         </div>
         <div className="protocol-line"><div><span className="protocol-symbol">↗</span> Routed through <strong>Soroswap</strong></div><button onClick={() => c.setDialog('model')} aria-label="View route details"><ArrowUpRight size={15}/></button></div>
+        {c.mode === 'live' && c.config.account && <div className="live-quote"><button onClick={c.refreshQuote} disabled={c.busy}>Load live quote & set minimum <ArrowUpRight size={12}/></button>{c.liveQuote && <span>Quoted output: {c.liveQuote} · 1% tolerance</span>}</div>}
         <button className="submit-intent" onClick={submit} disabled={c.busy}>{c.busy ? <><LoaderCircle size={17} className="loading-icon"/> Preparing your intent</> : c.mode === 'demo' ? 'Test my intent' : c.wallet ? 'Prepare & review intent' : 'Connect testnet wallet'}<ArrowRight size={19}/></button>
         <p className="execution-disclosure"><span className={c.mode === 'demo' ? 'demo-dot' : 'live-dot'}/>{c.mode === 'demo' ? 'Local model. No funds. No wallet signature.' : 'Signed testnet execution. Review before submitting.'}</p>
         {c.message && !c.dialog && <div className="inline-feedback" role="status">{c.message}</div>}

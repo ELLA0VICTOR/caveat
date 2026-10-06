@@ -7,6 +7,7 @@ permissions:
   contents: read
 jobs:
   frontend:
+    needs: contracts
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,6 +16,10 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: caveat-soroban-contracts
+          path: contracts/target/wasm32v1-none/release
       - run: npm run build
       - run: npm run lint
       - run: npm test

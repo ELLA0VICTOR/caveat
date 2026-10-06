@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 .tools/
 contracts/target/
+public/contracts/
 contracts/**/test_snapshots/
 test-results/
 playwright-report/

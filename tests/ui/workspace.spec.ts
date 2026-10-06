@@ -27,6 +27,8 @@ test('invalid terms and contract settings remain honest and dialogs trap focus',
   await page.getByRole('button', { name: 'Test my intent' }).click()
   await expect(page.getByText('Enter a positive decimal amount.')).toBeVisible()
   await page.getByRole('button', { name: 'Deployment settings' }).click()
+  await expect(page.getByRole('button', { name: 'Connect testnet wallet', exact: true })).toBeVisible()
+  await page.getByText('Use an existing deployment', { exact: true }).click()
   await page.getByRole('button', { name: 'Save testnet configuration' }).click()
   await expect(page.getByRole('dialog').getByText('Enter a valid contract address for account.')).toBeVisible()
   await page.getByRole('button', { name: 'Save testnet configuration' }).focus()

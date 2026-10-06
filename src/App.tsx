@@ -6,6 +6,7 @@ import { Brand } from './components/Brand'
 import { Dialog } from './components/Dialog'
 import { IntentSlip } from './components/IntentSlip'
 import { StressTest } from './components/StressTest'
+import { TestnetSetup } from './components/TestnetSetup'
 import './App.css'
 
 const short = (value: string) => `${value.slice(0, 7)}…${value.slice(-5)}`
@@ -62,7 +63,7 @@ function App() {
           ['Is the demo real on-chain protection?', 'The interactive demo is an explanatory local model. Testnet mode uses Stellar RPC and Freighter, and requires a deployed Caveat account. Only a successful ledger receipt is shown as confirmed execution.'],
           ['What does the account actually protect?', 'Assets held at its contract address, using honest allowlisted SEP-41 tokens. It does not protect ordinary wallet funds, compromised keys, dishonest token balance reports, or issuer freezes and clawbacks.'],
           ['Can I still get a bad price?', 'Yes. An outcome that satisfies weak conditions you sign is allowed. You choose the minimum receipt. This product does not judge whether those conditions represent a fair market price.'],
-          ['Is Caveat ready for mainnet?', 'This is a testnet hackathon prototype. Contract compilation and host tests were blocked locally by Windows Application Control. Linux CI and deployment instructions are provided; independent review and ledger verification are still required.'],
+          ['Is Caveat ready for mainnet?', 'This is a testnet hackathon prototype. Both contracts compile to WASM and all 12 Soroban host tests pass. Independent review and ledger verification are still required.'],
         ].map(([question, answer]) => <details key={question}><summary>{question}<span className="question-plus">+</span></summary><p>{answer}</p></details>)}</div></section>
       </main>
 
@@ -70,16 +71,19 @@ function App() {
 
       {c.dialog && <Dialog title={c.dialog === 'settings' ? 'Testnet deployment settings' : c.dialog === 'review' ? 'Review signed intent' : c.dialog === 'receipts' ? 'Execution receipts' : 'Security model'} onClose={c.closeDialog} busy={c.busy} wide={c.dialog === 'review'}>
         {c.dialog === 'settings' ? <>
-          <span className="dialog-kicker">TESTNET / CONTRACT IDENTITIES</span><h2>Connect your<br/><em>deployment.</em></h2><p className="dialog-intro">A real execution starts with verified addresses. Use a deployed Caveat account and trusted testnet token contracts.</p>
+          <span className="dialog-kicker">TESTNET / CONTRACT IDENTITIES</span><h2>Your account.<br/><em>Your conditions.</em></h2><p className="dialog-intro">Create an account with your wallet, or connect an existing deployment. Funds are protected only while held at its contract address.</p>
           <div className="dialog-network"><span/> STELLAR TESTNET <code>soroban-testnet.stellar.org</code></div>
+          <TestnetSetup caveat={c}/>
+          {c.message && <div className="inline-feedback" role="status">{c.message}</div>}
+          <details className="manual-deployment"><summary>Use an existing deployment <ChevronDown size={13}/></summary>
           {([
             { key: 'account', label: 'Caveat account contract', help: 'Your wallet must be the owner of this deployed account.' },
             { key: 'router', label: 'Soroswap router contract', help: 'Published testnet ID. Verify provenance after network resets.' },
             { key: 'input', label: 'Exact input token contract', help: 'Must belong to the account’s immutable token allowlist.' },
             { key: 'output', label: 'Exact output token contract', help: 'Identity is the address. Symbols are only display labels.' },
-          ] as const).map(field => <label className="deployment-field" key={field.key}>{field.label}<input value={c.draftConfig[field.key]} onChange={event => c.setDraftConfig({ ...c.draftConfig, [field.key]: event.target.value.trim() })} placeholder="C… (56-character contract address)"/><small>{field.help}</small></label>)}
-          {c.message && <div className="inline-feedback" role="alert">{c.message}</div>}
-          <button className="submit-intent" onClick={c.saveSettings}>Save testnet configuration <ArrowRight size={18}/></button><p className="dialog-footnote">Saved in this browser. Preparation verifies the owner, token precision, balances, and route through RPC. Saving alone does not prove deployment provenance.</p>
+          ] as const).map(field => <label className="deployment-field" key={field.key}>{field.label}<input disabled={c.busy} value={c.draftConfig[field.key]} onChange={event => c.setDraftConfig({ ...c.draftConfig, [field.key]: event.target.value.trim() })} placeholder="C… (56-character contract address)"/><small>{field.help}</small></label>)}
+          <button className="submit-intent" onClick={c.saveSettings} disabled={c.busy}>Save testnet configuration <ArrowRight size={18}/></button><p className="dialog-footnote">Saved in this browser. Preparation verifies the owner, token precision, balances, and route through RPC. Saving alone does not prove deployment provenance.</p>
+          </details>
         </> : c.dialog === 'review' && c.prepared ? <>
           <span className="dialog-kicker">THE TERMS YOU ARE ABOUT TO SIGN</span><h2>Read the<br/><em>fine print.</em></h2><p className="dialog-intro">RPC simulation passed. Your signature binds these exact conditions. Future execution can still fail.</p>
           <div className="review-terms">{[
@@ -93,7 +97,7 @@ function App() {
         </> : <>
           <span className="dialog-kicker">THE SECURITY MODEL</span><h2>Permission.<br/><em>With a postcondition.</em></h2><p className="dialog-intro">Caveat is an owner-authorized contract account with one constrained Soroswap execution path. It checks net balance changes for the exact token addresses you sign.</p>
           <div className="model-detail-list">{mechanisms.map(item => <div key={item.number}><span>{item.number}</span><div><h3>{item.title}</h3><p>{item.copy}</p></div></div>)}</div>
-          <div className="trust-boundary"><h3>The trust boundary</h3><p>Requires honest allowlisted SEP-41 tokens, Soroban execution, and an uncompromised owner wallet. Protects contract-held funds. Failed invocations can still incur fees.</p><p>Token balance lies, issuer clawbacks, weak signed terms, and other wallet funds are outside this boundary. Contract source, tests, and Linux CI are provided. Compilation, deployment, and independent review remain to be verified.</p></div>
+          <div className="trust-boundary"><h3>The trust boundary</h3><p>Requires honest allowlisted SEP-41 tokens, Soroban execution, and an uncompromised owner wallet. Protects contract-held funds. Failed invocations can still incur fees.</p><p>Token balance lies, issuer clawbacks, weak signed terms, and other wallet funds are outside this boundary. Both contracts compile to WASM and all 12 Soroban host tests pass. Ledger execution and independent review remain to be verified.</p></div>
           <a className="plain-link" href="https://developers.stellar.org/docs/learn/fundamentals/contract-development/contract-interactions/stellar-transaction" target="_blank" rel="noreferrer">Read Stellar’s authorization model <ExternalLink size={13}/></a>
         </>}
       </Dialog>}

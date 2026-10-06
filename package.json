@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "node scripts/stage-contracts.mjs && vite",
+    "build": "node scripts/stage-contracts.mjs && tsc -b && vite build",
+    "contracts:stage": "node scripts/stage-contracts.mjs",
     "lint": "oxlint",
     "test": "node --experimental-strip-types --test tests/policy.test.ts tests/stellar.test.ts",
     "test:ui": "playwright test",

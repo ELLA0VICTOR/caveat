@@ -13,13 +13,16 @@ npm.cmd run dev
 
 Open the Vite URL. The app starts in **Local demo**, with explicitly illustrative honest, underpayment, and forbidden-approval scenarios. It records no fake transactions or protected funds. Navigation, editable conditions, scenario selection, activity, deployment settings, and the security-model dialog work on desktop and mobile.
 
-**Testnet** uses the actual Stellar SDK, Freighter, and Stellar RPC: read owner/nonce and token precision/balances, simulate `execute`, review exact conditions and XDR, sign, submit, and confirm from the ledger. Configure a deployed Caveat account and verified router/token IDs first. A missing wallet, contract, pool, balance, or failing simulation stays an error; it never falls back to a model.
+**Testnet** uses the actual Stellar SDK, Freighter, and Stellar RPC. Open deployment settings, connect your funded testnet wallet, and prepare account creation. Review and sign the checksum-verified WASM upload if needed, then the atomic deployment with your wallet as owner. After confirmation, review a small XLM deposit. Close settings, load the live Soroswap quote, and prepare your guarded swap. Each write shows its unsigned XDR and maximum fee before Freighter signing. Pending setup transactions are retained in this browser for confirmation checks.
+
+The wallet setup and swap path support native test XLM → Stellar's documented test USDC on Soroswap. Before funding or swapping, the app checks the Caveat bytecode, owner, immutable allowlists, Soroswap router/factory/pair hashes, asset identities, and active liquidity. Saving an existing address configuration alone proves nothing. A missing wallet, contract, pool, balance, changed executable, or failing simulation stays an error; it never falls back to a model.
 
 ## Project
 
 - `src/App.tsx` — responsive transaction-first product interface.
 - `src/lib/policy.ts` — exact decimal conversion and explanatory policy model.
 - `src/lib/stellar.ts` — genuine wallet/RPC integration; fixed testnet network.
+- `src/lib/testnet.ts` — release-pinned wallet deployment, funding, recovery, quote lookup, and provenance checks.
 - `contracts/account` — guarded, immutable-allowlist, owner-authorized account.
 - `contracts/demo-router` — isolated test fixture for honest swaps, lying receipts, approval requests, and excess transfers.
 - `tests` — precision/policy and Edge browser tests.
@@ -47,7 +50,7 @@ On Linux with Rust and the `wasm32v1-none` target installed, repeat contract ver
 bash scripts/verify-contracts.sh
 ```
 
-The script uses a persistent native Linux build cache, limits compilation to two jobs, and copies release WASM files plus `SHA256SUMS` into `contracts/target/wasm32v1-none/release/`. Build outputs and generated test snapshots stay ignored by Git. Keep `contracts/Cargo.lock`: Soroban host 23.0.1 permits Ed25519 Dalek versions above 2, but version 3's RNG API is incompatible with its test utilities. The tested lockfile resolves version 2.2.0.
+The script uses a persistent native Linux build cache, limits compilation to two jobs, and copies release WASM files plus `SHA256SUMS` into `contracts/target/wasm32v1-none/release/`. `npm run dev` and `npm run build` stage the Caveat WASM into `public/contracts/` after checking its release hash and size. Without built WASM, the frontend still runs but cannot upload the contract. CI downloads the tested contract artifact before building the frontend. Build outputs and generated test snapshots stay ignored by Git. Keep `contracts/Cargo.lock`: Soroban host 23.0.1 permits Ed25519 Dalek versions above 2, but version 3's RNG API is incompatible with its test utilities. The tested lockfile resolves version 2.2.0.
 
 ## Security boundary
 

@@ -40,8 +40,9 @@ export function useCaveat() {
   const [busy, setBusy] = useState(false)
   const [prepared, setPrepared] = useState<Prepared | null>(null)
   const [lastResult, setLastResult] = useState<Receipt | null>(null)
+  const [liveQuote, setLiveQuote] = useState('')
 
-  function invalidate() { setPrepared(null); setLastResult(null); setMessage('') }
+  function invalidate() { setPrepared(null); setLastResult(null); setLiveQuote(''); setMessage('') }
   function changeAmount(value: string) { setAmount(value); invalidate() }
   function changeMinimum(value: string) { setMinimum(value); invalidate() }
   function changeMinutes(value: number) { setMinutes(value); invalidate() }
@@ -116,14 +117,30 @@ export function useCaveat() {
       setConfig(draftConfig); setDialog(null); invalidate(); setMode('live')
     } catch (error) { setMessage(error instanceof Error ? error.message : 'Invalid configuration.') }
   }
+  function applyDeployment(next: Deployment) {
+    localStorage.setItem('caveat-deployment', JSON.stringify(next))
+    setConfig(next); setDraftConfig(next); setMode('live'); invalidate()
+    setAmount('1'); setMinimum('')
+  }
+  async function refreshQuote() {
+    if (!wallet) { await connect(); return }
+    setBusy(true); setMessage('Reading the live Soroswap quote…')
+    try {
+      const { quoteIntent } = await import('../lib/testnet')
+      const quote = await quoteIntent(wallet, config, amount)
+      setPrepared(null); setLastResult(null); setLiveQuote(quote.expected); setMinimum(quote.minimum)
+      setMessage('Minimum set 1% below this quote. Review or edit it before signing; prices can change.')
+    } catch (error) { setMessage(error instanceof Error ? error.message : 'Quote lookup failed.') }
+    finally { setBusy(false) }
+  }
   let preview = '—'
   try { preview = fromUnits(demonstrate(toUnits(amount), scenario).received) } catch { /* Invalid input remains visible until submission. */ }
   return {
     mode, amount, minimum, minutes, scenario, wallet, config, draftConfig, dialog,
-    entries, message, busy, prepared, lastResult, preview,
+    entries, message, busy, prepared, lastResult, preview, liveQuote,
     changeAmount, changeMinimum, changeMinutes, changeMode, changeScenario,
     setDraftConfig, setDialog, setMessage, connect, disconnect, run, runDemo, sign,
-    openSettings, closeDialog, saveSettings,
+    openSettings, closeDialog, saveSettings, applyDeployment, refreshQuote, setBusy, record,
   }
 }
 export type CaveatState = ReturnType<typeof useCaveat>

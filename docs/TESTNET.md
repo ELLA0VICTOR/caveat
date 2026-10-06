@@ -4,7 +4,32 @@
 
 The browser's Local demo is an explanatory TypeScript model. It uses illustrative XLM/USDC amounts and makes no RPC calls. It is not a substitute for the Rust contract tests or a ledger transaction. `caveat-demo-router` is an intentionally adversarial fixture, not a DEX. The supported real DeFi integration calls Soroswap's router ABI directly.
 
-The frontend's Testnet mode performs genuine RPC simulation, Freighter signing, submission, and confirmation against `https://soroban-testnet.stellar.org`. It stays unavailable until you configure actual deployed contracts. No private key is embedded in this project. No deployment ID or transaction hash has been fabricated.
+The frontend's Testnet mode performs genuine RPC simulation, Freighter signing, submission, and confirmation against `https://soroban-testnet.stellar.org`. Wallet deployment is now available in deployment settings. No private key is embedded in this project. No deployment ID or transaction hash has been fabricated.
+
+On October 5, 2026, read-only RPC checks confirmed the published router and factory executable hashes, the native XLM / documented test USDC pool, and positive reserves. At ledger 5,040,253, an unsigned upload simulation of the tested Caveat WASM succeeded, returned its expected hash, and estimated a maximum fee of 101,722,295 stroops (10.1722295 test XLM). This is simulation evidence, not a signed upload, deployed account, or successful swap. Recheck live state before every deployment; testnet state and prices can change.
+
+## Deploy with Freighter
+
+1. Keep Freighter on **Testnet** with a Friendbot-funded wallet. Run `npm.cmd run dev` and open the Vite URL in the browser where Freighter is installed.
+2. Open **Deployment settings**, connect the wallet, and select **Prepare account creation**. The supported route is native XLM → test USDC. The app checks the live router/factory/pair bytecode against [Soroswap's published manifest](https://github.com/soroswap/core/blob/main/public/testnet.contracts.json).
+3. If the release bytecode is not uploaded, review its SHA-256, unsigned transaction XDR, and fee limit; sign **Publish the tested contract** in Freighter. Wait for RPC confirmation. Select account creation again to prepare deployment.
+4. Review the owner, predicted account address, two exact token addresses, single router, fee, and XDR. Sign the atomic account deployment. A predicted address becomes the saved deployment only after successful ledger confirmation and an owner/bytecode/allowlist check.
+5. Review and sign the suggested **5 test XLM** deposit. The account is checked before funding. Refresh balances after confirmation.
+6. Close settings. The swap starts at **1 XLM** with an empty minimum. Select **Load live quote & set minimum** to populate a minimum 1% below the current pool quote; review or edit it. This is a user-selected tolerance, not a price guarantee.
+7. Prepare, review the complete signed policy, and sign the guarded swap in Freighter. Only ledger `SUCCESS` is confirmed execution. Inspect its explorer link and actual spent/received result.
+8. Use **Owner recovery** in settings to withdraw either token to the same wallet. To receive test USDC in a G-account, add its exact issuer trustline in Freighter first. The UI never creates approvals. Pending setup transactions survive reload in browser storage; check confirmation before retrying.
+
+The test USDC identity comes from [Stellar's asset documentation](https://developers.stellar.org/docs/build/guides/basics/verify-trustlines): issuer `GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5`. It is test currency, subject to issuer powers. No additional USDC faucet is needed for the first XLM → USDC swap; the live pool supplies the output.
+
+Exact supported contracts:
+
+| Contract | Testnet address |
+| --- | --- |
+| Native XLM SAC | `CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC` |
+| Test USDC SAC | `CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA` |
+| Soroswap router | `CCJUD55AG6W5HAI5LRVNKAE5WDP5XGZBUDS5WNTIVDU7O264UZZE7BRD` |
+| Soroswap factory | `CDP3HMUH6SMS3S7NPGNDJLULCOXXEPSHY4JKUKMBNQMATHDHWXRRJTBY` |
+| XLM / test USDC pair | `CCBX3NZTCQLQFSPG7HBOKL4P2RVPOPVFHDNRTOSCCJWBTPL2GHEH7RQS` |
 
 ## Tooling
 
@@ -47,9 +72,9 @@ bash scripts/verify-contracts.sh
 
 The same script runs in GitHub Actions. It checks formatting, runs the host tests, builds both release WASM files, and records SHA-256 checksums. Keep the committed lockfile; it fixes an incompatible transitive Ed25519 Dalek 3 resolution. A fresh Linux environment needs its own Rust toolchain and WASM target before running this script.
 
-## Deploy the actual Soroswap account
+## Alternative: deploy through Stellar CLI
 
-1. Fund a testnet source identity with Friendbot. Use the same public key as your Freighter testnet owner (or import a dedicated testnet identity into Freighter). Keep secret keys outside the repository.
+1. Fund a dedicated CLI testnet identity with Friendbot. Keep its secret outside the repository. Prefer the browser flow above for an existing Freighter wallet; it does not require exporting keys.
 2. Verify the current [official Soroswap testnet manifest](https://github.com/soroswap/core/blob/main/public/testnet.contracts.json). The published router ID prefilled in the app can become stale after resets. Check the executable/WASM and token addresses yourself; matching method names alone does not prove deployment provenance.
 3. Choose two trusted SEP-41 token contract addresses with an active funded Soroswap pool. Use the exact addresses, not token symbols. Do not mix mainnet/testnet addresses. Token decimals are fetched through RPC.
 4. Deploy Caveat with the owner and immutable allowlists supplied to its constructor. Deployment plus construction is atomic. Use only the actual Soroswap router for this account.
@@ -80,7 +105,7 @@ For a ledger demo, deploy *separate, empty, disposable* Caveat accounts with onl
 stellar contract deploy --wasm contracts/target/wasm32v1-none/release/caveat_demo_router.wasm --source owner --network testnet -- --mode 1
 ```
 
-Set the fixture ID as router and pair in a complete policy, fund the isolated account's input and fixture's output, and invoke `execute` through CLI or the Testnet UI. At simulation, violating operations will usually be rejected before submission. Label that evidence **RPC simulation rejected**; it is not a failed ledger transaction. A manually submitted failing invocation can demonstrate the ledger rollback, with fees paid. Record balances, nonce, simulation error, and actual ledger hash where available. The tests are the deterministic rollback evidence, not the browser animation.
+Set the fixture ID as router and pair in a complete policy, fund the isolated account's input and fixture's output, and invoke `execute` through CLI. The browser swap path deliberately accepts only the verified Soroswap route, never an adversarial fixture. At simulation, violating operations will usually be rejected before submission. Label that evidence **RPC simulation rejected**; it is not a failed ledger transaction. A manually submitted failing invocation can demonstrate the ledger rollback, with fees paid. Record balances, nonce, simulation error, and actual ledger hash where available. The tests are the deterministic rollback evidence, not the browser animation.
 
 ## Hackathon pitch
 
