@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { checkOutcome, demonstrate, fromUnits, toUnits } from '../lib/policy'
-import type { Outcome, Scenario } from '../lib/policy'
+import { fromUnits, toUnits } from '../lib/policy'
+import { TESTNET_USDC_ADDRESS, TESTNET_XLM_ADDRESS } from '../lib/tokens'
 import type { Deployment, Prepared } from '../lib/stellar'
 
 export type Receipt = {
@@ -8,31 +8,27 @@ export type Receipt = {
   time: string
   title: string
   detail: string
-  status: 'confirmed' | 'blocked' | 'failed' | 'pending'
-  mode: 'Local demo' | 'Testnet'
-  hash?: string
-  outcome?: Outcome
-  violations?: string[]
+  status: 'confirmed' | 'failed' | 'pending'
+  mode: 'Testnet'
+  hash: string
 }
 export type DialogName = 'settings' | 'model' | 'review' | 'receipts' | null
 const defaultConfig: Deployment = {
   account: '',
   router: 'CCJUD55AG6W5HAI5LRVNKAE5WDP5XGZBUDS5WNTIVDU7O264UZZE7BRD',
-  input: '',
-  output: '',
+  input: TESTNET_XLM_ADDRESS,
+  output: TESTNET_USDC_ADDRESS,
 }
 
 export function useCaveat() {
-  const [mode, setMode] = useState<'demo' | 'live'>('demo')
-  const [amount, setAmount] = useState('100')
-  const [minimum, setMinimum] = useState('12.30')
-  const [minutes, setMinutes] = useState(10)
-  const [scenario, setScenario] = useState<Scenario>('honest')
-  const [wallet, setWallet] = useState('')
   const [config, setConfig] = useState<Deployment>(() => {
     try { return { ...defaultConfig, ...JSON.parse(localStorage.getItem('caveat-deployment') || '{}') } }
     catch { return defaultConfig }
   })
+  const [amount, setAmount] = useState('1')
+  const [minimum, setMinimum] = useState('')
+  const [minutes, setMinutes] = useState(10)
+  const [wallet, setWallet] = useState('')
   const [draftConfig, setDraftConfig] = useState(config)
   const [dialog, setDialog] = useState<DialogName>(null)
   const [entries, setEntries] = useState<Receipt[]>([])
@@ -46,8 +42,6 @@ export function useCaveat() {
   function changeAmount(value: string) { setAmount(value); invalidate() }
   function changeMinimum(value: string) { setMinimum(value); invalidate() }
   function changeMinutes(value: number) { setMinutes(value); invalidate() }
-  function changeMode(value: 'demo' | 'live') { setMode(value); invalidate() }
-  function changeScenario(value: Scenario) { setScenario(value); invalidate() }
   function record(receipt: Omit<Receipt, 'id' | 'time'>) {
     const item = { ...receipt, id: crypto.randomUUID(), time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }) }
     setEntries(previous => [item, ...previous]); setLastResult(item)
@@ -61,27 +55,14 @@ export function useCaveat() {
     finally { setBusy(false) }
   }
   function disconnect() { setWallet(''); invalidate() }
-  function runDemo() {
-    setMessage(''); setLastResult(null)
-    try {
-      const maxSpend = toUnits(amount), minReceive = toUnits(minimum)
-      const outcome = demonstrate(maxSpend, scenario)
-      const now = Math.floor(Date.now() / 1000)
-      const violations = checkOutcome({ maxSpend, minReceive, expiresAt: now + minutes * 60, denyApprovals: true }, outcome, now)
-      record({
-        title: scenario === 'honest' ? 'Honest swap' : scenario === 'underpay' ? 'Underpayment attack' : 'Approval attack',
-        status: violations.length ? 'blocked' : 'confirmed', mode: 'Local demo', outcome, violations,
-        detail: violations.length ? `${violations.join(' · ')}. The model discards all changes.` : `${fromUnits(outcome.spent)} XLM → ${fromUnits(outcome.received)} USDC. All model conditions passed.`,
-      })
-      return true
-    } catch (error) { setMessage(error instanceof Error ? error.message : 'Invalid intent.'); return false }
-  }
   async function run() {
-    if (mode === 'demo') return runDemo()
-    if (!wallet) { await connect(); return false }
+    try { toUnits(amount) }
+    catch (error) { setMessage(error instanceof Error ? error.message : 'Invalid spending amount.'); return }
+    if (!wallet) { await connect(); return }
     if (!config.account || !config.input || !config.output) {
-      openSettings(); setMessage('Configure your deployed account and exact token contracts to prepare a testnet swap.'); return false
+      openSettings(); setMessage('Configure your deployed account and exact token contracts to prepare a testnet swap.'); return
     }
+    if (!minimum.trim()) { setMessage('Load a live quote or enter the minimum amount you want to receive.'); return }
     setBusy(true); setMessage('Reading testnet contracts and simulating your intent…')
     try {
       const stellar = await import('../lib/stellar')
@@ -89,7 +70,6 @@ export function useCaveat() {
       setMessage(''); setDialog('review')
     } catch (error) { setMessage(error instanceof Error ? error.message : 'Testnet preparation failed.') }
     finally { setBusy(false) }
-    return false
   }
   async function sign() {
     if (!prepared) return
@@ -114,12 +94,12 @@ export function useCaveat() {
       const stellar = await import('../lib/stellar')
       stellar.validateDeployment(draftConfig)
       localStorage.setItem('caveat-deployment', JSON.stringify(draftConfig))
-      setConfig(draftConfig); setDialog(null); invalidate(); setMode('live')
+      setConfig(draftConfig); setDialog(null); invalidate()
     } catch (error) { setMessage(error instanceof Error ? error.message : 'Invalid configuration.') }
   }
   function applyDeployment(next: Deployment) {
     localStorage.setItem('caveat-deployment', JSON.stringify(next))
-    setConfig(next); setDraftConfig(next); setMode('live'); invalidate()
+    setConfig(next); setDraftConfig(next); invalidate()
     setAmount('1'); setMinimum('')
   }
   async function refreshQuote() {
@@ -133,13 +113,11 @@ export function useCaveat() {
     } catch (error) { setMessage(error instanceof Error ? error.message : 'Quote lookup failed.') }
     finally { setBusy(false) }
   }
-  let preview = '—'
-  try { preview = fromUnits(demonstrate(toUnits(amount), scenario).received) } catch { /* Invalid input remains visible until submission. */ }
   return {
-    mode, amount, minimum, minutes, scenario, wallet, config, draftConfig, dialog,
-    entries, message, busy, prepared, lastResult, preview, liveQuote,
-    changeAmount, changeMinimum, changeMinutes, changeMode, changeScenario,
-    setDraftConfig, setDialog, setMessage, connect, disconnect, run, runDemo, sign,
+    amount, minimum, minutes, wallet, config, draftConfig, dialog,
+    entries, message, busy, prepared, lastResult, liveQuote,
+    changeAmount, changeMinimum, changeMinutes,
+    setDraftConfig, setDialog, setMessage, connect, disconnect, run, sign,
     openSettings, closeDialog, saveSettings, applyDeployment, refreshQuote, setBusy, record,
   }
 }

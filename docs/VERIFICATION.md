@@ -1,11 +1,11 @@
 # Verification status
 
-Checked locally on 5 October 2026:
+Checked locally on 5–6 October 2026:
 
 - TypeScript and Vite production build passed.
 - Oxlint passed.
-- Eleven policy/precision, signing-payload, and deployment tests passed on Node 24. XDR round trips bind all policy fields and the atomic constructor's owner/allowlists. Provenance checks reject substituted executables, and deployment refuses corrupt bytecode, including same-size substitutions. The built WASM matches the browser's release pin.
-- Three Edge browser tests passed: honest/underpayment/approval model outcomes and absence of fabricated explorer hashes; input/configuration validation and navigation; desktop/mobile viewport fit and no runtime errors.
+- Seven precision, signing-payload, and deployment tests passed on Node 24. XDR round trips bind all policy fields and the atomic constructor's owner/allowlists. Provenance checks reject substituted executables, and deployment refuses corrupt bytecode, including same-size substitutions. The built WASM matches the browser's release pin. The obsolete offline model and its four model-only tests were removed; contract tests still cover the security behavior.
+- Three Edge browser tests cover the testnet-only form, real asset labels, absence of fabricated receipts, input/configuration validation, navigation, desktop/mobile viewport fit, and no runtime errors.
 - Desktop (1440px) and mobile (390px) screenshots inspected.
 - Stellar SDK and Freighter wallet libraries installed; the browser dynamically loads the real integration module.
 - Twelve native Soroban host tests passed in Ubuntu 24.04 WSL using Rust 1.99.0, Cargo 1.99.0, Soroban SDK 23.5.3, and the committed dependency lockfile. No tests were ignored.
@@ -39,8 +39,8 @@ The first compilation found a dependency-resolution issue: Soroban host 23.0.1 a
 
 Not verified locally:
 
-- A confirmed upload, account deployment, deposit, and real Soroswap swap. A funded Freighter source and active live pair have been checked; the owner still needs to review and sign in the wallet. The app defaults to the visibly labeled local model.
+- Independently recorded upload, account deployment, deposit, and real Soroswap swap evidence. A funded Freighter source and active live pair have been checked, and the user supplied a screenshot of an account holding 5 test XLM. The app runs exclusively on Testnet. Deployment and swap claims should be backed by the actual ledger transactions.
 - Ledger-level honest and malicious fixture invocations, including actual RPC errors, balances, nonces, and transaction hashes where submitted.
 - Independent security audit or production readiness. The deployed Caveat account's provenance and constructor state cannot be checked until it exists; the browser verifies those before funding and swapping.
 
-Windows Application Control still blocks native Windows build-script executables. Ubuntu WSL provided the supported Linux build environment; no Windows security policy was changed. The updated GitHub Actions workflow uses the same passing contract verification script and uploads WASM files and checksums only after success. These workflow changes have been prepared locally and have not been pushed or run remotely in this session. See [TESTNET.md](TESTNET.md) to complete deployment and record actual ledger evidence. Do not describe local model outcomes as smart-contract protection.
+Windows Application Control still blocks native Windows build-script executables. Ubuntu WSL provided the supported Linux build environment; no Windows security policy was changed. The updated GitHub Actions workflow uses the same passing contract verification script and uploads WASM files and checksums only after success. These workflow changes have not been run remotely in this session. See [TESTNET.md](TESTNET.md) to record actual ledger evidence. Removing Preview does not replace the need for on-chain verification.

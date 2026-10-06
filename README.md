@@ -11,7 +11,7 @@ npm.cmd install
 npm.cmd run dev
 ```
 
-Open the Vite URL. The app starts in **Local demo**, with explicitly illustrative honest, underpayment, and forbidden-approval scenarios. It records no fake transactions or protected funds. Navigation, editable conditions, scenario selection, activity, deployment settings, and the security-model dialog work on desktop and mobile.
+Open the Vite URL. The app runs exclusively on **Stellar Testnet**, with a 1 XLM spend and an empty minimum ready for a fresh live quote. Connect Freighter, create or configure your Caveat account, and fund it before preparing a swap. Navigation, editable conditions, receipts, deployment settings, and the security-model dialog work on desktop and mobile. The supported route shows locally bundled XLM/USDC logos, test-token labels, and exact contract identities; unfamiliar configured addresses retain generic labels. Every execution uses real contracts; no offline preview or illustrative trades are included.
 
 **Testnet** uses the actual Stellar SDK, Freighter, and Stellar RPC. Open deployment settings, connect your funded testnet wallet, and prepare account creation. Review and sign the checksum-verified WASM upload if needed, then the atomic deployment with your wallet as owner. After confirmation, review a small XLM deposit. Close settings, load the live Soroswap quote, and prepare your guarded swap. Each write shows its unsigned XDR and maximum fee before Freighter signing. Pending setup transactions are retained in this browser for confirmation checks.
 
@@ -20,7 +20,7 @@ The wallet setup and swap path support native test XLM → Stellar's documented 
 ## Project
 
 - `src/App.tsx` — responsive transaction-first product interface.
-- `src/lib/policy.ts` — exact decimal conversion and explanatory policy model.
+- `src/lib/policy.ts` — exact decimal conversion for token amounts.
 - `src/lib/stellar.ts` — genuine wallet/RPC integration; fixed testnet network.
 - `src/lib/testnet.ts` — release-pinned wallet deployment, funding, recovery, quote lookup, and provenance checks.
 - `contracts/account` — guarded, immutable-allowlist, owner-authorized account.

@@ -2,7 +2,7 @@
 
 ## Current evidence
 
-The browser's Local demo is an explanatory TypeScript model. It uses illustrative XLM/USDC amounts and makes no RPC calls. It is not a substitute for the Rust contract tests or a ledger transaction. `caveat-demo-router` is an intentionally adversarial fixture, not a DEX. The supported real DeFi integration calls Soroswap's router ABI directly.
+The browser runs exclusively on Stellar Testnet using the real Soroswap route. It has no offline preview or illustrative swap results. `caveat-demo-router` remains an intentionally adversarial contract fixture for host tests and isolated on-chain experiments; it is not a DEX. The supported real DeFi integration calls Soroswap's router ABI directly.
 
 The frontend's Testnet mode performs genuine RPC simulation, Freighter signing, submission, and confirmation against `https://soroban-testnet.stellar.org`. Wallet deployment is now available in deployment settings. No private key is embedded in this project. No deployment ID or transaction hash has been fabricated.
 
@@ -91,7 +91,7 @@ stellar contract deploy --wasm contracts/target/wasm32v1-none/release/caveat_acc
 stellar contract invoke --id '<INPUT>' --source owner --network testnet -- transfer --from '<OWNER>' --to '<CAVEAT_ACCOUNT>' --amount 1000000000
 ```
 
-6. Open deployment settings in Caveat, enter the four exact contract IDs, and save. Connect Freighter on Testnet. Choose a minimum receipt consistent with the real pool's quote; demo amounts are illustrative and must not be assumed to represent live market prices.
+6. Open deployment settings in Caveat, enter the four exact contract IDs, and save. Connect Freighter on Testnet. Load a live quote or choose a minimum receipt consistent with the real pool; no output price is predetermined.
 7. Prepare the intent, inspect its exact addresses, amounts, expiry, pair, nonce, and unsigned XDR, then sign in Freighter. Only RPC `SUCCESS` becomes a confirmed execution. Inspect the returned transaction link and measured return value.
 8. Verify balances and nonce from RPC/CLI after success. Failed intents retain contract balances and nonce, but may consume transaction fees. A pending result needs explorer/RPC inspection before retrying.
 
@@ -105,10 +105,10 @@ For a ledger demo, deploy *separate, empty, disposable* Caveat accounts with onl
 stellar contract deploy --wasm contracts/target/wasm32v1-none/release/caveat_demo_router.wasm --source owner --network testnet -- --mode 1
 ```
 
-Set the fixture ID as router and pair in a complete policy, fund the isolated account's input and fixture's output, and invoke `execute` through CLI. The browser swap path deliberately accepts only the verified Soroswap route, never an adversarial fixture. At simulation, violating operations will usually be rejected before submission. Label that evidence **RPC simulation rejected**; it is not a failed ledger transaction. A manually submitted failing invocation can demonstrate the ledger rollback, with fees paid. Record balances, nonce, simulation error, and actual ledger hash where available. The tests are the deterministic rollback evidence, not the browser animation.
+Set the fixture ID as router and pair in a complete policy, fund the isolated account's input and fixture's output, and invoke `execute` through CLI. The browser swap path deliberately accepts only the verified Soroswap route, never an adversarial fixture. At simulation, violating operations will usually be rejected before submission. Label that evidence **RPC simulation rejected**; it is not a failed ledger transaction. A manually submitted failing invocation can demonstrate the ledger rollback, with fees paid. Record balances, nonce, simulation error, and actual ledger hash where available. Host tests supply deterministic rollback evidence; ledger claims require actual submitted transactions.
 
 ## Hackathon pitch
 
 “A wallet signature approves a call. Caveat adds the outcome you meant: spend at most this exact token amount, receive at least that exact token amount, before this time, without granting token allowances.”
 
-Show the honest model, then an underpay attack and an approval attack, each explicitly labeled Local demo. Follow with the real Soroswap testnet transaction and its explorer evidence once deployed. Explain that balances are checked after nested execution and a violation aborts atomically. State the trust assumptions from [ARCHITECTURE.md](ARCHITECTURE.md), and distinguish host tests, RPC simulation, and ledger execution. This is an unaudited hackathon prototype.
+Perform the real Soroswap testnet swap live: connect the funded account, set conditions, load the pool quote, review and sign, then inspect the ledger receipt and balances. To demonstrate a rejected outcome on this route, deliberately set a minimum above the live output and show the real RPC simulation rejection; label it as a check before submission. Underpayment and approval attacks use separate disposable fixture deployments through CLI, or the existing Soroban host tests with their explicit test evidence. Explain that balances are checked after nested execution and a violation aborts atomically. State the trust assumptions from [ARCHITECTURE.md](ARCHITECTURE.md), and distinguish host tests, RPC simulation, and ledger execution. This is an unaudited hackathon prototype.
