@@ -1,6 +1,17 @@
 import { createHash } from 'node:crypto'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { ACCOUNT_WASM_BYTES, ACCOUNT_WASM_HASH } from '../src/lib/contracts.ts'
+import { EXECUTOR_HASH, EXECUTOR_WASM_BYTES } from '@caveat/sdk'
+
+// Versioned release artifact is available on clean Vercel builds without a Rust toolchain.
+const executor = await readFile(new URL('../contracts/artifacts/caveat_executor.wasm', import.meta.url))
+if (executor.length !== EXECUTOR_WASM_BYTES || createHash('sha256').update(executor).digest('hex') !== EXECUTOR_HASH) {
+  throw new Error('Executor release artifact differs from its tested checksum.')
+}
+const executorDestination = new URL('../public/contracts/', import.meta.url)
+await mkdir(executorDestination, { recursive: true })
+await writeFile(new URL('caveat_executor.wasm', executorDestination), executor)
+console.log(`Staged verified executor WASM (${executor.length} bytes).`)
 
 const source = new URL('../contracts/target/wasm32v1-none/release/caveat_account.wasm', import.meta.url)
 let wasm

@@ -42,6 +42,7 @@
 - [SDK integration](#sdk-integration)
 - [Frontend behavior](#frontend-behavior)
 - [Testnet deployment](#testnet-deployment)
+- [Mainnet integration](#mainnet-integration)
 - [Build and verification](#build-and-verification)
 - [Ledger evidence](#ledger-evidence)
 - [Repository structure](#repository-structure)
@@ -54,7 +55,7 @@
 
 Caveat is a reusable Soroban execution guard and TypeScript integration SDK. A wallet authorizes an action together with its spending caps, minimum receipt, route, expiry, and nonce. The executor funds that action from the wallet, invokes the configured DeFi contracts, measures token balances, and settles the result back to the same wallet. A condition violation aborts the entire contract invocation.
 
-The deployed integration uses the Soroswap XLM / test USDC pool on **Stellar Testnet**. The repository includes a React application for both supported actions and an independent TypeScript pool-deposit application built against the public SDK interface.
+The verified default deployment uses the Soroswap XLM / test USDC pool on **Stellar Testnet**. An explicit **Mainnet pilot** profile supports the real XLM / Circle USDC pool, with wallet-signed guard deployment and separate network pins. Mainnet route compatibility and quotes have been verified through live RPC; signed executor execution requires completing the deployment workflow. The repository includes a React application for both supported actions and an independent Testnet pool-deposit application built against the public SDK interface.
 
 | Capability | Implementation |
 | --- | --- |
@@ -82,14 +83,14 @@ flowchart LR
         Example --> Wallet
     end
 
-    subgraph Network["Stellar Testnet"]
+    subgraph Network["Selected Stellar network"]
         RPC["Soroban RPC"]
         Horizon["Horizon"]
         Guard["Caveat executor"]
         Router["Soroswap router"]
         Factory["Soroswap factory"]
-        Pair["XLM / test USDC pool<br/>and LP share token"]
-        Tokens["XLM and test USDC<br/>Stellar Asset Contracts"]
+        Pair["XLM / USDC pool<br/>and LP share token"]
+        Tokens["XLM and USDC<br/>Stellar Asset Contracts"]
         RPC --> Guard
         Guard --> Router
         Router --> Pair
@@ -248,7 +249,7 @@ npm.cmd run dev
 
 Open the Vite URL, normally `http://localhost:5173`. The development command builds the SDK and independent example, stages the example into the main application's public directory, checks available legacy contract artifacts, and starts Vite.
 
-Public network endpoints and deployment pins are defined in [`packages/caveat-sdk/src/deployment.ts`](packages/caveat-sdk/src/deployment.ts). The default application uses this public configuration directly; wallet signatures are handled by Freighter.
+Testnet deployment pins are defined in [`deployment.ts`](packages/caveat-sdk/src/deployment.ts); explicit network profiles and Mainnet route pins are defined in [`networks.ts`](packages/caveat-sdk/src/networks.ts). The application uses these public profiles directly; wallet signatures are handled by Freighter.
 
 ### Configure the wallet
 
@@ -414,7 +415,8 @@ Persist the hash before awaiting confirmation. Handle `confirmed`, `failed`, and
 - Preparation is gated on a usable quote and valid terms. Quote failures clear previous automatic bounds.
 - Reversing a ready swap carries the estimated output into the new input amount and clears the old minimum.
 - Review uses a captured preparation snapshot. Quote refresh pauses during review and transaction work.
-- Freighter permission, active address, and Testnet selection are checked during connection restoration.
+- Freighter permission, active address, and the selected network are checked during connection restoration.
+- The network selector defaults to Testnet. Mainnet uses separate route pins, asset labels, wallet signing, explorer links and pending-operation storage. Network switches discard unsigned preparations and stale quotes.
 - Pending action hashes survive refresh and require a status check before another preparation.
 - Transaction status opens in a modal for wallet approval, submission, ledger confirmation, and the final result. Confirmed swaps and liquidity contributions display their measured wallet receipts.
 - Pending actions are checked every five seconds after submission polling completes. Closing the modal preserves tracking; a resolved result reopens it. Pending swaps and USDC setup also restore their status modal after refresh.
@@ -450,6 +452,12 @@ The deployment constants are maintained in [`packages/caveat-sdk/src/deployment.
 
 Preparation checks the executor hash, immutable configuration, route bytecode, router/factory pair linkage, and SAC identities. Archived or unavailable state requires restoration or deployment maintenance before execution.
 
+## Mainnet integration
+
+The Mainnet profile pins the live Soroswap router, factory, XLM / Circle USDC pool and production token identities. The wallet workflow publishes the tested executor code when needed, creates an immutable guard, verifies the confirmed deployment and enables the exact USDC trustline. The network selector keeps Testnet demonstrations and Mainnet operations separate.
+
+See [Mainnet integration and deployment](docs/MAINNET.md) for exact addresses, live fee evidence, SDK configuration and small real-fund execution checks. Run `npm.cmd run check:mainnet` to refresh read-only route and quote evidence. Mainnet is an early pilot with independent security review pending.
+
 ## Build and verification
 
 ### Application and SDK
@@ -472,7 +480,8 @@ npm.cmd run test:ui
 | `npm.cmd run lint` | Run Oxlint |
 | `npm.cmd test` | Build SDK and run Node policy/transaction tests |
 | `npm.cmd run test:ui` | Run Playwright with Microsoft Edge |
-| `npm.cmd run contracts:stage` | Verify and stage the legacy account WASM when available |
+| `npm.cmd run contracts:stage` | Verify and stage the executor release and optional legacy account WASM |
+| `npm.cmd run check:mainnet` | Verify production route hashes, ABI compatibility, quotes and publication fee estimate without submitting |
 
 The browser suite is configured for Edge and the Windows `npm.cmd` executable in [`playwright.config.ts`](playwright.config.ts). Quote and wallet fixtures exercise form and connection behavior. Controlled signing and ledger fixtures exercise transaction status presentation, pending recovery, and error handling. Contract execution evidence is generated by the live harnesses.
 
@@ -496,8 +505,8 @@ Keep `contracts/Cargo.lock` committed so host-test cryptography dependencies rem
 | --- | --- |
 | 9 executor host tests | Wallet funding, swaps, liquidity, actual receipts, reserve ordering, dual caps, baselines, policy binding, nonce/replay, authorization, and adversarial rollback |
 | 12 account host tests | Retained account policy enforcement and recovery implementation |
-| 10 Node tests | Decimal precision, canonical ABI encoding, token direction, deployment checks, and signed-body/expiry validation |
-| 24 browser tests | Forms, layout, automatic quote races, custom minimums, reversal, wallet restoration, pending submissions, transaction status, security-check presentation, recovery, dialogs, and independent integration |
+| 15 Node tests | Decimal precision, canonical ABI encoding, token direction, deployment checks, committed executor constructor ABI, signed-body/expiry validation, network isolation and uncertain submissions |
+| 26 browser tests | Forms, layout, automatic quote races, custom minimums, reversal, network switching, wallet restoration, pending submissions, transaction status, security-check presentation, recovery, dialogs, and independent integration |
 
 The [verification record](docs/VERIFICATION.md) includes the artifact checksums, test boundaries, and public ledger reports. The [GitHub Actions workflow](.github/workflows/verify.yml) builds the contracts first, uploads their artifacts, then runs the application build, lint, and Node tests.
 
@@ -533,7 +542,7 @@ npm.cmd run build
 npm.cmd run preview
 ```
 
-Publish `dist/` to a static host to serve the application and the built integration example. Its deployed contract configuration remains Stellar Testnet. The root Vite configuration uses the origin root as its base path. Serve `/integrations/pool/index.html` as the example's own entrypoint.
+Publish `dist/` to a static host to serve the application and the built integration example. The main application defaults to Testnet and exposes an explicit Mainnet pilot selector. The independent integration example remains configured for Testnet. The root Vite configuration uses the origin root as its base path. Serve `/integrations/pool/index.html` as the example's own entrypoint.
 
 ## Ledger evidence
 
@@ -569,6 +578,8 @@ caveat/
 │   │   │   ├── lib.rs
 │   │   │   └── test.rs
 │   │   └── Cargo.toml
+│   ├── artifacts/
+│   │   └── caveat_executor.wasm
 │   ├── demo-router/
 │   │   ├── src/
 │   │   │   └── lib.rs
@@ -582,13 +593,17 @@ caveat/
 │   └── Cargo.toml
 ├── docs/
 │   ├── evidence/
+│   │   ├── mainnet-route.json
 │   │   ├── testnet-attacks.json
 │   │   ├── testnet-executor.json
 │   │   ├── testnet-guard-attacks.json
 │   │   └── testnet-reverse-swap.json
 │   ├── ARCHITECTURE.md
+│   ├── DEMO-VIDEO.md
+│   ├── DEMO-VOICEOVER.txt
 │   ├── DEMO.md
 │   ├── EXECUTOR.md
+│   ├── MAINNET.md
 │   ├── TESTNET.md
 │   └── VERIFICATION.md
 ├── examples/
@@ -605,7 +620,8 @@ caveat/
 │   └── caveat-sdk/
 │       ├── src/
 │       │   ├── deployment.ts
-│       │   └── index.ts
+│       │   ├── index.ts
+│       │   └── networks.ts
 │       ├── package.json
 │       ├── README.md
 │       └── tsconfig.json
@@ -621,6 +637,7 @@ caveat/
 │   ├── favicon.svg
 │   └── icons.svg
 ├── scripts/
+│   ├── check-mainnet.mjs
 │   ├── stage-contracts.mjs
 │   ├── stage-integration.mjs
 │   ├── testnet-attacks.mjs
@@ -642,6 +659,7 @@ caveat/
 │   │   ├── Brand.tsx
 │   │   ├── Dialog.tsx
 │   │   ├── IntentSlip.tsx
+│   │   ├── MainnetSetup.tsx
 │   │   ├── TestnetSetup.tsx
 │   │   ├── TransactionStatus.tsx
 │   │   └── WalletSetup.tsx
@@ -652,6 +670,7 @@ caveat/
 │   │   ├── contracts.ts
 │   │   ├── executor.ts
 │   │   ├── fixture.ts
+│   │   ├── mainnet.ts
 │   │   ├── policy.ts
 │   │   ├── stellar.ts
 │   │   ├── testnet.ts
@@ -665,6 +684,7 @@ caveat/
 ├── tests/
 │   ├── ui/
 │   │   ├── integration.spec.ts
+│   │   ├── networks.spec.ts
 │   │   ├── quotes.spec.ts
 │   │   ├── transactions.spec.ts
 │   │   ├── venues.spec.ts
@@ -696,7 +716,10 @@ caveat/
 | `src/hooks/useCaveat.ts` | Action state, wallet restoration, review/signing, submission recovery, receipts, and legacy recovery settings |
 | `src/hooks/useLiveQuote.ts` | Debouncing, stale-response cancellation, timeout, and automatic minimum lifecycle |
 | `src/components/IntentSlip.tsx` | Swap/liquidity forms, direction reversal, token identities, and policy inputs |
-| `src/components/WalletSetup.tsx` | Live wallet balances, USDC trustline setup, and executor inspection |
+| `src/components/WalletSetup.tsx` | Selected-network wallet balances, exact USDC trustline setup, and executor inspection |
+| `src/components/MainnetSetup.tsx` | Wallet-signed code publication, guard creation and existing-guard selection |
+| `src/lib/mainnet.ts` | Verified release loading and confirmed deployment validation |
+| `packages/caveat-sdk/src/networks.ts` | Immutable network profiles and production route pins |
 | `src/components/TransactionStatus.tsx` | Wallet, submission, confirmation, error, and measured receipt presentation |
 | `src/components/TestnetSetup.tsx` | Earlier account recovery |
 | `src/lib/executor.ts` | Main-app adapter to the SDK |
@@ -710,16 +733,17 @@ caveat/
 | `src/lib/transaction.ts` | Transaction phases, kinds, amount summaries, and status headings |
 | `contracts/demo-router` | Controlled adversarial swap fixture |
 | `scripts/stage-integration.mjs` | Copy the independent example build into the main public assets |
-| `scripts/stage-contracts.mjs` | Check and stage the legacy account WASM |
+| `scripts/stage-contracts.mjs` | Verify and stage the executor release and optional legacy account WASM |
+| `scripts/check-mainnet.mjs` | Read-only production route, ABI, quote and publication-fee verification |
 | `scripts/verify-contracts.sh` | Formatting, locked host tests, release builds, and checksums |
 
 ## Frontend hosting
 
 The application and independent integration are static Vite builds. [`vercel.json`](vercel.json) configures Vercel with the `vite` framework, `npm run build`, and the `dist` output directory. Node.js 24 is pinned in `package.json`. Import the repository with the repository root as the Vercel project root; npm workspaces build the SDK and independent example before the main app.
 
-Default Testnet operation uses public RPC, Horizon, and browser Freighter access. No server credentials or environment variables are required. The independent example is served at `/integrations/pool/index.html`. The optional legacy account WASM is staged when a verified local artifact exists; normal swaps, liquidity, and test-contract checks use deployed contracts.
+Default Testnet operation uses public RPC, Horizon, and browser Freighter access. No server credentials or environment variables are required. The independent example is served at `/integrations/pool/index.html`. The versioned executor WASM is checksum-verified and staged for Mainnet wallet deployment on clean builds. The optional legacy account WASM is staged when a verified local artifact exists.
 
-Connect Freighter to the deployed origin and select Stellar Testnet. Wallet permissions and pending transaction storage belong to that origin. Contract deployments remain on Stellar Testnet independently of frontend hosting.
+Connect Freighter to the deployed origin and select the same network as the action form. Wallet permissions and pending transaction storage belong to that origin. Mainnet guard selection is stored locally and verified against network pins before protected preparation. A newly deployed origin can select the same verified guard address through Wallet setup.
 
 See [Vercel's Vite documentation](https://vercel.com/docs/frameworks/frontend/vite) and [Node.js version configuration](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions).
 
@@ -743,8 +767,9 @@ Public network identifiers belong in the SDK deployment module. Wallet authoriza
 
 | Symptom | Resolution |
 | --- | --- |
-| Freighter connection or signing fails | Unlock the extension, confirm site access, and select Stellar Testnet |
-| Test USDC setup is required | Review and confirm the exact-issuer trustline in Wallet setup |
+| Freighter connection or signing fails | Unlock the extension, confirm site access, and select the same network as the action form |
+| USDC setup is required | Review and confirm the selected network's exact-issuer trustline in Wallet setup |
+| Mainnet guard is required | Complete wallet-signed deployment or verify an existing guard in Wallet setup |
 | Quote fails | Check network access, pool availability, deployment pins, and token amount precision |
 | `Error(Value, UnexpectedType)` | Check symbol-keyed policy maps and exact ABI field types |
 | `ReceiptTooLow` / contract error 8 | Re-quote and review the signed minimum against the current pool outcome |
@@ -762,6 +787,7 @@ Public network identifiers belong in the SDK deployment module. Wallet authoriza
 | [Architecture and threat model](docs/ARCHITECTURE.md) | Invocation flow, policy authorization, settlement, and trust dependencies |
 | [Executor design](docs/EXECUTOR.md) | Wallet funding, constrained nested transfers, balance checks, and storage |
 | [SDK reference](packages/caveat-sdk/README.md) | Client API, preparation, wallet integration, and receipt handling |
+| [Mainnet integration](docs/MAINNET.md) | Production pins, wallet deployment, fees, network isolation and small execution checks |
 | [Testnet setup](docs/TESTNET.md) | Wallet configuration, deployment, WSL toolchain, and recovery |
 | [Verification record](docs/VERIFICATION.md) | Artifact pins, host/browser checks, and ledger evidence |
 | [Integration example](examples/pool-deposit/README.md) | Independent application setup and supported flow |

@@ -1,5 +1,7 @@
 # Live demonstration
 
+For a narrated recording, use the [timed video guide](DEMO-VIDEO.md) and [plain-text voice-over](DEMO-VOICEOVER.txt). That edit focuses on the main application and SDK documentation.
+
 The claim: **Caveat is a reusable guard that enforces the outcome of supported actions, funded directly from the wallet.** It supports real swaps and liquidity contributions. Another app must opt in through the SDK. It does not protect ordinary Freighter activity everywhere.
 
 ## 1. A real protected swap

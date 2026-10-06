@@ -1,6 +1,6 @@
 {
   "name": "@caveat/sdk", "version": "0.2.0", "type": "module",
-  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" }, "./deployment": { "types": "./dist/deployment.d.ts", "import": "./dist/deployment.js" } },
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" }, "./deployment": { "types": "./dist/deployment.d.ts", "import": "./dist/deployment.js" }, "./networks": { "types": "./dist/networks.d.ts", "import": "./dist/networks.js" } },
   "files": ["dist"], "scripts": { "build": "tsc -p tsconfig.json" },
   "dependencies": { "@stellar/stellar-sdk": "^17.2.1" },
   "license": "MIT"

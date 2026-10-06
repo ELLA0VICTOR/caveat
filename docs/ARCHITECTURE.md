@@ -92,4 +92,6 @@ See [verification](VERIFICATION.md) for real Soroswap swap/liquidity receipts an
 - [Stellar contract transactions and authorization](https://developers.stellar.org/docs/learn/fundamentals/contract-development/contract-interactions/stellar-transaction)
 - [Stellar token interface](https://developers.stellar.org/docs/tokens/token-interface)
 
-This solo hackathon release intentionally contains two supported actions, an SDK and an integration example. It requires independent review before mainnet use. More protocols, liquidity removal, wallet-native human-readable policy review and general account authentication remain future work.
+The SDK has explicit Testnet and Mainnet profiles with separate router, factory, pool and asset pins. Switching networks discards in-flight quotes and unsigned review state; pending operations remain scoped to their originating network. Mainnet guard creation uses the same tested executor artifact and verifies the confirmed instance before selection. Malicious fixtures and earlier account recovery remain Testnet operations. See [Mainnet integration](MAINNET.md) for deployment and fee details.
+
+Independent security review is pending for the Mainnet pilot. Additional protocols, liquidity removal, wallet-native policy review and general account authentication remain future work.

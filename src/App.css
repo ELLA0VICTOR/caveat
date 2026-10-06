@@ -505,6 +505,12 @@ em { font-family: var(--display); font-style: normal; font-weight: 500; }
 }
 
 .action-selector { display: flex; gap: 22px; border-bottom: 1px solid var(--line); margin-top: 20px; }
+.slip-network select { appearance: none; border: 0; padding: 6px 0; background: transparent; color: inherit; font: inherit; letter-spacing: inherit; cursor: pointer; }
+.slip-network select:focus-visible { outline: 1px solid var(--accent); outline-offset: 5px; }
+.slip-network select:disabled { cursor: wait; }
+.mainnet-pilot-note { margin: 12px 0 0; color: var(--muted); font-size: 10px; line-height: 1.7; text-align: center; }
+.mainnet-setup { border-top: 1px solid var(--line); margin-top: 23px; padding-top: 20px; }
+.mainnet-setup h4 { font-size: 16px; margin: 0; font-weight: 500; }
 .action-selector button { padding: 10px 0; font-size: 12px; font-weight: 500; color: var(--muted); border-bottom: 2px solid transparent; }
 .action-selector button[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--accent); }
 .liquidity-matching { padding: 16px 0; border-top: 1px solid var(--line); }

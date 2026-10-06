@@ -1,0 +1,15 @@
+Caveat gives your DeFi signature enforceable conditions. Built on Stellar's Soroban platform, it checks what a supported action actually spends and returns.
+
+Here, I'm swapping XLM for test USDC through Soroswap. I set my maximum spend, minimum receipt, and expiry. The exact token addresses are part of the conditions. Approvals are forbidden. The live quote updates automatically, and I review the full transaction before signing.
+
+Freighter signs these conditions and the exact funding transfers. Only the amount needed for this action passes through Caveat. The guard checks the actual token receipt and returns the output to my wallet in the same transaction. The confirmation shows the measured result, with a link to the ledger transaction.
+
+Now I'm checking a deliberately malicious Testnet venue, using an isolated guard with the same executor code. It claims two USDC, but attempts to deliver only half a USDC against my minimum of one point nine. Caveat reads the actual token movement and rejects it. This is a fresh simulation of deployed contracts, blocked before signing. Nothing was submitted, and my wallet funds stayed untouched.
+
+The other test contracts try an unlimited approval and a transfer above my authorized amount. Both are rejected. Caveat grants permission for the exact transfer required by the action. These attempts exceed that permission.
+
+The same guard also supports liquidity contributions. I limit both tokens going into the pool and set a minimum number of pool shares. Caveat measures the actual shares received and returns them to my wallet. The protection applies to this deposit's execution.
+
+Other apps can integrate these supported actions using the Caveat TypeScript SDK. The package, policy definitions, integration example, and technical documentation are available in the repository. Apps opt in by routing their actions through the guard. This interface demonstrates that integration on Stellar Testnet.
+
+Caveat. Your signature. Your terms. Enforced by the transaction.

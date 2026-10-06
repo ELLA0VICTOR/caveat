@@ -1,8 +1,8 @@
 # @caveat/sdk
 
-A standalone TypeScript client for Caveat's wallet-funded, immutable Soroswap Testnet executor. No React, Freighter, app hooks, server or secret-key dependency. Apps opt in by routing supported actions through this guard.
+A standalone TypeScript client for Caveat's wallet-funded, immutable Soroswap executor. Testnet and Mainnet use separate pinned network profiles. Apps opt in by routing supported actions through the guard and provide their own wallet integration.
 
-The current endpoints are XLM ↔ test USDC swaps and XLM / test USDC liquidity contributions. The SDK quotes and prepares both swap directions through the same pinned executor. Liquidity requires an existing funded pool. Pool shares return to the signing wallet; liquidity removal is not implemented.
+The supported endpoints are XLM ↔ USDC swaps and XLM / USDC liquidity contributions, using each network's exact asset identities. The SDK quotes and prepares both swap directions through the selected executor. Liquidity requires an existing funded pool. Pool shares return to the signing wallet; liquidity removal is not implemented.
 
 ```ts
 import { CaveatClient } from '@caveat/sdk'
@@ -36,7 +36,7 @@ For USDC → XLM, use `quote('swap', amount, 'usdc-to-xlm')` and pass `direction
 
 `prepare` verifies the executor bytecode and immutable configuration, Soroswap router/factory/pair provenance, underlying SAC identities, and real source-account authorization. It simulates the actual transaction and returns a captured review snapshot. Missing state, provenance changes, restoration requirements and simulation failures remain errors. `simulation` is explicitly a preflight outcome, never proof of completed execution.
 
-`submitSigned` rejects changed or expired transaction bodies and sends only the reviewed XDR. Unknown results remain pending; poll `status(hash)` before retrying. Only confirmed ledger status establishes success. The maximum assembled fee includes inclusion and resource fees; actual fees are outside contract spending limits. Apps must independently check that their wallet signer uses Stellar Testnet.
+`submitSigned` rejects changed or expired transaction bodies, mismatched wallet sources and preparations from a different network. Unknown results remain pending; poll `status(hash)` before retrying. Only confirmed ledger status establishes success. The maximum assembled fee includes inclusion and resource fees; actual fees are outside contract spending limits. Apps must independently check that their wallet signer uses `guard.profile.passphrase`.
 
 `prepareOperation` is a low-level helper for test infrastructure, not a protected-action endpoint. Its generic operations receive no Caveat protection unless they invoke the tested executor policy. A call to this helper alone must never be labeled protected.
 
@@ -44,4 +44,16 @@ The [separate pool-deposit example](../../examples/pool-deposit/src/main.ts) imp
 
 The package is a local npm workspace and has not been published to npm. `npm.cmd run sdk:build` emits its ESM JavaScript and declarations into ignored `dist/`. The public deployment module contains actual verified Testnet identifiers and pins. Rebuild clients after a reset or verified deployment update. Custom constructor arguments are useful for isolated tests; production app code should retain the verified default pin/configuration.
 
-This is an unaudited Testnet prototype. Only integrated actions are covered. Honest pinned token/share accounting, Soroban atomicity and uncompromised wallet authorization are assumptions. Market fairness, later pool losses, issuer powers, compromised keys, weak signed terms, external transactions and network fees remain outside the checks. Direct transfers to the guard are unsupported donations with no withdrawal API.
+## Mainnet profile
+
+```ts
+const mainnet = new CaveatClient(verifiedMainnetExecutorAddress, undefined, 'mainnet')
+await mainnet.verifyExecutor()
+const quote = await mainnet.quote('swap', '0.1')
+```
+
+`new CaveatClient()` retains the verified Testnet default. The optional third constructor argument selects `'testnet'` or `'mainnet'`. `profile` exposes that network's passphrase, RPC, Horizon, explorer, route, code hashes and USDC issuer. `encodePolicy` accepts the selected profile as its sixth argument; client preparation supplies it automatically. Use `swapAssets(direction, mainnet.profile.route)` for production token identities.
+
+The Mainnet profile has no default executor until a deployment is verified. Quotes remain available before deployment; protected preparation requires a confirmed executor address. `prepareDeployment(owner, verifiedWasm)` prepares either code publication or immutable instance creation, depending on live code availability. It returns an `ExecutorDeployment` with the operation kind, reviewable transaction and predicted address for creation. Verify the confirmed address and configuration before making an instance available to other callers. See [Mainnet deployment](../../docs/MAINNET.md) for the wallet workflow, current fee evidence and execution checks.
+
+Independent security review is pending. Only integrated actions are covered. Honest pinned token/share accounting, Soroban atomicity and uncompromised wallet authorization are assumptions. Market fairness, later pool losses, issuer powers, compromised keys, weak signed terms, external transactions and network fees remain outside the checks. Direct transfers to the guard are unsupported donations with no withdrawal API.

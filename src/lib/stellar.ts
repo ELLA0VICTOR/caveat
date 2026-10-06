@@ -1,12 +1,14 @@
 import { Account, Address, BASE_FEE, Contract, Networks, StrKey, TransactionBuilder, nativeToScVal, rpc, scValToNative, scvSortedMap, xdr } from '@stellar/stellar-sdk'
 import { toUnits } from './policy.ts'
+import { networkConfig } from '@caveat/sdk'
+import type { NetworkId } from '@caveat/sdk'
 
 export const RPC_URL = 'https://soroban-testnet.stellar.org'
 export const DEFAULT_ROUTER = 'CCJUD55AG6W5HAI5LRVNKAE5WDP5XGZBUDS5WNTIVDU7O264UZZE7BRD'
 export const server = new rpc.Server(RPC_URL)
 export type Deployment = { account: string; router: string; input: string; output: string }
 export type Intent = { amount: string; minimum: string; minutes: number }
-export type PreparedTransaction = { xdr: string; expiresAt: number; source: string; fee: string }
+export type PreparedTransaction = { xdr: string; expiresAt: number; source: string; fee: string; network?: NetworkId }
 export type Prepared = PreparedTransaction & { intent: Intent; spentBefore: bigint; receivedBefore: bigint; nonce: bigint; inputDecimals: number; outputDecimals: number; pair: string }
 export type LedgerReceipt = { hash: string; status: 'confirmed' | 'failed' | 'pending'; value?: unknown }
 export const hex = (bytes: Uint8Array) => Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('')
@@ -35,21 +37,22 @@ export function encodePolicy(config: Deployment, amount: bigint, minimum: bigint
   })))
 }
 
-export async function connectWallet(): Promise<string> {
+export async function connectWallet(networkId: NetworkId = 'testnet'): Promise<string> {
   const { requestAccess, getNetworkDetails } = await import('@stellar/freighter-api')
   const result = await requestAccess()
   if (result.error || !result.address) throw new Error(result.error?.message || 'Install or unlock Freighter to connect your wallet.')
   const network = await getNetworkDetails()
-  if (network.error || network.networkPassphrase !== Networks.TESTNET) throw new Error('Switch Freighter to Stellar Testnet, then reconnect.')
+  const profile = networkConfig(networkId)
+  if (network.error || network.networkPassphrase !== profile.passphrase) throw new Error(`Switch Freighter to Stellar ${profile.label}, then reconnect.`)
   return result.address
 }
 
-export async function restoreWallet(): Promise<string> {
+export async function restoreWallet(networkId: NetworkId = 'testnet'): Promise<string> {
   const { isConnected, isAllowed, getAddress, getNetworkDetails } = await import('@stellar/freighter-api')
   const [extension, permission] = await Promise.all([isConnected(), isAllowed()])
   if (extension.error || !extension.isConnected || permission.error || !permission.isAllowed) return ''
   const [account, network] = await Promise.all([getAddress(), getNetworkDetails()])
-  if (account.error || !StrKey.isValidEd25519PublicKey(account.address) || network.error || network.networkPassphrase !== Networks.TESTNET) return ''
+  if (account.error || !StrKey.isValidEd25519PublicKey(account.address) || network.error || network.networkPassphrase !== networkConfig(networkId).passphrase) return ''
   return account.address
 }
 
@@ -100,27 +103,40 @@ export async function prepareIntent(source: string, config: Deployment, intent: 
   return { ...prepared, intent: { ...intent }, expiresAt, spentBefore: BigInt(spentBefore), receivedBefore: BigInt(receivedBefore), nonce: BigInt(nonce), inputDecimals: Number(inputDecimals), outputDecimals: Number(outputDecimals), pair: String(pair) }
 }
 
-export async function transactionStatus(hash: string): Promise<LedgerReceipt> {
-  const result = await server.getTransaction(hash)
+export async function transactionStatus(hash: string, networkId: NetworkId = 'testnet'): Promise<LedgerReceipt> {
+  const rpcServer = networkId === 'testnet' ? server : new rpc.Server(networkConfig(networkId).rpcUrl)
+  const result = await rpcServer.getTransaction(hash)
   if (result.status === rpc.Api.GetTransactionStatus.FAILED) return { hash, status: 'failed' }
   if (result.status !== rpc.Api.GetTransactionStatus.SUCCESS) return { hash, status: 'pending' }
   return { hash, status: 'confirmed', value: result.returnValue ? scValToNative(result.returnValue) : undefined }
 }
 
-export async function submitTransaction(source: string, prepared: PreparedTransaction, onProgress: (message: string, phase?: 'wallet' | 'submitting') => void, onSubmitted?: (hash: string) => void): Promise<LedgerReceipt> {
+export async function submitTransaction(source: string, prepared: PreparedTransaction, onProgress: (message: string, phase?: 'wallet' | 'submitting') => void, onSubmitted?: (hash: string) => void, networkId: NetworkId = 'testnet'): Promise<LedgerReceipt> {
+  const profile = networkConfig(networkId)
+  const rpcServer = networkId === 'testnet' ? server : new rpc.Server(profile.rpcUrl)
+  if ((prepared.network && prepared.network !== networkId) || (networkId === 'mainnet' && prepared.network !== 'mainnet')) throw new Error('This transaction was prepared for a different network.')
   const { getNetworkDetails, signTransaction } = await import('@stellar/freighter-api')
   if (source !== prepared.source) throw new Error('Reconnect the wallet that prepared this transaction.')
   if (Math.floor(Date.now() / 1000) >= prepared.expiresAt) throw new Error('This transaction expired. Prepare it again.')
   const network = await getNetworkDetails()
-  if (network.error || network.networkPassphrase !== Networks.TESTNET) throw new Error('Freighter must be on Stellar Testnet.')
+  if (network.error || network.networkPassphrase !== profile.passphrase) throw new Error(`Freighter must be on Stellar ${profile.label}.`)
   onProgress('Review the complete transaction in Freighter.', 'wallet')
-  const signed = await signTransaction(prepared.xdr, { networkPassphrase: Networks.TESTNET, address: source })
+  const signed = await signTransaction(prepared.xdr, { networkPassphrase: profile.passphrase, address: source })
   if (signed.error || !signed.signedTxXdr) throw new Error(signed.error?.message || 'Wallet signature declined.')
-  const tx = TransactionBuilder.fromXDR(signed.signedTxXdr, Networks.TESTNET)
-  const original = TransactionBuilder.fromXDR(prepared.xdr, Networks.TESTNET)
+  const tx = TransactionBuilder.fromXDR(signed.signedTxXdr, profile.passphrase)
+  const original = TransactionBuilder.fromXDR(prepared.xdr, profile.passphrase)
+  if (!('source' in tx) || !('source' in original) || tx.source !== source || original.source !== source) throw new Error('This transaction belongs to a different wallet.')
   if (hex(tx.hash()) !== hex(original.hash())) throw new Error('Wallet returned a different transaction.')
-  onProgress('Submitting your signed transaction to Stellar Testnet…', 'submitting')
-  const sent = await server.sendTransaction(tx)
+  if ((await rpcServer.getNetwork()).passphrase !== profile.passphrase) throw new Error('RPC is serving a different Stellar network.')
+  onProgress(`Submitting your signed transaction to Stellar ${profile.label}…`, 'submitting')
+  let sent
+  try { sent = await rpcServer.sendTransaction(tx) }
+  catch {
+    const hash = hex(tx.hash())
+    onSubmitted?.(hash)
+    onProgress('Submission result is uncertain. Checking this exact transaction before allowing another action.')
+    return { hash, status: 'pending' }
+  }
   if (sent.status === 'ERROR') throw new Error('RPC rejected submission. No successful execution was recorded.')
   if (sent.status !== 'PENDING' && sent.status !== 'DUPLICATE') throw new Error('RPC did not accept submission. Prepare the intent again before retrying.')
   const hash = sent.hash
@@ -129,7 +145,7 @@ export async function submitTransaction(source: string, prepared: PreparedTransa
   for (let attempt = 0; attempt < 20; attempt++) {
     await new Promise(resolve => setTimeout(resolve, 1500))
     let result: LedgerReceipt
-    try { result = await transactionStatus(hash) } catch { return { hash, status: 'pending' } }
+    try { result = await transactionStatus(hash, networkId) } catch { return { hash, status: 'pending' } }
     if (result.status !== 'pending') return result
   }
   return { hash, status: 'pending' }

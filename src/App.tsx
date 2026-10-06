@@ -8,7 +8,9 @@ import { IntentSlip } from './components/IntentSlip'
 import { TestnetSetup } from './components/TestnetSetup'
 import { WalletSetup } from './components/WalletSetup'
 import { TransactionStatus } from './components/TransactionStatus'
-import { EXECUTOR, ROUTE, swapAssets } from '@caveat/sdk/deployment'
+import { swapAssets } from '@caveat/sdk/deployment'
+import { networkConfig } from '@caveat/sdk/networks'
+import type { NetworkId } from '@caveat/sdk'
 import './App.css'
 
 const short = (value: string) => `${value.slice(0, 7)}…${value.slice(-5)}`
@@ -19,8 +21,20 @@ const mechanisms = [
 ]
 
 function App() {
-  const c = useCaveat()
-  const preparedAssets = swapAssets(c.prepared?.terms.direction)
+  const [network, setNetwork] = useState<NetworkId>(() => {
+    try { return localStorage.getItem('caveat-network') === 'mainnet' ? 'mainnet' : 'testnet' } catch { return 'testnet' }
+  })
+  function changeNetwork(next: NetworkId) {
+    try { localStorage.setItem('caveat-network', next) } catch { /* The selected network remains explicit in this session. */ }
+    setNetwork(next)
+  }
+  return <CaveatApp key={network} network={network} onNetworkChange={changeNetwork}/>
+}
+function CaveatApp({ network, onNetworkChange }: { network: NetworkId; onNetworkChange: (network: NetworkId) => void }) {
+  const c = useCaveat(network, onNetworkChange)
+  const ROUTE = c.route
+  const EXECUTOR = c.executorId
+  const preparedAssets = swapAssets(c.prepared?.terms.direction, ROUTE)
   const [copied, setCopied] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [copyrightYear] = useState(() => new Date().getFullYear())
@@ -35,7 +49,7 @@ function App() {
           <a href="#integration" onClick={() => setMenuOpen(false)}>Soroswap <ArrowUpRight size={12}/></a>
           <button onClick={() => { c.setDialog('receipts'); setMenuOpen(false) }}>Receipts{c.entries.length > 0 && <span className="receipt-count">{c.entries.length}</span>}</button>
         </nav>
-        <div className="header-actions"><span className="network-label"><span/> STELLAR TESTNET</span><button className="connect-button" onClick={c.wallet ? c.disconnect : c.connect} disabled={c.busy} aria-label={c.wallet ? 'Disconnect wallet' : 'Connect wallet'} title={c.wallet ? 'Disconnect wallet' : 'Connect wallet'}>{c.busy ? <LoaderCircle size={15} className="loading-icon"/> : <Wallet size={15}/>}<span>{c.wallet ? short(c.wallet) : 'Connect wallet'}</span><ArrowUpRight size={14}/></button><button className="mobile-menu icon-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation" aria-expanded={menuOpen}><span/><span/></button></div>
+        <div className="header-actions"><span className="network-label"><span/> STELLAR {c.profile.label.toUpperCase()}</span><button className="connect-button" onClick={c.wallet ? c.disconnect : c.connect} disabled={c.busy} aria-label={c.wallet ? 'Disconnect wallet' : 'Connect wallet'} title={c.wallet ? 'Disconnect wallet' : 'Connect wallet'}>{c.busy ? <LoaderCircle size={15} className="loading-icon"/> : <Wallet size={15}/>}<span>{c.wallet ? short(c.wallet) : 'Connect wallet'}</span><ArrowUpRight size={14}/></button><button className="mobile-menu icon-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation" aria-expanded={menuOpen}><span/><span/></button></div>
       </header>
 
       <main id="top">
@@ -58,27 +72,27 @@ function App() {
           <div className="mechanism-footnote"><LockKeyhole size={14}/><p>Protection applies to actions routed through the guard. Network fees still apply to failed transactions.</p><button onClick={() => c.setDialog('model')}>Understand the boundary <ArrowUpRight size={13}/></button></div>
         </section>
 
-        <section className="integration-section" id="integration"><div className="integration-title"><span className="section-index">TWO ACTIONS / ONE SHARED GUARD</span><h2>Soroswap.<br/><em>With a caveat.</em></h2><p>Swap tokens or provide liquidity. Limit what leaves your wallet and require a minimum actual receipt. Other apps can use the same guard through the Caveat SDK.</p><a className="editorial-link" href="/integrations/pool/index.html" target="_blank" rel="noreferrer">Open the separate integration example <ArrowUpRight size={16}/></a></div><div className="integration-contract"><div className="contract-label"><span className="protocol-symbol">↗</span> SOROSWAP ROUTER <span>SEP-41</span></div><code>swap / add_liquidity</code><div className="execution-path"><span>Your wallet</span><ArrowRight size={15}/><span>Guard + Soroswap</span><ArrowRight size={15}/><strong>Your wallet</strong></div><div className="contract-info"><div><span>Network</span><strong>Stellar Testnet</strong></div><div><span>Token approvals</span><strong>Zero allowances</strong></div><div><span>Shared executor</span><button title={EXECUTOR} onClick={c.openSettings}>Inspect deployment <ArrowUpRight size={12}/></button></div></div><a href="https://github.com/soroswap/core/blob/main/contracts/router/src/lib.rs" target="_blank" rel="noreferrer">Inspect the official router source <ExternalLink size={13}/></a></div></section>
+        <section className="integration-section" id="integration"><div className="integration-title"><span className="section-index">TWO ACTIONS / ONE SHARED GUARD</span><h2>Soroswap.<br/><em>With a caveat.</em></h2><p>Swap tokens or provide liquidity. Limit what leaves your wallet and require a minimum actual receipt. Other apps can use the same guard through the Caveat SDK.</p><a className="editorial-link" href="/integrations/pool/index.html" target="_blank" rel="noreferrer">Open the Testnet integration example <ArrowUpRight size={16}/></a></div><div className="integration-contract"><div className="contract-label"><span className="protocol-symbol">↗</span> SOROSWAP ROUTER <span>SEP-41</span></div><code>swap / add_liquidity</code><div className="execution-path"><span>Your wallet</span><ArrowRight size={15}/><span>Guard + Soroswap</span><ArrowRight size={15}/><strong>Your wallet</strong></div><div className="contract-info"><div><span>Network</span><strong>Stellar {c.profile.label}</strong></div><div><span>Token approvals</span><strong>Zero allowances</strong></div><div><span>Shared executor</span><button title={EXECUTOR} onClick={c.openSettings}>Inspect deployment <ArrowUpRight size={12}/></button></div></div><a href="https://github.com/soroswap/core/blob/main/contracts/router/src/lib.rs" target="_blank" rel="noreferrer">Inspect the official router source <ExternalLink size={13}/></a></div></section>
 
         <section className="questions-section"><div><span className="section-index">BEFORE YOU SIGN</span><h2>The important<br/><em>fine print.</em></h2></div><div className="question-list">{[
-          ['Does this use real contracts?', 'Yes. Trades use real contracts on Stellar Testnet with test tokens. You sign from your wallet; no Caveat account or deposit is required. Only successful ledger confirmation is shown as completed execution.'],
+          ['Does this use real contracts?', 'Trades use pinned Soroswap contracts on the selected Stellar network. Testnet uses test tokens; Mainnet uses real XLM and Circle USDC. Your wallet signs each protected action. Completed execution requires a successful ledger confirmation.'],
           ['Does Caveat follow me to other apps?', 'An app must integrate the guard. The standalone SDK and separate liquidity example show how another interface can use it. Ordinary Freighter transactions on apps that have not integrated Caveat receive no Caveat protection.'],
-          ['What happens when I provide liquidity?', 'Your wallet contributes XLM and test USDC to the Soroswap pool. You sign a maximum for each and a minimum number of pool shares. Shares return to your wallet. Later price changes, impermanent loss and pool withdrawals are outside this transaction’s checks.'],
+          ['What happens when I provide liquidity?', 'Your wallet contributes XLM and USDC to the selected Soroswap pool. You sign a maximum for each and a minimum number of pool shares. Shares return to your wallet. Later price changes, impermanent loss and pool withdrawals are outside this transaction’s checks.'],
           ['Can I still get a bad price?', 'Yes. An outcome that satisfies weak conditions you sign is allowed. You choose the minimum receipt. This product does not judge whether those conditions represent a fair market price.'],
-          ['Is Caveat ready for mainnet?', 'This is a testnet hackathon prototype with a pinned Soroswap integration. It requires independent security review before use with real funds. It assumes honest token balance reports and does not prevent issuer freezes, clawbacks, compromised keys or weak terms you sign.'],
+          ['What should I know about Mainnet?', 'Mainnet is an early pilot using real funds. Independent security review is pending. Testnet remains available for demonstrations and security checks. The guard assumes honest token balance reports; issuer freezes, clawbacks, compromised keys and weak signed conditions remain risks.'],
         ].map(([question, answer]) => <details key={question}><summary>{question}<span className="question-plus">+</span></summary><p>{answer}</p></details>)}</div></section>
       </main>
 
       <footer className="site-footer"><div className="footer-upper"><a href="#top" aria-label="Back to top"><Brand large/></a><p>A little more intention<br/>in every transaction.</p><a href="#intent" className="back-to-intent">Write your terms <ArrowUpRight size={20}/></a></div><div className="footer-lower"><span>© {copyrightYear} CAVEAT</span><span>STELLAR / SOROBAN</span><span>FIND YOUR WAY · GENERAL TRACK</span><button onClick={() => c.setDialog('model')}>Architecture & trust assumptions <ArrowUpRight size={12}/></button></div></footer>
 
-      {(c.dialog || c.transactionOpen) && <Dialog title={c.transactionOpen ? 'Transaction status' : c.dialog === 'settings' ? 'Testnet wallet setup' : c.dialog === 'review' ? 'Review signed intent' : c.dialog === 'receipts' ? 'Execution receipts' : 'Security model'} onClose={c.transactionOpen ? c.closeTransaction : c.closeDialog} busy={c.busy && !(c.transactionOpen && c.transaction?.phase === 'pending')} wide={!c.transactionOpen && c.dialog === 'review'} className={c.transactionOpen ? 'transaction-sheet' : ''}>
+      {(c.dialog || c.transactionOpen) && <Dialog title={c.transactionOpen ? 'Transaction status' : c.dialog === 'settings' ? `${c.profile.label} wallet setup` : c.dialog === 'review' ? 'Review signed intent' : c.dialog === 'receipts' ? 'Execution receipts' : 'Security model'} onClose={c.transactionOpen ? c.closeTransaction : c.closeDialog} busy={c.busy && !(c.transactionOpen && c.transaction?.phase === 'pending')} wide={!c.transactionOpen && c.dialog === 'review'} className={c.transactionOpen ? 'transaction-sheet' : ''}>
         {c.dialog && <div hidden={c.transactionOpen}>
         {c.dialog === 'settings' ? <>
-          <span className="dialog-kicker">TESTNET / WALLET SETUP</span><h2>Your wallet.<br/><em>Your conditions.</em></h2><p className="dialog-intro">Use the shared guard directly from Freighter. Enable test USDC once, then review each protected action.</p>
-          <div className="dialog-network"><span/> STELLAR TESTNET <code>soroban-testnet.stellar.org</code></div>
-          <WalletSetup caveat={c}/>
+          <span className="dialog-kicker">{c.profile.label.toUpperCase()} / WALLET SETUP</span><h2>Your wallet.<br/><em>Your conditions.</em></h2><p className="dialog-intro">Use the shared guard directly from Freighter. Enable {c.usdcLabel} once, then review each protected action.</p>
+          <div className="dialog-network"><span/> STELLAR {c.profile.label.toUpperCase()} <code>{new URL(c.profile.rpcUrl).hostname}</code></div>
+          <WalletSetup key={`${c.network}:${c.executorId}`} caveat={c}/>
           {c.message && <div className="inline-feedback" role="status">{c.message}</div>}
-          <details className="manual-deployment"><summary>Recover funds from an earlier account <ChevronDown size={13}/></summary>
+          {c.network === 'testnet' && <details className="manual-deployment"><summary>Recover funds from an earlier account <ChevronDown size={13}/></summary>
           <TestnetSetup caveat={c}/>
           {([
             { key: 'account', label: 'Caveat account contract', help: 'Your wallet must be the owner of this deployed account.' },
@@ -87,21 +101,21 @@ function App() {
             { key: 'output', label: 'Exact output token contract', help: 'Identity is the address. Symbols are only display labels.' },
           ] as const).map(field => <label className="deployment-field" key={field.key}>{field.label}<input disabled={c.busy} value={c.draftConfig[field.key]} onChange={event => c.setDraftConfig({ ...c.draftConfig, [field.key]: event.target.value.trim() })} placeholder="C… (56-character contract address)"/><small>{field.help}</small></label>)}
           <button className="submit-intent" onClick={c.saveSettings} disabled={c.busy}>Save recovery account <ArrowRight size={18}/></button><p className="dialog-footnote">These settings apply to earlier account recovery only. New actions always use the pinned shared executor.</p>
-          </details>
+          </details>}
         </> : c.dialog === 'review' && c.prepared ? <>
           <span className="dialog-kicker">THE TERMS YOU ARE ABOUT TO SIGN</span><h2>Read the<br/><em>fine print.</em></h2><p className="dialog-intro">RPC simulation passed. Your signature binds these exact conditions. Future execution can still fail.</p>
           <div className="review-terms">{[
-            ['Action', c.prepared.action === 'swap' ? `Swap ${preparedAssets.inputSymbol} → ${preparedAssets.outputSymbol}` : 'Provide liquidity'], ['Wallet / recipient', c.prepared.source], ['Shared executor', c.prepared.executor], ['Router', ROUTE.router], ['Pool / shares', ROUTE.pair], ['XLM contract', ROUTE.token_a], ['Test USDC contract', ROUTE.token_b], [`Maximum ${preparedAssets.inputSymbol}`, c.prepared.terms.amount], ...(c.prepared.action === 'liquidity' ? [['Maximum test USDC', c.prepared.terms.maxB!]] : []), ['Minimum receipt', `${c.prepared.terms.minimum} ${c.prepared.action === 'swap' ? preparedAssets.outputSymbol === 'USDC' ? 'test USDC' : 'XLM' : 'pool shares'}`], ['Maximum network fee', `${Number(c.prepared.fee) / 1e7} test XLM (outside spending limits)`], ['Expires at', new Date(c.prepared.expiresAt * 1000).toLocaleString()], ['Nonce', c.prepared.nonce.toString()], ['Approvals', 'Forbidden'],
+            ['Network', `Stellar ${c.profile.label}${c.network === 'mainnet' ? ' ? real funds' : ''}`], ['Action', c.prepared.action === 'swap' ? `Swap ${preparedAssets.inputSymbol} → ${preparedAssets.outputSymbol}` : 'Provide liquidity'], ['Wallet / recipient', c.prepared.source], ['Shared executor', c.prepared.executor], ['Router', ROUTE.router], ['Pool / shares', ROUTE.pair], ['XLM contract', ROUTE.token_a], [`${c.usdcLabel} contract`, ROUTE.token_b], [`Maximum ${preparedAssets.inputSymbol}`, c.prepared.terms.amount], ...(c.prepared.action === 'liquidity' ? [[`Maximum ${c.usdcLabel}`, c.prepared.terms.maxB!]] : []), ['Minimum receipt', `${c.prepared.terms.minimum} ${c.prepared.action === 'swap' ? preparedAssets.outputSymbol === 'USDC' ? c.usdcLabel : 'XLM' : 'pool shares'}`], ['Maximum network fee', `${Number(c.prepared.fee) / 1e7} ${c.network === 'testnet' ? 'test XLM' : 'XLM'} (outside spending limits)`], ['Expires at', new Date(c.prepared.expiresAt * 1000).toLocaleString()], ['Nonce', c.prepared.nonce.toString()], ['Approvals', 'Forbidden'],
           ].map(([label, value]) => <div key={label}><span>{label}</span><code>{value}</code></div>)}</div>
           <button className="plain-link" onClick={async () => { try { await navigator.clipboard.writeText(c.prepared!.xdr); setCopied(true) } catch { c.setMessage('Clipboard unavailable. Use the XDR field below.') } }}><Copy size={14}/>{copied ? 'Transaction XDR copied' : 'Copy unsigned transaction XDR'}</button><details className="xdr-details"><summary>Inspect transaction XDR <ChevronDown size={13}/></summary><textarea readOnly aria-label="Unsigned transaction XDR" value={c.prepared.xdr}/></details>{c.message && <p className="inline-feedback">{c.message}</p>}
-          <button className="submit-intent" onClick={c.sign}><Wallet size={16}/> Sign & submit to testnet <ArrowRight size={18}/></button>
+          <button className="submit-intent" onClick={c.sign}><Wallet size={16}/> Sign & submit to {c.profile.label.toLowerCase()} <ArrowRight size={18}/></button>
         </> : c.dialog === 'receipts' ? <>
-          <span className="dialog-kicker">EVIDENCE / THIS SESSION</span><h2>A record of<br/><em>what happened.</em></h2><p className="dialog-intro">Submitted testnet transactions and their ledger status. Session history clears when this page reloads.</p>
-          {c.entries.length === 0 ? <div className="empty-receipts"><span>[ — ]</span><h3>No receipts yet.</h3><p>Write your terms and submit a transaction. Its result will appear here.</p><button className="plain-link" onClick={() => { c.closeDialog(); document.getElementById('intent')?.scrollIntoView({ behavior: 'smooth' }) }}>Start with a swap <ArrowRight size={15}/></button></div> : <div className="receipt-list">{c.entries.map(entry => <article className="receipt-record" key={entry.id}><div><span className="receipt-environment">{entry.mode}</span><time>{entry.time}</time></div><h3>{entry.title}<span className={`receipt-status receipt-${entry.status}`}>{entry.status === 'confirmed' ? <Check size={13}/> : null}{entry.status}</span></h3><p>{entry.detail}</p><a href={`https://stellar.expert/explorer/testnet/tx/${entry.hash}`} target="_blank" rel="noreferrer">{short(entry.hash)} <ExternalLink size={12}/></a></article>)}</div>}
+          <span className="dialog-kicker">EVIDENCE / THIS SESSION</span><h2>A record of<br/><em>what happened.</em></h2><p className="dialog-intro">Submitted {c.profile.label} transactions and their ledger status. Session history clears when this page reloads.</p>
+          {c.entries.length === 0 ? <div className="empty-receipts"><span>[ — ]</span><h3>No receipts yet.</h3><p>Write your terms and submit a transaction. Its result will appear here.</p><button className="plain-link" onClick={() => { c.closeDialog(); document.getElementById('intent')?.scrollIntoView({ behavior: 'smooth' }) }}>Start with a swap <ArrowRight size={15}/></button></div> : <div className="receipt-list">{c.entries.map(entry => <article className="receipt-record" key={entry.id}><div><span className="receipt-environment">{entry.mode}</span><time>{entry.time}</time></div><h3>{entry.title}<span className={`receipt-status receipt-${entry.status}`}>{entry.status === 'confirmed' ? <Check size={13}/> : null}{entry.status}</span></h3><p>{entry.detail}</p><a href={`${networkConfig(entry.mode === 'Mainnet' ? 'mainnet' : 'testnet').explorer}/tx/${entry.hash}`} target="_blank" rel="noreferrer">{short(entry.hash)} <ExternalLink size={12}/></a></article>)}</div>}
         </> : <>
           <span className="dialog-kicker">THE SECURITY MODEL</span><h2>Permission.<br/><em>With a postcondition.</em></h2><p className="dialog-intro">Caveat is a shared executor for two constrained Soroswap actions. Your wallet authorizes the exact policy and funding transfers. The guard checks actual receipts and settles back to that wallet.</p>
           <div className="model-detail-list">{mechanisms.map(item => <div key={item.number}><span>{item.number}</span><div><h3>{item.title}</h3><p>{item.copy}</p></div></div>)}</div>
-          <div className="trust-boundary"><h3>The trust boundary</h3><p>Requires honest pinned tokens and pool-share balances, Soroban execution, and an uncompromised wallet. Applies only to actions routed through this executor. A separate app can integrate it using the SDK.</p><p>Transactions elsewhere in Freighter, later pool losses, issuer clawbacks, weak signed terms and network fees are outside these checks. The executor has no administrator, upgrade function or arbitrary-call interface. Testnet only; independent review is still required.</p></div>
+          <div className="trust-boundary"><h3>The trust boundary</h3><p>Requires honest pinned tokens and pool-share balances, Soroban execution, and an uncompromised wallet. Applies only to actions routed through this executor. A separate app can integrate it using the SDK.</p><p>Transactions elsewhere in Freighter, later pool losses, issuer clawbacks, weak signed terms and network fees are outside these checks. The executor has no administrator, upgrade function or arbitrary-call interface. Mainnet is an early pilot with independent security review pending.</p></div>
           <a className="plain-link" href="https://developers.stellar.org/docs/learn/fundamentals/contract-development/contract-interactions/stellar-transaction" target="_blank" rel="noreferrer">Read Stellar’s authorization model <ExternalLink size={13}/></a>
         </>}
         </div>}

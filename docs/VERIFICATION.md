@@ -6,13 +6,21 @@ Verified on October 6, 2026:
 
 - 21 Rust host tests passed: 12 retained account/recovery tests and 9 new shared-executor tests.
 - Locked formatting checks and optimized `wasm32v1-none` builds passed for all three contracts.
-- 10 Node tests passed, including exact policy wire types, reverse-direction token/bound encoding and changed/expired signer-payload rejection.
-- Frontend and independent example production builds and lint passed. All 24 Edge browser tests passed, covering both forms, automatic quote races, token reversal, wallet persistence, pending-action recovery, responsive layouts, transaction status, security-check presentation, recovery, and the independent client. The reversal test checks exact token identities, cleared old bounds and ignoring late quotes from the other direction. Transaction status tests use controlled wallet and ledger fixtures to verify presentation, signature interruption, confirmation errors, background completion, actual-return formatting, and preserved setup state. Test-venue presentation checks cover rejection, weak conditions, interruptions, and returning to the normal route. Contract protection evidence comes from the host tests and live Testnet reports below. Desktop, mobile liquidity, transaction modal, and separate-app screenshots were inspected.
+- 15 Node tests passed, including exact policy wire types, reverse-direction token/bound encoding, changed/expired signer-payload rejection, Mainnet asset binding, network isolation, preservation of uncertain submission hashes and deployment encoding against the committed executor constructor ABI. Corrupt executor bytes are rejected before preparation.
+- Frontend and independent example production builds and lint passed. All 26 Edge browser tests passed, covering both forms, automatic quote races, token reversal, network switching, wallet persistence, pending-action recovery, responsive layouts, transaction status, security-check presentation, recovery, and the independent client. Network tests check cleared terms, stale-response cancellation, production token identities, fixture separation and Mainnet pending recovery. Transaction status tests use controlled wallet and ledger fixtures to verify presentation, signature interruption, confirmation errors, background completion, actual-return formatting, and preserved setup state. Contract protection evidence comes from the host tests and live Testnet reports below.
 - The browser's actual test-venue adapter was checked through public Testnet RPC against the pinned deployments in `src/lib/venues.ts`. Underpayment and forbidden approval were rejected at ledger 5,056,715; extra transfer was rejected at ledger 5,056,716. The modal displayed diagnostic-backed attempted amounts, no signing or submission, and contract links. A 0.4-USDC minimum correctly permitted the simulated 0.5-USDC receipt. These are fresh simulations of deployed contracts, separate from the submitted ledger evidence below.
 - Shared guard bytecode, immutable configuration, actual Soroswap router/factory/pair hashes and underlying SAC identities were verified through public RPC.
 - Disposable test identities were generated in process memory. No user secret was read or saved. Reports contain public policies, balances, hashes and diagnostics.
 
-Release artifacts remain ignored by Git:
+Build directories remain ignored by Git. The checksum-pinned executor release at `contracts/artifacts/caveat_executor.wasm` is versioned for wallet deployment on clean frontend builds.
+
+## Mainnet route verification
+
+The read-only [Mainnet report](evidence/mainnet-route.json) verifies the live RPC network, published Soroswap router/factory/pool hashes, Circle USDC SAC identity, pool tokens and seven-decimal precision. Argument and success-result types match the tested router and pair for all integration methods. Live quotes succeeded for both swap directions and liquidity. Two independent Mainnet providers returned the same 45.6771809-XLM code-publication resource-fee estimate.
+
+The report submits no transaction. Mainnet guard deployment and protected execution require wallet signatures and separate confirmed ledger evidence. See [Mainnet deployment](MAINNET.md).
+
+## Release artifacts
 
 | Artifact | Bytes | SHA-256 |
 | --- | ---: | --- |

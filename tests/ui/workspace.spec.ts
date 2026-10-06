@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test('testnet-only form shows real asset identities and creates no fabricated receipts', async ({ page }) => {
+test('default Testnet form shows real asset identities and creates no fabricated receipts', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('heading', { name: 'Your signature. Your terms.' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Preview', exact: true })).toHaveCount(0)
@@ -14,7 +14,7 @@ test('testnet-only form shows real asset identities and creates no fabricated re
   await expect(page.getByText('No receipts yet.')).toBeVisible()
   await expect(page.locator('.receipt-record')).toHaveCount(0)
   await expect(page.locator('a[href*="/tx/"]')).toHaveCount(0)
-  await expect(page.getByRole('dialog')).toContainText('Submitted testnet transactions')
+  await expect(page.getByRole('dialog')).toContainText('Submitted Testnet transactions')
   await page.keyboard.press('Escape')
   await expect(page.getByRole('dialog')).toHaveCount(0)
 })
@@ -35,7 +35,7 @@ test('invalid terms and contract settings remain honest and dialogs trap focus',
   await page.keyboard.press('Escape')
   await expect(page.getByRole('dialog')).toHaveCount(0)
   await page.locator('summary').filter({ hasText: 'Does this use real contracts?' }).click()
-  await expect(page.getByText(/Trades use real contracts on Stellar Testnet with test tokens/)).toBeVisible()
+  await expect(page.getByText(/Trades use pinned Soroswap contracts on the selected Stellar network/)).toBeVisible()
 })
 
 test('layouts, mobile navigation and local fonts work without external requests', async ({ page }) => {

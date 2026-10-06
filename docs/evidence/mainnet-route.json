@@ -1,0 +1,159 @@
+{
+  "network": "Stellar Mainnet",
+  "checkedAt": "2026-10-06T18:26:46.490Z",
+  "submitted": false,
+  "route": {
+    "router": "CAG5LRYQ5JVEUI5TEID72EYOVX44TTUJT5BQR2J6J77FH65PCCFAJDDH",
+    "factory": "CA4HEQTL2WPEUYKYKCDOHCDNIV4QHNJ7EL4J4NQ6VADP7SYHVRYZ7AW2",
+    "pair": "CAM7DY53G63XA4AJRS24Z6VFYAFSSF76C3RZ45BE5YU3FQS5255OOABP",
+    "token_a": "CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA",
+    "token_b": "CCW67TSZV3SSS2HXMBQ5JFGCKJNXKZM7UQUWUZPUTHXSTZLEO7SJMI75"
+  },
+  "routeHashes": {
+    "router": "4c3db3ebd2d6a2ab23de1f622eaabb39501539b4611b68622ec4e47f76c4ba07",
+    "factory": "5db738b05d9148128a240b0e2c1cb935c2805192bf98a579421aacda364c8dae",
+    "pair": "18051456816b66f12e773a56f77c5794fac1b1fb7ab6e22d4fad5a412770f73e"
+  },
+  "executorHash": "6586b06fee1a0709dbc7638ea180bf89fc8973aaeaa0b1c7b2811126cb549c5d",
+  "sources": {
+    "soroswap": "https://github.com/soroswap/core/blob/main/public/mainnet.contracts.json",
+    "usdc": "https://developers.circle.com/stablecoins/usdc-contract-addresses"
+  },
+  "abi": [
+    {
+      "role": "router",
+      "method": "router_pair_for",
+      "inputTypes": [
+        "scSpecTypeAddress",
+        "scSpecTypeAddress"
+      ],
+      "compatible": true
+    },
+    {
+      "role": "router",
+      "method": "router_get_amounts_out",
+      "inputTypes": [
+        "scSpecTypeI128",
+        "scSpecTypeVec"
+      ],
+      "compatible": true
+    },
+    {
+      "role": "router",
+      "method": "swap_exact_tokens_for_tokens",
+      "inputTypes": [
+        "scSpecTypeI128",
+        "scSpecTypeI128",
+        "scSpecTypeVec",
+        "scSpecTypeAddress",
+        "scSpecTypeU64"
+      ],
+      "compatible": true
+    },
+    {
+      "role": "router",
+      "method": "add_liquidity",
+      "inputTypes": [
+        "scSpecTypeAddress",
+        "scSpecTypeAddress",
+        "scSpecTypeI128",
+        "scSpecTypeI128",
+        "scSpecTypeI128",
+        "scSpecTypeI128",
+        "scSpecTypeAddress",
+        "scSpecTypeU64"
+      ],
+      "compatible": true
+    },
+    {
+      "role": "pair",
+      "method": "token_0",
+      "inputTypes": [],
+      "compatible": true
+    },
+    {
+      "role": "pair",
+      "method": "token_1",
+      "inputTypes": [],
+      "compatible": true
+    },
+    {
+      "role": "pair",
+      "method": "get_reserves",
+      "inputTypes": [],
+      "compatible": true
+    },
+    {
+      "role": "pair",
+      "method": "total_supply",
+      "inputTypes": [],
+      "compatible": true
+    },
+    {
+      "role": "pair",
+      "method": "decimals",
+      "inputTypes": [],
+      "compatible": true
+    },
+    {
+      "role": "pair",
+      "method": "balance",
+      "inputTypes": [
+        "scSpecTypeAddress"
+      ],
+      "compatible": true
+    },
+    {
+      "role": "pair",
+      "method": "transfer",
+      "inputTypes": [
+        "scSpecTypeAddress",
+        "scSpecTypeAddress",
+        "scSpecTypeI128"
+      ],
+      "compatible": true
+    },
+    {
+      "role": "pair",
+      "method": "deposit",
+      "inputTypes": [
+        "scSpecTypeAddress"
+      ],
+      "compatible": true
+    },
+    {
+      "role": "pair",
+      "method": "swap",
+      "inputTypes": [
+        "scSpecTypeI128",
+        "scSpecTypeI128",
+        "scSpecTypeAddress"
+      ],
+      "compatible": true
+    }
+  ],
+  "quotes": {
+    "forward": {
+      "expected": "0.0213514",
+      "minimum": "0.0211378"
+    },
+    "reverse": {
+      "expected": "0.0465546",
+      "minimum": "0.046089"
+    },
+    "liquidity": {
+      "maxB": "0.0214156",
+      "expected": "0.0399674",
+      "minimum": "0.0395677"
+    }
+  },
+  "executorCodePublished": false,
+  "publicationEstimate": {
+    "resourceFeeStroops": "456771809",
+    "xlm": 45.6771809,
+    "ledger": 64805086,
+    "inclusionFeeAdditional": true
+  },
+  "status": "passed-read-only-checks",
+  "execution": "No Mainnet execution transaction submitted by this check."
+}

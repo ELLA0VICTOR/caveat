@@ -1,6 +1,7 @@
 // Public testnet identifiers. Filled only after bytecode and live execution verification.
 export const EXECUTOR = 'CCQMSZDYKY7TO6O65FEH663CISHHNWWUFY7N56GD2CWYGKETELXX554O'
 export const EXECUTOR_HASH = '6586b06fee1a0709dbc7638ea180bf89fc8973aaeaa0b1c7b2811126cb549c5d'
+export const EXECUTOR_WASM_BYTES = 29229
 export const RPC_URL = 'https://soroban-testnet.stellar.org'
 export const HORIZON_URL = 'https://horizon-testnet.stellar.org'
 export const USDC_ISSUER = 'GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5'
@@ -17,12 +18,12 @@ export const ROUTE_HASHES = {
   pair: '8447525edd62f72ffaf52136358034657ea0511a8fec1cd0ebde649f86cca464',
 }
 export type SwapDirection = 'xlm-to-usdc' | 'usdc-to-xlm'
-export function swapAssets(direction: SwapDirection = 'xlm-to-usdc') {
+export function swapAssets(direction: SwapDirection = 'xlm-to-usdc', route: { readonly token_a: string; readonly token_b: string } = ROUTE) {
   if (direction !== 'xlm-to-usdc' && direction !== 'usdc-to-xlm') throw new Error('Unsupported swap direction.')
   const reverse = direction === 'usdc-to-xlm'
   return {
-    tokenIn: reverse ? ROUTE.token_b : ROUTE.token_a,
-    tokenOut: reverse ? ROUTE.token_a : ROUTE.token_b,
+    tokenIn: reverse ? route.token_b : route.token_a,
+    tokenOut: reverse ? route.token_a : route.token_b,
     inputSymbol: reverse ? 'USDC' : 'XLM',
     outputSymbol: reverse ? 'XLM' : 'USDC',
   }

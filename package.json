@@ -13,6 +13,7 @@
     "example:dev": "npm run sdk:build && npm run dev -w @caveat/pool-example",
     "example:build": "npm run sdk:build && npm run build -w @caveat/pool-example",
     "contracts:stage": "node scripts/stage-contracts.mjs",
+    "check:mainnet": "npm run sdk:build && node scripts/check-mainnet.mjs",
     "test:attack:testnet": "node --experimental-strip-types scripts/testnet-attacks.mjs",
     "test:executor:testnet": "npm run sdk:build && node scripts/testnet-executor.mjs",
     "test:guard-attacks:testnet": "npm run sdk:build && node scripts/testnet-guard-attacks.mjs",

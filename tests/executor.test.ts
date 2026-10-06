@@ -1,7 +1,8 @@
 import { strict as assert } from 'node:assert'
 import { test } from 'node:test'
-import { Account, Contract, Keypair, Networks, TransactionBuilder, scValToNative } from '@stellar/stellar-sdk'
-import { CaveatClient, ROUTE, encodePolicy } from '@caveat/sdk'
+import { Account, Address, Asset, Contract, Keypair, Networks, StrKey, TransactionBuilder, contract, scValToNative } from '@stellar/stellar-sdk'
+import { readFile } from 'node:fs/promises'
+import { CaveatClient, MAINNET, TESTNET, ROUTE, encodePolicy, pendingKey } from '@caveat/sdk'
 
 test('swap and liquidity policies use exact symbol-keyed ABIs and bind wallet settlement', () => {
   const owner = Keypair.random().publicKey()
@@ -51,4 +52,83 @@ test('reverse swap signs USDC spending and XLM receipt without changing the pinn
   assert.equal(decoded.pair, ROUTE.pair)
   assert.equal(decoded.nonce, 2n)
   assert.equal(decoded.deny_approvals, true)
+})
+
+test('Mainnet policies bind the production venue and Circle asset in both directions', () => {
+  const owner = Keypair.random().publicKey()
+  assert.equal(MAINNET.route.token_a, Asset.native().contractId(Networks.PUBLIC))
+  assert.equal(MAINNET.route.token_b, new Asset('USDC', MAINNET.usdcIssuer).contractId(Networks.PUBLIC))
+  assert.notEqual(MAINNET.route.pair, ROUTE.pair)
+  for (const direction of ['xlm-to-usdc', 'usdc-to-xlm'] as const) {
+    const policy = scValToNative(encodePolicy('swap', owner, { amount: '0.1', minimum: '0.01', minutes: 10, direction }, 4n, 2000000000, MAINNET))
+    assert.equal(policy.router, MAINNET.route.router)
+    assert.equal(policy.pair, MAINNET.route.pair)
+    assert.equal(policy.token_in, direction === 'xlm-to-usdc' ? MAINNET.route.token_a : MAINNET.route.token_b)
+    assert.equal(policy.token_out, direction === 'xlm-to-usdc' ? MAINNET.route.token_b : MAINNET.route.token_a)
+    assert.equal(policy.max_spend, 1000000n)
+    assert.equal(policy.deny_approvals, true)
+  }
+})
+
+test('network-specific clients cannot submit a preparation belonging to another network', async () => {
+  const source = Keypair.random().publicKey()
+  const prepared = { source, xdr: 'Never parsed', fee: '100', expiresAt: 2000000000 }
+  const mainnet = new CaveatClient(undefined, undefined, 'mainnet')
+  assert.equal(mainnet.executor, MAINNET.executor)
+  assert.equal(mainnet.profile.passphrase, Networks.PUBLIC)
+  await assert.rejects(mainnet.submitSigned({ ...prepared, network: 'testnet' }, ''), /different network/)
+  await assert.rejects(mainnet.submitSigned(prepared, ''), /different network/)
+  await assert.rejects(new CaveatClient().submitSigned({ ...prepared, network: 'mainnet' }, ''), /different network/)
+  assert.equal(new CaveatClient().profile.passphrase, TESTNET.passphrase)
+})
+
+test('pending transactions remain separate on Testnet and Mainnet', () => {
+  for (const kind of ['action', 'trustline', 'deployment'] as const) {
+    assert.notEqual(pendingKey('testnet', kind), pendingKey('mainnet', kind))
+  }
+  assert.equal(pendingKey('testnet', 'action'), 'caveat-action-pending')
+})
+
+test('an uncertain submission keeps the signed transaction hash for confirmation checks', async () => {
+  const signer = Keypair.random()
+  const tx = new TransactionBuilder(new Account(signer.publicKey(), '0'), { fee: '100', networkPassphrase: Networks.PUBLIC })
+    .addOperation(new Contract(MAINNET.route.router).call('test')).setTimeout(60).build()
+  tx.sign(signer)
+  const client = new CaveatClient(undefined, undefined, 'mainnet')
+  client.server.getNetwork = async () => ({ passphrase: Networks.PUBLIC, protocolVersion: 29 })
+  client.server.sendTransaction = async () => { throw new Error('Transport closed after acceptance') }
+  let tracked = ''
+  const result = await client.submitSigned({ source: signer.publicKey(), xdr: tx.toXDR(), network: 'mainnet', fee: '100', expiresAt: 2000000000 }, tx.toXDR(), hash => { tracked = hash })
+  assert.equal(result.status, 'pending')
+  assert.equal(result.hash, Buffer.from(tx.hash()).toString('hex'))
+  assert.equal(tracked, result.hash)
+})
+
+test('Mainnet deployment binds production config using the committed executor constructor ABI', async () => {
+  const wasm = await readFile(new URL('../contracts/artifacts/caveat_executor.wasm', import.meta.url))
+  const owner = Keypair.random().publicKey()
+  const id = StrKey.encodeContract(new Uint8Array(32).fill(9))
+  const client = new CaveatClient(undefined, undefined, 'mainnet')
+  client.verifyRoute = async () => {}
+  client.server.getLedgerEntries = async () => ({ entries: [{}] } as never)
+  let captured: ReturnType<typeof TransactionBuilder.fromXDR> | undefined
+  client.prepareOperation = async (source, operation) => {
+    const tx = new TransactionBuilder(new Account(source, '0'), { fee: '100', networkPassphrase: Networks.PUBLIC }).addOperation(operation).setTimeout(60).build()
+    captured = TransactionBuilder.fromXDR(tx.toXDR(), Networks.PUBLIC)
+    return { source, xdr: tx.toXDR(), network: 'mainnet', expiresAt: 2000000000, fee: '100', value: id }
+  }
+  const deployed = await client.prepareDeployment(owner, wasm)
+  assert.equal(deployed.executor, id)
+  assert.equal(deployed.transaction.network, 'mainnet')
+  assert.ok(captured && 'operations' in captured)
+  const operation = captured.operations[0]
+  if (operation.type !== 'invokeHostFunction' || operation.func.type !== 'hostFunctionTypeCreateContractV2') throw new Error('Constructor must execute atomically during creation.')
+  const creation = operation.func.value
+  if (creation.contractIdPreimage.type !== 'contractIdPreimageFromAddress') throw new Error('Wrong contract preimage')
+  assert.equal(Address.fromScAddress(creation.contractIdPreimage.value.address).toString(), owner)
+  const config = { router: MAINNET.route.router, pair: MAINNET.route.pair, token_a: MAINNET.route.token_a, token_b: MAINNET.route.token_b }
+  const canonical = contract.Spec.fromWasm(wasm).funcArgsToScVals('__constructor', { config })
+  assert.deepEqual(creation.constructorArgs.map(value => Buffer.from(value.toXDR())), canonical.map(value => Buffer.from(value.toXDR())))
+  const corrupt = Uint8Array.from(wasm); corrupt[corrupt.length - 1] ^= 1
+  await assert.rejects(client.prepareDeployment(owner, corrupt), /differs from the tested release/)
 })
